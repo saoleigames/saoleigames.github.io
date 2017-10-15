@@ -3,22 +3,33 @@ html {
 }
 
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    font: 300 1rem/1.8 PingFang SC,Lantinghei SC,-apple-system,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans;
+    background-color: rgb(247, 235, 205);
     margin: 0;
     padding: 0;
 }
 
 .title{
-    color : #999;
-    font-size : 500%;
-    margin: 0;
+    color : #777;
+    font-size : 400%;
+    margin: 0 1rem;
 }
 
-.line{
-    height: 1rem;
-    background-color: whitesmoke;
+.title-line{
+    height: 3px;
+    background-color: #DDD;
+}
+
+.content{
+    color : #555;
+    max-width: 777px;
 }
 
 .content .article {
+    padding: 1rem 0.5rem;
+}
+
+.doc{
     padding: 1rem;
+    border : 1px solid #AAA;
 }
