@@ -9,13 +9,60 @@ body{
     padding: 0;
 }
 
-.title{
-    color : #777;
-    font-size : 400%;
-    margin: 0 1rem;
+body, div, h1,h2,h3{
+    margin: 0;
+    padding: 0;
 }
 
-.title-line{
+.toplink{
+    height: 1.6rem;
+    line-height: 1.6rem;
+    background-color: #999;
+}
+
+.toplink ul {
+    margin: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.toplink ul li {
+    width : 2rem;
+    float: left;  
+    margin-left: 0.8rem; 
+}
+
+.toplink ul li a {
+    color : white;
+    text-decoration: none;
+}
+
+.toplink li a:hover{
+    color : skyblue;
+}
+
+.nav{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    background-color: white;
+    height: 120px;
+
+}
+
+.nav .title{
+    margin-left: 1rem;
+    color : #777;
+    text-shadow : 1px 1px 3px #555;
+}
+
+.nav .addr{
+    margin-left: 1.5rem;
+    color : #777;
+}
+
+.nav-line{
     height: 3px;
     background-color: #DDD;
 }
@@ -31,5 +78,9 @@ body{
 
 .doc{
     padding: 1rem;
+    margin : 1rem 0;
     border : 1px solid #AAA;
+    box-shadow: 0 0 1px #bbb;
+    background-color: white;
+    border-radius: 3px;
 }
