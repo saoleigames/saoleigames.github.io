@@ -53,6 +53,10 @@ body, div, h1,h2,h3{
 
 .nav .title{
     margin-left: 1rem;
+}
+
+.nav .title a{
+    text-decoration: none;
     color : #777;
     text-shadow : 1px 1px 3px #555;
 }
