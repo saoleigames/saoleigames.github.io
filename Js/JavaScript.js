@@ -11,8 +11,6 @@ function getDoc(addr, get) {
             } else {
                 console.log(request.status);
             }
-        } else {
-            console.log("......")
         }
     }
     request.open("GET", addr);
@@ -22,12 +20,9 @@ function getDoc(addr, get) {
 new Promise(function (get) {
     getDoc("Docs/docslist.html", get);
 }).then(function (text) {
-    var addList = text.split(/\s*|\n*/).join("").split("</p>").map((s)=> s.slice(3));
-    console.log(addList);
-    for (var item of addList) {
-
+    var addrList = text.split(/\s*|\n*/).join("").split("</p>").map((s)=> s.slice(3));    
+    for (var item of addrList) {
         if (item) {
-            console.log(item);
             new Promise(function (get) {
                 getDoc(item, get);
             }).then(function (text) {
@@ -39,4 +34,5 @@ new Promise(function (get) {
         }
     }
 })
+
 
