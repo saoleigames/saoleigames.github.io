@@ -18,7 +18,7 @@ function getDoc(addr, get) {
 }
 
 new Promise(function (get) {
-    getDoc("Docs/doclist.html", get);
+    getDoc("Docs/docslist.html", get);
 }).then(function (text) {
     console.log(text);
 })
