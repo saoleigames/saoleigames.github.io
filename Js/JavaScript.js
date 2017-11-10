@@ -23,13 +23,18 @@ new Promise(function (get) {
     getDoc("Docs/docslist.html", get);
 }).then(function (text) {
     var addList = text.split(/\s*|\n*/).join("").split("</p>").map((s)=> s.slice(3));
+    console.log(addList);
     for (var item of addList) {
+
         if (item) {
+            console.log(item);
             new Promise(function (get) {
                 getDoc(item, get);
             }).then(function (text) {
-                var textNode = document.createTextNode(text);
-                content.appendChild(textNode);
+                var doc = document.createElement("div");
+                doc.setAttribute("class", "doc");
+                doc.innerHTML = text;
+                content.appendChild(doc);
             })
         }
     }
