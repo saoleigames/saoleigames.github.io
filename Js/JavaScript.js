@@ -20,5 +20,6 @@ function getDoc(addr, get) {
 new Promise(function (get) {
     getDoc("Docs/docslist.html", get);
 }).then(function (text) {
-    console.log(text);
+    var addList = text.split("</p>").map((s)=> s.slice(3));
+    console.log(addList);
 })
