@@ -1,5 +1,7 @@
 "use strict";
 
+var content = document.querySelector(".content .article");
+
 function getDoc(addr, get) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -20,6 +22,16 @@ function getDoc(addr, get) {
 new Promise(function (get) {
     getDoc("Docs/docslist.html", get);
 }).then(function (text) {
-    var addList = text.split("</p>").map((s)=> s.slice(3));
-    console.log(addList);
+    var addList = text.split(/\s*|\n*/).join("").split("</p>").map((s)=> s.slice(3));
+    for (var item of addList) {
+        if (item) {
+            new Promise(function (get) {
+                getDoc(item, get);
+            }).then(function (text) {
+                var textNode = document.createTextNode(text);
+                content.appendChild(textNode);
+            })
+        }
+    }
 })
+
