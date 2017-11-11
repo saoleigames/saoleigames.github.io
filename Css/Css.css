@@ -70,7 +70,7 @@ body,div,h1,h2,h3{
 
 .content{
     color : #555;
-    max-width: 777px;
+    max-width: 47rem;
 }
 
 .content .article {
@@ -80,8 +80,41 @@ body,div,h1,h2,h3{
 .doc{
     padding: 1rem;
     margin : 1rem 0;
-    border : 1px solid #AAA;
-    box-shadow: 0 0 1px #bbb;
+    border : 1px solid #CCC;
+    box-shadow: 0 0 1px #DDD;
     background-color: white;
     border-radius: 3px;
+}
+
+.doc-title{
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #CCC;
+}
+
+.doc-list {
+    min-height: 9rem;
+}
+
+.doc-list ul{
+    list-style: none;
+    padding-left: 0;
+}
+
+.doc-list ul li {
+    margin: 0.4rem 0;
+    padding: 0.3rem 1rem;
+    border : 1px solid #F0F0F0;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.doc-list ul li:hover{
+    background-color: #EEE;
+}
+
+.doc-list ul li a{
+    display: block;
+    font-size: 1.1rem;
+    color : #333;
+    text-decoration: none;
 }
