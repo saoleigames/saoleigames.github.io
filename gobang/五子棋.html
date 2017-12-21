@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>五子棋棋盘</title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>-->
+    <link rel="stylesheet" type="text/css" href="CSS.css" />
+</head>
+<body onkeydown="keyPress(event)">
+<div id = "table">
+    <div id = "box"></div>
+    <div id = "startbox">
+        <span id = "stinfo">选择先手</span>
+        <span id = "blackFirst">黑棋先手</span>
+        <span id = "whiteFirst">白棋先手</span>
+    </div>
+    <div id = "winbox">
+        <span id = "winInfo"></span>
+        <span id = "close">关 闭</span>
+    </div>
+    <div id = "rightBar">
+
+        <div id = "clue">
+            <span id = "info">提示：</span><br />
+            <span id = "cluetext"></span>
+        </div>
+
+        <div id = "gamestart">对局开始</div>
+        <div id = "gameover">对局结束</div>
+        <div id = "goBack">悔 棋</div>
+        <div id = "timebox">00:00:00</div>
+    </div>
+    
+</div>
+<script src="JSRun.js"></script>
+</body>
+</html>
