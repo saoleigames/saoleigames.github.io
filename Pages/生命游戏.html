@@ -1,0 +1,228 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>生命游戏</title>
+    <!--作者：张晓雷-->
+    <!--weibo/zhangxiaoleibox-->
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #444;
+        }
+
+        #deskTop #box {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #deskTop #box td {
+            box-sizing: border-box;
+            width: 5px;
+            height: 5px;
+            background-color: #333;
+            border: 1px solid #000;
+        }
+
+        #deskTop #topBar {
+            background-color: orange;
+        }
+
+        #deskTop #topBar .startBT,
+        #deskTop #topBar .pauseBT,
+        #deskTop #topBar .clearBT,
+        #deskTop #topBar .refresh {
+            font-weight: bold;
+        }
+
+        #deskTop #topBar #roundBT {
+            display: inline-block;
+            margin-left: 0.5em;
+            font-size: 85%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="deskTop"></div>
+
+    <script>
+        //游戏规则
+        //如果一个生命周围的生命少于2个，他就在回合结束时死亡。
+        //如果一个生命周围的生命超过3个，他也在回合结束时死亡。
+        //如果一个死格子周围有3个生命，他就在回合结束时获得生命。
+        //如果一个生命周围有2或3个生命，他在回合结束时保持原样。
+
+        var lifeGame = {
+
+            createTD: function (x, y) {
+                var td = this.SCE("td");
+                td.dataset.loc = x + ":" + y;
+                return td;
+            },
+
+            createTable: function () {
+                for (var y = 0; y < this.winH; y++) {
+                    var tr = this.SCE("tr");
+                    for (var x = 0; x < this.winW; x++) {
+                        var td = this.createTD(x, y);
+                        this.cubeList[x + ":" + y] = td;
+                        this.lifeList[x + ":" + y] = 0;
+                        this.append(tr, td);
+                    }
+                    this.append(this.box, tr);
+                }
+            },
+
+            neighbor: function (x, y) {
+                return ((this.lifeList[((x - 1) + ":" + (y - 1))] || 0) +
+                    (this.lifeList[(x + ":" + (y - 1))] || 0) +
+                    (this.lifeList[((x + 1) + ":" + (y - 1))] || 0) +
+                    (this.lifeList[((x + 1) + ":" + y)] || 0) +
+                    (this.lifeList[((x + 1) + ":" + (y + 1))] || 0) +
+                    (this.lifeList[(x + ":" + (y + 1))] || 0) +
+                    (this.lifeList[((x - 1) + ":" + (y + 1))] || 0) +
+                    (this.lifeList[((x - 1) + ":" + y)] || 0));
+
+            },
+
+            bornOrDeath: function () {
+                for (var key in this.lfs) {
+                    if (this.lfs[key]) {
+                        this.cubeList[key].setAttribute("style", "background-color : greenyellow;");
+                        this.lifeList[key] = 1;
+                    } else {
+                        this.cubeList[key].setAttribute("style", "background-color : #333;");
+                        this.lifeList[key] = 0;
+                    }
+                    delete this.lfs[key];
+                }
+            },
+
+            seed: function () {
+                //手动设置生命
+                for (var y = 0; y < this.winH; y++) {
+                    for (var x = 0; x < this.winW; x++) {
+                        var list = this.lifeList;
+                        this.cubeList[x + ":" + y].onclick = function () {
+                            this.setAttribute("style", "background-color : greenyellow;");
+                            list[this.getAttribute("data-loc")] = 1;
+                        };
+                        this.cubeList[x + ":" + y].ondblclick = function () {
+                            this.setAttribute("style", "background-color : #333;");
+                            list[this.getAttribute("data-loc")] = 0;
+                        };
+                    }
+                }
+            },
+
+            CE(type, id, v, txt) {
+                var el = document.createElement(type);
+                el.setAttribute(id, v);
+                if (txt) {
+                    el.innerText = txt;
+                }
+                return el;
+            },
+
+            SCE: function (type) {
+                return document.createElement(type);
+            },
+
+            append: function (parent, child) {
+                parent.appendChild(child);
+                return parent;
+            },
+
+            event: function (el, type, fn) {
+                el.addEventListener(type, fn.bind(this), false);
+            },
+
+            roundLoop: function () {
+                for (var y = 0; y < this.winH; y++) {
+                    for (var x = 0; x < this.winW; x++) {
+                        if (this.lifeList[x + ":" + y]) {
+                            if (this.neighbor(x, y) < 2) {
+                                this.lfs[x + ":" + y] = 0;
+                            } else if (this.neighbor(x, y) > 3) {
+                                this.lfs[x + ":" + y] = 0;
+                            }
+                        } else {
+                            if (this.neighbor(x, y) === 3) {
+                                this.lfs[x + ":" + y] = 1;
+                            }
+                        }
+                    }
+                }
+                this.bornOrDeath();
+                this.rDisplay.innerText = "Round : " + this.round;
+                this.round += 1;
+                this.gameStop = setTimeout(this.roundLoop.bind(this), 100);
+            },
+
+            main: function () {
+                //创建html
+                this.deskTop = document.querySelector("#deskTop");
+                this.topBar = this.CE("div", "id", "topBar");
+                this.startBT = this.CE("button", "class", "startBT", "Start");
+                this.stopBt = this.CE("button", "class", "pauseBT", "Pause");
+                this.clearBT = this.CE("button", "class", "clearBT", "Clear");
+                this.refresh = this.CE("button", "class", "refresh", "Refresh");
+                this.rDisplay = this.CE("span", "id", "roundBT", "Round : 0");
+                this.box = this.CE("table", "id", "box");
+
+                this.append(this.topBar, this.startBT);
+                this.append(this.topBar, this.stopBt);
+                this.append(this.topBar, this.clearBT);
+                this.append(this.topBar, this.refresh);
+                this.append(this.topBar, this.rDisplay);
+                this.append(this.deskTop, this.topBar);
+                this.append(this.deskTop, this.box);
+
+                this.cubeList = Object.create(null);
+                this.lifeList = Object.create(null);
+                this.lfs = Object.create(null);
+                this.round = 0;
+
+                this.winH = parseInt(window.outerHeight / 5 - 4.5);
+                this.winW = parseInt(window.outerWidth / 5);
+
+                this.createTable();                                             //创建表格
+                this.seed();                                                    //鼠标点击创建生命
+                this.event(this.startBT, "click", function () {
+                    this.roundLoop();
+                });
+
+                this.event(this.stopBt, "click", function () {
+                    clearTimeout(this.gameStop);
+                });
+
+                this.event(this.clearBT, "click", function () {
+                    for (var y = 0; y < this.winH; y++) {
+                        for (var x = 0; x < this.winW; x++) {
+                            this.cubeList[x + ":" + y].setAttribute("style", "background-color : #333;");
+                            this.lifeList[x + ":" + y] = 0;
+                            this.rDisplay.innerText = "Round : " + this.round;
+                            clearTimeout(this.gameStop);
+                            this.round = 0;
+                        }
+                    }
+                });
+
+                this.event(this.refresh, "click", function () {
+                    location.reload();
+                });
+            },
+        }
+
+        window.onload = lifeGame.main("#deskTop");
+    </script>
+
+</body>
+
+</html>

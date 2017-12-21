@@ -1,0 +1,359 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>液晶数字显示</title>
+    <style>
+
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100%;
+            margin-top: 6em;
+            height: 23em;
+            background-color: yellowgreen;
+            box-shadow: inset 1px 1px 5px green, inset 0 -1px 5px green;
+            animation: dodo 0.3s;
+        }
+
+        @keyframes dodo {
+            0% {
+                transform: scale(0, 0)
+            }
+            100% {
+                transform: scale(1, 1)
+            }
+        }
+
+        #clock {
+            position: relative;
+            width: 60em;
+            height: 20em;
+            margin: 0 auto;
+            padding-top: 3.1em;
+            background-color: transparent;
+            transform: skew(-5deg, 0);
+        }
+
+        #hour {
+            position: absolute;
+            width: 17em;
+            height: 16em;
+            left: 3em;
+        }
+
+        #minute {
+            position: absolute;
+            width: 17em;
+            height: 16em;
+            left: 26em;
+        }
+
+        #second {
+            position: absolute;
+            width: 17em;
+            height: 16em;
+            left: 44em;
+            top: 6em;
+            transform: scale(0.6, 0.6);
+        }
+
+        .number1 {
+            position: absolute;
+            width: 8em;
+            height: 16em;
+        }
+
+        .number2 {
+            position: absolute;
+            left: 9em;
+            width: 8em;
+            height: 16em;
+        }
+
+
+        .p1 {
+            position: absolute;
+            width: 6em;
+            height: 1em;
+            left: 1em;
+        }
+
+        .p2 {
+            position: absolute;
+            width: 1em;
+            height: 6.5em;
+            left: 7em;
+            top: 1em;
+        }
+
+        .p3 {
+            position: absolute;
+            width: 1em;
+            height: 6.5em;
+            left: 7em;
+            top: 8.5em;
+        }
+
+        .p4 {
+            position: absolute;
+            width: 6em;
+            height: 1em;
+            top: 15em;
+            left: 1em;
+        }
+
+        .p5 {
+            position: absolute;
+            width: 1em;
+            height: 6.5em;
+            top: 8.5em;
+        }
+
+        .p6 {
+            position: absolute;
+            width: 1em;
+            height: 6.5em;
+            top: 1em;
+        }
+
+        .p7 {
+            position: absolute;
+            width: 6em;
+            height: 1em;
+            top: 7.5em;
+            left: 1em;
+        }
+
+        .p1,
+        .p2,
+        .p3,
+        .p4,
+        .p5,
+        .p6,
+        .p7 {
+            border-radius: 0.5em;
+        }
+
+
+        #point {
+            position: absolute;
+            width: 1.2em;
+            height: 16em;
+            left: 22.5em;
+        }
+
+        #point:before {
+            position: absolute;
+            content: "";
+            width: 1.2em;
+            height: 1.2em;
+            top: 3.6em;
+            background-color: white;
+            border-radius: 0.6em;
+            box-shadow: 1px 1px 3px gray;
+        }
+
+        #point:after {
+            position: absolute;
+            content: "";
+            width: 1.2em;
+            height: 1.2em;
+            top: 11.1em;
+            background-color: white;
+            border-radius: 0.6em;
+            box-shadow: 1px 1px 3px gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+
+        <div id="clock">
+
+            <div id="hour">
+
+                <div class="number1">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+                <div class="number2">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+            </div>
+
+            <div id="point"></div>
+
+            <div id="minute">
+
+                <div class="number1">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+                <div class="number2">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+            </div>
+
+            <div id="second">
+
+                <div class="number1">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+                <div class="number2">
+                    <div class="p1"></div>
+                    <div class="p2"></div>
+                    <div class="p3"></div>
+                    <div class="p4"></div>
+                    <div class="p5"></div>
+                    <div class="p6"></div>
+                    <div class="p7"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+        var hour = handle(document.querySelector("#hour"));
+        var minute = handle(document.querySelector("#minute"));
+        var second = handle(document.querySelector("#second"));
+
+
+        function handle(ele) {
+
+            var num1 = ele.querySelector(".number1");
+            var num2 = ele.querySelector(".number2");
+
+            var arr = [];
+
+            for (var key of num2.childNodes) {
+                if (key.nodeType === 1) {
+                    arr.push(key);
+                }
+            }
+
+            for (var key of num1.childNodes) {
+                if (key.nodeType === 1) {
+                    arr.push(key);
+                }
+            }
+
+            return arr;
+        }
+
+        var num = {
+            0: "0,1,2,3,4,5",
+            1: "1,2",
+            2: "0,1,6,4,3",
+            3: "0,1,6,2,3",
+            4: "5,6,1,2",
+            5: "0,5,6,2,3",
+            6: "0,5,4,3,2,6",
+            7: "0,1,2",
+            8: "0,1,2,3,4,5,6",
+            9: "0,1,2,3,5,6",
+            get: function (n) {
+                n = String(n).length < 2 ? "0" + n : String(n);
+                var ten = this[parseInt(n.slice(0, 1))].split(",");
+                ten = ten.map(function (n) {
+                    return parseInt(n) + 7;
+                });
+                return ten + "," + this[parseInt(n.slice(-1))];
+            }
+        }
+
+
+        function timer() {
+            var nowDate = new Date();
+            numDisplay(hour, nowDate.getHours(), true);
+            numDisplay(minute, nowDate.getMinutes(), false);
+            numDisplay(second, nowDate.getSeconds(), false);
+            setTimeout(timer, 1000);
+        }
+
+
+
+        function numDisplay(ele, n, h) {
+            var attr = "background-color : white; box-shadow : 1px 1px 3px gray;";
+            var s = num.get(n).split(",");
+
+            if (!h) {
+                for (var i = 0; i <= 13; i++) {
+                    if (s.indexOf(String(i)) > -1) {
+                        ele[i].setAttribute("style", attr);
+                    } else {
+                        ele[i].setAttribute("style", "background-color : transparent;")
+                    }
+                }
+            } else {
+                if (n < 10) {
+                    var h = num.get(n).split(",").slice(6);
+                    for (var i = 0; i <= 13; i++) {
+                        if (h.indexOf(String(i)) > -1) {
+                            ele[i].setAttribute("style", attr);
+                        } else {
+                            ele[i].setAttribute("style", "background-color : transparent;")
+                        }
+                    }
+                } else {
+                    for (var i = 0; i <= 13; i++) {
+                        if (s.indexOf(String(i)) > -1) {
+                            ele[i].setAttribute("style", attr);
+                        } else {
+                            ele[i].setAttribute("style", "background-color : transparent;")
+                        }
+                    }
+                }
+            }
+        }
+
+        window.onload = timer;
+        
+    </script>
+
+</body>
+
+</html>
