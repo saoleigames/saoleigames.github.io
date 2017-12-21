@@ -1,0 +1,211 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>英语时态表</title>
+
+    <style>
+        
+        body {
+            font-family: "微软雅黑";
+        }
+
+        table {
+            margin: 20px auto;
+            box-shadow: 0px 0px 3px #bbb;
+            background-color: #777;
+            border-collapse: separate;
+            border-spacing: 1px;
+        }
+
+        th,
+        td {
+            padding: 0.5em;
+            text-align: center;
+            width: 8em;
+            height: 4em;
+            transition: background-color 0.2s;
+            background-color: white;
+        }
+
+        th {
+            cursor: default;
+            color: white;
+            background-color: skyblue;
+        }
+
+        th div:nth-of-type(2) {
+            font-size: 0.8em;
+            font-weight: normal;
+        }
+
+        th:hover {
+            background-color: #128ABA;
+        }
+
+        td {
+            cursor: default;
+            position: relative;
+            font-size: 0.7em;
+        }
+
+        td:first-of-type {
+            font-size: 1em;
+            background-color: skyblue;
+        }
+
+        .tit {
+            opacity: 0;
+            color: #333;
+            font-size: 1em;
+            padding: 0.4em 1em;
+            text-align: left;
+            white-space: nowrap;
+            display: none;
+            position: absolute;
+            border: 1px solid gray;
+            background-color: white;
+            box-shadow: 1px 1px 2px #bbb;
+            animation: dodo 0.5s;
+            animation-fill-mode : forwards;
+            z-index: 10;
+        }
+
+        @keyframes dodo{
+            from {opacity: 0}
+            to {opacity: 1}
+        }
+
+        th:hover>.tit,
+        td:hover>.tit {
+            display: block;
+        }
+
+        td:first-of-type:hover {
+            background-color: #128ABA;
+        }
+
+        td:hover {
+            background-color: #eee;
+        }
+
+        th #plus{
+            display: block;
+            transform: scale(2,2);
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <p style="color : #ccc">将鼠标指针移动到表格内，将显示例句</p>
+    <a target="_blank" href="https://zhuanlan.zhihu.com/p/27786339">参考文档</a>
+
+    <table>
+
+        <tr>
+            <th><span id="plus">+</span></th>
+
+            <th>
+                <div>一般式</div>
+                <div class="tit">一般式常用来表示经常发生的动作</div>
+            </th>
+            <th>
+                <div>进行式</div>
+                <div class="tit">进行式用来表示某个时刻或时间段正在进行的动作</div>
+            </th>
+            <th>
+                <div>完成式</div>
+                <div class="tit">站在某一时间点，对这个时间点之前发生的动作做一个总结。</div>
+            </th>
+            <th>
+                <div>完成进行式</div>
+                <div class="tit">完成进行式是完成式与进行式的结合，<br>表示对一个正在进行的动作的总结。</div>
+            </th>
+        </tr>
+
+        <tr>
+            <td>现在</td>
+            <td>
+                <div>一般现在时<br>do</div>
+                <div class="tit">Light <b>travels</b> more quickly than sound.<br>光传播的速度比声音快。</div>
+            </td>
+            <td>
+                <div>现在进行时<br>am/is/are doing</div>
+                <div class="tit">I <b>am playing</b> tennis now.<br>我正在打网球</div>
+            </td>
+            <td>
+                <div>现在完成时<br>have/has done</div>
+                <div class="tit">I <b>have used</b> the pen only three times. <br>这支笔我只用过三次。</div>
+            </td>
+            <td>
+                <div>现在完成进行时<br>have/has been doing</div>
+                <div class="tit">Tom <b>has been playing</b> football for two hours.<br>Tom已经踢了两个小时的足球了。</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>过去</td>
+            <td>
+                <div>一般过去时<br>did</div>
+                <div class="tit">I <b>used</b> the pen before.<br>我之前用过这支笔。</div>
+            </td>
+            <td>
+                <div>过去进行时<br>was/were doing</div>
+                <div class="tit">They <b>were watching</b> TV when a stranger suddenly rushed in. <br>当一个陌生人突然冲进来的时候，他们正在看电视。</div>
+            </td>
+            <td>
+                <div>过去完成时<br>had done</div>
+                <div class="tit">When they reached there, the ship <b>had set</b> off. <br>当他们到达那里的时候，船已经开了。</div>
+            </td>
+            <td>
+                <div>过去完成进行时<br>had been doing</div>
+                <div class="tit">I <b>had been cleaning</b> my room the whole morning when she came.<br>当他来的时候，我已经打扫了一早上的房间了。</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>将来</td>
+            <td>
+                <div>一般将来时<br>will do</div>
+                <div class="tit">Phoebe <b>will live</b> in a modern city.<br>Phoebe将在大城市生活。</div>
+            </td>
+            <td>
+                <div>将来进行时<br>will be doing</div>
+                <div class="tit">We <b>will be flying</b> at 30 000 feet in five minutes.<br>五分钟后，我们就会翱翔在三万英尺的高空了。</div>
+            </td>
+            <td>
+                <div>将来完成时<br>will have done</div>
+                <div class="tit">By July, Michael <b>will have got</b> two college degrees. <br>到七月份，Michael就已经拿到两个大学学位了。</div>
+            </td>
+            <td>
+                <div>将来完成进行时<br>will have been doing</div>
+                <div class="tit">I <b>will have been doing</b> the drawing for five hour at 11 pm. <br>到晚上11点，我就连续画图五个小时了。</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>过去将来</td>
+            <td>
+                <div>一般过去将来时<br>would do</div>
+                <div class="tit">He told me that he <b>would go</b> abroad.<br>他之前告诉我他会出国。</div>
+            </td>
+            <td>
+                <div>过去将来进行时<br>would be doing</div>
+                <div class="tit">He knew that I <b>would be living</b> in China next month.<br>他知道我接下来一个月就会在中国生活了。</div>
+            </td>
+            <td>
+                <div>过去将来完成时<br>would have done</div>
+                <div class="tit">He said he <b>would have left</b> for London by the end of next month.<br>他说下个月末她肯定已经动身去伦敦了。</div>
+            </td>
+            <td>
+                <div>过去将来完成进行时<br>would have been doing</div>
+                <div class="tit">I knew by July he <b>would have been working</b> there for 30 years.<br>我知道到七月他就在那里工作整整30年了。</div>
+            </td>
+
+    </table>
+
+</body>
+
+</html>
