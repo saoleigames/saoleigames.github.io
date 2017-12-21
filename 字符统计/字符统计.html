@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>字符数量统计</title>
+
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+
+    <style>
+        
+        html {
+            font-family: 微软雅黑;
+            background: rgb(245, 245, 245) url(background001.png) repeat fixed;
+        }
+
+        #title {
+            color: #555;
+        }
+
+        #container {
+            background-color: rgb(255, 214, 174);
+            max-width: 680px;
+            margin: 10px auto;
+            padding: 1em 1.75em 1em 1em;
+            border: 1px solid #AAA;
+            box-shadow: 0 0 3px #999;
+            border-radius: 3px;
+        }
+
+        button {
+            width: 5em;
+            float: right;
+            margin-left: 5px;
+        }
+
+        #sum {
+            font-weight: bold;
+        }
+
+        textarea {
+            width : 100%;
+            margin : 3px 0;
+            padding: 0.3em;
+            height: 465px;
+            overflow: scroll;
+        }
+
+        #output {
+            color: blue;
+            font-weight: bold;
+        }
+
+        #toolsbar {
+            font-size: 0.8em;
+            margin-bottom: 0.8em;
+            padding-bottom: 0.35em;
+            border-bottom: 1px solid rgb(180, 180, 180);
+        }
+
+        #toolsbar span {
+            margin-right: 3em;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="title">字符数量统计</div>
+        <textarea placeholder="在此粘贴文字，并点击统计按钮..."></textarea>
+        <br/>
+        <div id="toolsbar">
+            <input name="select" type="radio" checked="checked" />
+            <span>全部（字符+标点）</span>
+            <input name="select" type="radio" />
+            <span>纯字符</span>
+        </div>
+
+        <span>字符数量：</span>
+        <span id="output"></span>
+        <button id="sum">统计</button>
+        <button id="cls">清空</button>
+    </div>
+
+    <script>
+
+        var textList = document.querySelector("textarea");
+        var output = document.querySelector("#output");
+        var log = console.log;
+
+        document.querySelector("#sum").addEventListener("click", function () {
+
+            var select = document.getElementsByName("select");
+            var allalphabet;
+
+            if (select[0].checked) {
+                allalphabet = true;
+            } else {
+                allalphabet = false;
+            }
+
+            var str,
+                bk = 0,
+                count = 0,
+                text = textList.value,
+                textLength = text.length,
+                isWordStart = false;
+
+            var sign = [",", ".", "?", "!", "，", "。", "？", "！"];
+
+            for (var i in text) {
+                str = text[i];
+                if (/[a-zA-Z0-9]/.test(str)) {
+                    isWordStart = true;
+                    if (parseInt(i) === textLength - 1) {
+                        count += 1;
+                    }
+                    //sign.indexOf(str) >= 0这个判定的意思是遇到符号可以直接结束一个单词的循环，直接把单词进行计数
+                } else if (isWordStart && (str === " " || str === "\n" || sign.indexOf(str) >= 0)) {
+
+                    count += 1;
+                    isWordStart = false;
+                    if (allalphabet && sign.indexOf(str) >= 0) {
+                        count += 1;
+                    }
+
+                } else {
+                    //英文遇到中文，结束判定
+                    if (isWordStart) {
+                        count += 1;
+                        isWordStart = false;
+                    }
+                    //这里主要是统计中文字符
+                    if (str !== "\n" && str !== " " && !(sign.indexOf(str) >= 0)) {
+                        count += 1;
+                    } else {
+                        if (allalphabet && str !== "\n" && str !== " ") {
+                            count += 1;
+                        }
+                    }
+                }
+            }
+            output.innerText = count;
+        }, false)
+
+        document.querySelector("#cls").addEventListener("click", function () {
+            textList.value = "";
+            output.innerText = "";
+        }, false)
+
+    </script>
+
+</body>

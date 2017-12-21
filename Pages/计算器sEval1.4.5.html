@@ -1,0 +1,677 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>计算器</title>
+    <!--作者：张晓雷 zhangxiaolei(at)outlook.com-->
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+    </style>
+
+    <style>
+        #container{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #topbar{
+            margin: 0;
+            padding: 0;
+            color : black;
+            height: 40%;
+            width: 100%;
+        }
+
+        #topbar #title{
+            box-sizing: border-box;
+            padding-left: 0.25em;
+            height: 10%;
+            text-align: left;
+            background-color : #eee;
+        }
+
+        #topbar #input{
+            box-sizing: border-box;
+            font-size: 2.6em;
+            padding: 0 0.1em 0 0.1em;
+            height: 90%;
+            background-color : white;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
+            overflow: auto;
+        }
+
+        .row{
+            float : left;
+            white-space: nowrap;
+            box-sizing: border-box;
+            text-align: right;
+            display: block;
+            width: 100%;
+        }
+
+        #otherPut{
+            height: 70%;
+        }
+
+        #onePut{
+            height: 30%;
+        }
+
+        #row1,#row2,#row3,#row4{
+            color : gray;
+            font-size: 70%;
+            height: 25%;
+        }
+
+        #row0{
+            font-size: inherit;
+            box-sizing: border-box;
+            border-top : 1px solid #ddd;
+            height: 100%;
+        }
+
+        table{
+            margin: 0;
+            padding: 0;
+            border: none;
+            table-layout:fixed;
+            width: 100%;
+            height: 60%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            cursor: default;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+
+        table #tools{
+            height: 12%;
+        }
+
+        table #tools td{
+            font-size: 1.2em;
+            color : white;
+            background-color :#bbb;
+        }
+
+        table #tools td:active{
+            background-color : #aaa;
+        }
+
+        table tr td{
+            font-size: 1.3em;
+            width: 100%;
+            text-align: center;
+            background-color : #ddd;
+            word-break:keep-all;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        table tr td{
+            border-left: 1px solid rgb(150,150,150);
+            border-top : 1px solid rgb(150,150,150);
+        }
+
+        table tr td:nth-child(1){
+            border-left: none;
+        }
+
+        #save1{
+            box-sizing: border-box;
+            padding : 0 0.3em;
+            text-overflow : ellipsis;
+        }
+
+        table tr td:active{
+            background-color : #aaa;
+        }
+
+    </style>
+    <script>
+        //在载入页面元素前先提取屏幕高度设置CSS，直接用正则表达式替换。
+        var wHeight = window.innerHeight + "px;",
+            sTyle = document.querySelectorAll("style")[0];
+        sTyle.innerHTML = sTyle.innerHTML.replace(/body{/,"body{height : " + wHeight);
+    </script>
+
+</head>
+<body onload="setScreen()">
+     <div id="container">
+    
+        <div id = "topbar">
+                <div id = "title">计算器</div>
+                <div id = "input">
+                    <div id = "otherPut">
+                        <span class = "row" id = "row4"></span>
+                        <span class = "row" id = "row3"></span>
+                        <span class = "row" id = "row2"></span>
+                        <span class = "row" id = "row1"></span>
+                    </div>
+                    <div id = "onePut">
+                        <span class = "row" id = "row0"></span>
+                    </div>
+                </div>
+        </div>
+
+        <table>
+            <tr id = "tools">
+                <td id = "save1" onclick="keyPush('s1')">MS</td>
+                <td onclick="keyPush('^')">^</td>
+                <td onclick="keyPush('sqrt')">√</td>
+                <td id = "ACMC" onclick="keyPush('sc')">AC</td>
+            </tr>
+
+            <tr>
+                <td onmousedown="keyPush('c')">c</td>
+                <td onclick="keyPush('b')">←</td>
+                <td onclick="keyPush('/')">÷</td>
+                <td onclick="keyPush('*')">×</td>
+            </tr>
+
+            <tr>
+                <td onclick="keyPush('7')">7</td>
+                <td onclick="keyPush('8')">8</td>
+                <td onclick="keyPush('9')">9</td>
+                <td onclick="keyPush('-')">－</td>
+            </tr>
+            <tr>
+                <td onclick="keyPush('4')">4</td>
+                <td onclick="keyPush('5')">5</td>
+                <td onclick="keyPush('6')">6</td>
+                <td onclick="keyPush('+')">＋</td>
+            </tr>
+            <tr>
+                <td onclick="keyPush('1')">1</td>
+                <td onclick="keyPush('2')">2</td>
+                <td onclick="keyPush('3')">3</td>
+                <td onclick="keyPush('=')" rowspan="2">=</td>
+            </tr>
+            <tr>
+                <td onclick="keyPush('%')">%</td>
+                <td onclick="keyPush('0')">0</td>
+                <td onclick="keyPush('.')">·</td>
+            </tr>
+        </table>
+    </div>
+
+<script>
+
+    function setScreen () {
+        //设置输入框lineHeigh，是其字体能够垂直居中
+        var inputbox = document.querySelector("#row0");
+        inputbox.style.fontSize = (inputbox.clientHeight - 22) + "px";
+        inputbox.style.lineHeight = inputbox.clientHeight + "px";
+        //title垂直居中
+        var titles = document.querySelector("#topbar #title");
+        titles.style.lineHeight = titles.clientHeight + "px";
+    }
+
+    //-------display函数的变量,放在这里是因为keyPush需要引用-------
+    var rowArr = [];
+    rowArr[0] = [];
+    //----------------------------------------------------------
+    var nList = [],
+        equal = "",
+        soEnd = "no",
+        save1 = [],
+        entry = document.querySelector("#input"),
+        tools_1 = document.querySelector("#save1"),
+        ACandMC = document.querySelector("#ACMC");
+
+    function keyPush(key) {
+        if (soEnd === "yes" && (/^[0-9\.]$/.test(key))) {
+            display(key, "clearLine");
+            nList = [];
+            soEnd = "no";
+        }
+        if (key === "=") {
+            if (nList.length){
+                if (/^\.\./.test(nList.join(""))){
+                    if (equal = chRmb(nList.join("").slice(2))){
+                        display(equal, "equal");
+                        nList = nList.join("").slice(2).split("");
+                        soEnd = "yes";
+                    }
+                } else if (nList.indexOf("^") > 0 ) {
+                    if(equal = sPow(nList)){
+                        display(equal, "equal");
+                        nList = equal.split("");
+                        soEnd = "yes";
+                    }
+                } else {
+                    if(equal = sEval.main(nList.join(""))){
+                        display(equal, "equal");
+                        nList = equal.split("");
+                        soEnd = "yes";
+                    }
+                }
+            }
+        } else if (key === "c") {
+            nList = [];
+            equal = "";
+            display(key, "clearLine");
+        } else if (key === "b") {
+            nList.pop();
+            display(key, "back");
+        } else if (key === "/") {
+            nList.push("/");
+            display("÷", "insert");
+            soEnd = "no";
+        } else if (key === "*") {
+            nList.push("*");
+            display("×", "insert");
+            soEnd = "no";
+        } else if (key === "s1") {
+            // s1 的目的是存储一个变量，再次点击可以取出，SC可以删除变量
+            if (!save1.length && nList.length) {
+                save1[0] = nList.slice();
+                //rowArr变量
+                save1[1] = rowArr[0].join("");
+                tools_1.innerText = save1[1];
+                tools_1.style.color = "black";
+                ACandMC.innerText = "MC";
+            } else if (save1.length) {
+                nList = nList.concat(save1[0]);
+                display(save1[1], "insert");
+            }
+        } else if (key === "sqrt") {
+            if (nList.length){
+                if (/^\d+\.?$|^\d+\.?\d+$|^\.?\d+$/.test(nList.join(""))){
+                    equal = Math.sqrt(nList.join("")).toString(10);
+                    display(equal, "equal", true);
+                    nList = equal.split("");
+                    soEnd = "yes";
+                } else {
+                    alert("输入格式错误");
+                }
+            }
+        } else if (key === "sc") {
+            if (save1.length) {
+                save1 = [];
+                tools_1.innerText = "MS";
+                tools_1.style.color = "white";
+                ACandMC.innerText = "AC";
+            } else {
+                display(key, "clear");
+                nList = [];
+            }
+        } else if (key === "%"){
+            if (nList.length){
+                if (/^[-\+]?\d+\.\d+$|^[-\+]?\d+\.?$|^[-\+]?\d+\.?\d+$|^[-\+]?\.?\d+$/.test(nList.join(""))){
+                    display(key,"clearLine");
+                    equal = (parseFloat(nList.join("")/100)).toString(10);
+                    nList = equal.split("");
+                    display(equal,"insert");
+                } else {
+                    alert("输入格式错误");
+                }
+            } 
+        } else {
+            nList.push(key);
+            display(key, "insert");
+            soEnd = "no";
+        }
+    }
+
+    //Math.pow的加强版，针对输入字符串进行格式检查。
+    function sPow(str){
+        var s,m,n;
+        s = str.join("");
+        if(/^(\d*\.?\d*)+\^(\-?\d*\.?\d*)+$/.test(s)){
+            m = s.match(/^\d*\.?\d*/)[0];
+            n = s.match(/\-?\d*\.?\d*$/)[0];
+            if(/^\d+\.?$|^\d+\.?\d+$|^\.?\d+$/.test(m) && /^\-?\d+\.?$|^\-?\d+\.?\d+$|^\-?\.?\d+$/.test(n)){
+                return Math.pow(m,n).toString(10);
+            }else{
+                alert("输入格式错误");
+            }
+        }else{
+            alert("输入格式错误");
+        }
+    }
+
+    //显示函数-----------------------------------------------
+    //目的是为了能让显示模块能从下到上一行一行的显示
+
+
+    var row0 = document.querySelector("#row0"),
+        row1 = document.querySelector("#row1"),
+        row2 = document.querySelector("#row2"),
+        row3 = document.querySelector("#row3"),
+        row4 = document.querySelector("#row4");
+
+    //函数参数 ： insert (只在第一行进行插入); equal (运算完成，向上一行插入结果); back (删除第一行的一位）
+    //clear (清除所有显示数据) clearLine(清除第一行数据)  
+    //如果给函数添加第二个参数，则在输出结果前添加"√"
+
+    function display(str, step) {
+        //在第一行插入
+        if (step === "insert") {
+            rowArr[0].push(str);
+            row0.innerText = rowArr[0].join("");
+            //开始向上层推
+        } else if (step === "equal") {
+            if (arguments[2]) {
+                if (rowArr.length < 5) {
+                    //把str变数组[]
+                    rowArr.unshift([str]);
+                    rowArr[1] = ["√" + rowArr[1].join("") + "=" + str];
+                } else {
+                    rowArr.pop();
+                    rowArr.unshift([str]);
+                    rowArr[1] = ["√" + rowArr[1].join("") + "=" + str];
+                }
+
+            } else {
+                if (rowArr.length < 5) {
+                    //把str变数组[]
+                    rowArr.unshift([str]);
+                    rowArr[1] = [rowArr[1].join("") + "=" + str];
+                } else {
+                    rowArr.pop();
+                    rowArr.unshift([str]);
+                    rowArr[1] = [rowArr[1].join("") + "=" + str];
+                }
+            }
+
+            row0.innerText = rowArr[0] ? rowArr[0].join("") : "";
+            row1.innerText = rowArr[1] ? rowArr[1].join("") : "";
+            row2.innerText = rowArr[2] ? rowArr[2].join("") : "";
+            row3.innerText = rowArr[3] ? rowArr[3].join("") : "";
+            row4.innerText = rowArr[4] ? rowArr[4].join("") : "";
+
+        } else if (step === "back") {
+
+            rowArr[0] = rowArr[0].join("").split("");
+            rowArr[0].pop();
+            if (rowArr[0].length) {
+                row0.innerText = rowArr[0].join("");
+            } else {
+                row0.innerText = "";
+            }
+
+        } else if (step === "clear") {
+            row0.innerText = "";
+            row1.innerText = "";
+            row2.innerText = "";
+            row3.innerText = "";
+            row4.innerText = "";
+            rowArr = [];
+            rowArr[0] = [];
+        } else if (step === "clearLine") {
+            rowArr[0] = [];
+            row0.innerText = "";
+        }
+    }
+
+    //人民币小写转大写函数
+    function chRmb(value) {
+
+        var num = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+        var dunit = ['角', '分']
+        var iunit = ['元', '拾', '佰', '仟', '万', '拾', '佰', '仟', '亿', '拾', '佰', '仟', '兆', '拾', '佰', '仟'];
+
+        var reg = /^[1-9][0-9]{0,12}\.?[0-9]{0,2}$|^0?\.[0-9]{0,2}$|^0$/;
+        //正则表达式最多接受15整数，或者13位整数加2位小数点
+        if (!reg.test(value)) {
+            alert ("输入格式错误（最多支持13位整数加2位小数。纯整数支持15位，小数点只支持2位。）");
+        } else {
+            //获取 整数部分和小数部分
+            var inum, dnum;
+            //判断数据是否有小数部分
+            if (value.indexOf(".") === -1) {
+                inum = value.split("").reverse();
+                dnum = [];
+            } else {
+                inum = value.slice(0, value.indexOf(".")).split("").reverse();
+                dnum = value.slice(value.indexOf(".") + 1).split("");
+            }
+
+            //用来存储数据
+            var rmb = [];
+            //标记0
+            var haszero = false;
+
+            //分
+            if (dnum[1] !== undefined) {
+                rmb.push(dunit[1]);
+                rmb.push(num[parseInt(dnum[1])]);
+            }
+
+            //角
+            if (dnum[0] !== undefined) {
+                rmb.push(dunit[0]);
+                rmb.push(num[parseInt(dnum[0])]);
+            } else {
+                rmb.push("整");
+            }
+
+
+            //无整数返回结果，可接受.xx格式的数据
+            if (inum.join("") === "0" || inum.length === 0) {
+
+                //如果整数位为0，在在前面添加一个 “零元”
+                rmb.push(num[0] + iunit[0])
+                //反转数组
+                rmb.reverse();
+                return rmb.join("");
+            }
+
+            //整数部分
+            var n;
+
+            for (var i = 0; i < inum.length; i++) {
+                //人民币整数数字
+                n = parseInt(inum[i]);
+
+                if (i % 4 === 0) {
+                    //判断千万到万之间是否都是0，如果是，则去掉中间的万。
+                    if (i === 8 && rmb[rmb.length - 1] === iunit[4]) {
+                        rmb.pop();
+                    }
+
+                    rmb.push(iunit[i]); //插入单位
+
+                    //如果这些单位为0
+                    if (n === 0) {
+                        //整数位第一位为0，则haszero为true;
+                        if (i === 0) {
+                            haszero = true;
+                        }
+                        //如果万位为0，则在万位左侧，也就是倒数第二个位置添加一个零。
+                        if (!haszero) {
+                            rmb.splice(rmb.length - 1, 0, num[0]);
+                            haszero = true;
+                        }
+
+                    } else {
+                        rmb.push(num[n]);
+                        haszero = false;
+                    }
+
+
+                } else {
+                    //普通位，如果不为0，则正常插入。
+                    if (n !== 0) {
+                        rmb.push(iunit[i]);
+                        rmb.push(num[n]);
+                        haszero = false;
+                        //如果位数是0，则通过haszero来判断是否插入零
+                    } else {
+                        if (!haszero) {
+                            rmb.push(num[0]);
+                            haszero = true;
+                        }
+                    }
+                }
+            }
+            //反转数组
+            rmb.reverse();
+            return rmb.join("");
+        }
+    }
+
+    //表达式运算模块，自己写了一个一般四则运算的解析模块。
+
+    var sEval = {
+        //对象方法入口，输入任意一个合法的四则运算公式，返回运算结果。
+        main: function (s) {
+            //正则表达式支持整数，浮点数，“.1”格式的数字。
+            var rMul_Div = /(\d+\.\d+|\d+\.?|\d+\.?\d+|\.?\d+)[\*\/]([-\+]?\d+\.\d+|[-\+]?\d+\.?|[-\+]?\d+\.?\d+|[-\+]?\.?\d+)/,
+                rAdd_Sub = /(\d+\.\d+|\d+\.?|\d+\.?\d+|\.?\d+)[-\+]([-\+]?\d+\.\d+|[-\+]?\d+\.?|[-\+]?\d+\.?\d+|[-\+]?\.?\d+)/,
+                //支持第一位是正负号的运算
+                fMul_Div = /(^[-\+]?\d+\.\d+|^[-\+]?\d+\.?|^[-\+]?\d+\.?\d+|^[-\+]?\.?\d+)[\*\/]([-\+]?\d+\.\d+|[-\+]?\d+\.?|[-\+]?\d+\.?\d+|[-\+]?\.?\d+)/,
+                fAdd_Sub = /(^[-\+]?\d+\.\d+|^[-\+]?\d+\.?|^[-\+]?\d+\.?\d+|^[-\+]?\.?\d+)[-\+]([-\+]?\d+\.\d+|[-\+]?\d+\.?|[-\+]?\d+\.?\d+|[-\+]?\.?\d+)/;
+
+            //处理组合中的乘除法
+            while (rMul_Div.test(s)) {
+                if (!/[-\+]/.test(s[0])) {
+                    s = s.replace(rMul_Div, function (n) {
+                        return sEval.numeration(n);
+                    });
+                } else if (s.search(rMul_Div) === 1) {
+                    s = s.replace(fMul_Div, function (n) {
+                        return sEval.numeration(n);
+                    });
+                }
+            }
+            //处理组合中的加减法
+            while (rAdd_Sub.test(s)) {
+                if (!/[-\+]/.test(s[0])) {
+                    s = s.replace(rAdd_Sub, function (n) {
+                        return sEval.numeration(n);
+                    })
+                } else if (s.search(rAdd_Sub) === 1) {
+                    s = s.replace(fAdd_Sub, function (n) {
+                        return sEval.numeration(n);
+                    });
+                }
+            }
+
+            //通过是否能运算出最终结果来判定运算组合是否合法。
+            //直接判断组合是否合法的正则表达式我还写不出来。
+            if(/^[-\+]?\d+\.\d+$|^[-\+]?\d+\.?$|^[-\+]?\d+\.?\d+$|^[-\+]?\.?\d+$/.test(s)){
+                return this.headleFloat(s);
+            } else {
+                alert("输入格式错误！");
+            }
+   
+        },
+        //单个组合运算
+        numeration: function (num) { 
+            var a, b, opt, optdex, rt;
+            //获取第一个数字，包括正负号
+            a = parseFloat(num.match(/^[-\+]?\d+\.\d+|^[-\+]?\d+\.?|^[-\+]?\d+\.?\d+|^[-\+]?\.?\d+/)[0]);
+            //获取运算符，如果第一数字是整数，直接通过search获得，如果是负数，获得除了第一位正负号以外其它的数字，再通过search获得符号，然后+1
+            optdex = (a >= 0 && num[0] !== "+") ? num.search(/[-\+\*\/]/) : num.match(/(\d+\.\d+|\d+\.?|\d+\.?\d+|\.?\d+)[-\+\*\/]([-\+]?\d+\.\d+$|[-\+]?\d+\.?$|[-\+]?\d+\.?\d+$|[-\+]?\.?\d+$)/)[0].search(/[-\+\*\/]/) + 1;
+            opt = num[optdex];
+            b = parseFloat(num.slice(optdex + 1));
+            switch (opt) {
+                case "+": rt = (a + b).toString(10); break;
+                case "-": rt = (a - b).toString(10); break;
+                case "*": rt = (a * b).toString(10); break;
+                case "/": rt = (a / b).toString(10); break;
+            }
+
+            if (rt.indexOf("e") < 0){
+                return rt;
+            } else {
+                //消除科学计数
+                return parseFloat(rt).toFixed(parseInt(rt.match(/\d+$/)[0])).toString(10);
+            }
+        },
+        //处理浮点运算产生过多的0和9
+        headleFloat : function(result){
+
+            var float,
+                int,
+                t = 7, 
+                n,  //处理为0的最后以为
+                f, //是否第一位小数为9
+                zero = 0,
+                nine = 0,
+                neg;
+
+            if (!/^[-\+]?\d*\.\d+$/.test(result)) {
+
+                return parseInt(result).toString(10);
+
+            } else {
+                //为了适应".111"格式的数据，将数据先转成浮点数，通过toFixed来防止小数位数过多导致数据自动转科学计数
+                result = parseFloat(result).toFixed(result.match(/\d+$/)[0].length).toString(10);
+                neg = parseFloat(result) < 0 ? true : false;
+                float = (neg && Math.abs(parseFloat(result)) < 0) ? result : result.match(/\d*$/)[0];
+                int = neg? result.match(/^\-\d*\./)[0].slice(1) : result.match(/^\d*\./)[0];
+            
+                for (var i = (float.length - 1); i > -1; i--) {
+                    if (float[i] === "0") {
+                        if(nine <= t){
+                            zero ++;
+                            nine = 0;
+                        }
+                    
+                    } else if (float[i] === "9") {
+                        if (float[0] === "9") {
+                            f = i;
+                        }
+                        if (zero <= t){
+                            nine ++;
+                            zero = 0;
+                        }
+                    } else {
+                        if (zero <= t && nine <= t){
+                            nine = 0;
+                            zero = 0;
+                        }
+                    }
+                }
+                
+                if (zero > t) {
+                    float = float.split("");
+                    //float.splice(t);
+                    float.pop();
+                    float = float.join("");
+                    if (neg) {
+                        return parseFloat("-" + int + float).toString(10);
+                    } else {
+                        return parseFloat(int + float).toString(10);
+                    }
+                } else if (nine > t) {
+                    float = float.split("");
+                    n = float[float.length - 1];
+                    n = 10 - n;
+                    if (f === 0) {
+                        if (neg) {
+                            return parseFloat(-(parseInt(int) + 1)).toString(10);
+                        } else {
+                            return parseFloat((parseInt(int) + 1)).toString(10);
+                        }
+                    } else {
+                        if (neg) {
+                            //把小数位当成整数处理，处理完变成字符串，再转成结果。
+                            return parseFloat("-" + int  + (parseInt(float.join("")) + n).toString(10)).toString(10);
+                        } else {
+                            return parseFloat(int + (parseInt(float.join("")) + n).toString(10)).toString(10);
+                        }
+                    }
+                } else {
+                    //消除0.100后面的00，或者把0.000转换为0;
+                    return parseFloat(result).toFixed((result.match(/\d+$/)[0].length) - (result.match(/0*$/)[0].length)).toString(10);
+                }
+            }
+        },
+    };
+
+</script>
+</body>
+</html>
