@@ -18,7 +18,7 @@ body,div,h1,h2,h3{
 .toplink{
     height: 1.6rem;
     line-height: 1.6rem;
-    background-color: #AAA;
+    background-color: rgb(202, 175, 86);
 }
 
 .toplink ul {
@@ -34,12 +34,12 @@ body,div,h1,h2,h3{
 }
 
 .toplink ul li a {
-    color : white;
+    color : #FFF;
     text-decoration: none;
 }
 
 .toplink li a:hover{
-    color : #EEE;
+    color : #DDD;
 }
 
 .nav{
@@ -69,6 +69,7 @@ body,div,h1,h2,h3{
 
 
 .content{
+    margin-left: 0.6rem;
     color : #555;
     max-width: 47rem;
 }
@@ -128,3 +129,8 @@ body,div,h1,h2,h3{
 .do-list li a:hover{
     color : rgb(53, 181, 231);
 }
+
+#text001:before{
+    content: "张晓雷的博客";
+}
+
