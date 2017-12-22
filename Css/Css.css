@@ -120,3 +120,11 @@ body,div,h1,h2,h3{
     color : #333;
     text-decoration: none;
 }
+
+.do-list li a{
+    color : #444;
+}
+
+.do-list li a:hover{
+    color : rgb(53, 181, 231);
+}

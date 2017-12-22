@@ -1,0 +1,198 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"
+    />
+    <title>产品数量计算器</title>
+    <style>
+        body {
+            font-family: "微软雅黑";
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            background-color: #eee;
+            border-top: 3px solid skyblue;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.2em;
+        }
+
+        th,
+        td {
+            width: 33.33%;
+        }
+
+        .lable {
+            padding: 0.2em 0 0 0;
+            color: #444;
+            font-weight: bold;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+
+        #plan23,
+        #plan45,
+        #subTime,
+        #done23,
+        #done45,
+        #btfunc,
+        #btclear {
+            margin: 0;
+            padding: 0;
+            width: 99%;
+            font-size: 2em;
+            height: 65px;
+            text-align: center;
+            color: gray;
+            line-height: 65px;
+            border-radius: 3px;
+            outline: none;
+            background-color: #FAFAFA;
+        }
+
+        #plan23,
+        #plan45,
+        #subTime,
+        #done23,
+        #done45 {
+            border: 1px solid #aaa;
+            box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #done23,
+        #done45 {
+            color: black;
+        }
+
+        #btfunc,
+        #btclear {
+            color: #333;
+            border: 1px solid #999;
+            background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        #btclear {
+            margin-top: 5px;
+        }
+
+        #btfunc:active,
+        #btclear:active {
+            background-image: linear-gradient(to bottom, #e6e6e6, #e6e6e6);
+            box-shadow: none;
+        }
+
+        #infobox {
+            padding: 0 10px 0 10px;
+            font-size: 60%;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td class="lable">VG2、3每小时</td>
+            <td class="lable">VG4、5每小时</td>
+            <td class="lable">减去时间</td>
+        </tr>
+        <tr>
+            <td><input type="number" id="plan23" value="48" /></td>
+            <td><input type="number" id="plan45" value="32" /></td>
+            <td><input type="number" id="subTime" value="0" /></td>
+        </tr>
+        <tr>
+            <td id="tag23" class="lable">已完成VG2、3 </td>
+            <td id="tag45" class="lable">已完成VG4、5 </td>
+        </tr>
+        <tr>
+            <td><input type="number" id="done23" /></td>
+            <td><input type="number" id="done45" /></td>
+            <td>
+                <div id="btfunc">计算</div>
+            </td>
+        </tr>
+        <tr>
+            <td id="infobox" colspan="2">在相对应的标签下的输入框内输入已经做的数量，点击计算，结果会显示在另一个输入框中。</td>
+            <td>
+                <div id="btclear">清除</div>
+            </td>
+        </tr>
+
+    </table>
+
+    <script>
+
+        var subtime = document.getElementById("subTime"),
+            done23 = document.getElementById("done23"),
+            done45 = document.getElementById("done45"),
+            tag23 = document.getElementById("tag23"),
+            tag45 = document.getElementById("tag45"),
+            plan23 = document.getElementById("plan23"),
+            plan45 = document.getElementById("plan45");
+
+        function btFunc() {
+
+            if (parseFloat(done23.value) >= 0 && parseFloat(done45.value) >= 0) {
+
+                alert("不能两边同时输入数量！");
+                done23.value = "";
+                done45.value = "";
+
+            } else if (parseFloat(done23.value) >= 0) {
+
+                if (parseFloat(done23.value) > parseFloat(plan23.value)) {
+
+                    alert("输入数量太多！");
+
+                } else {
+                    tag45.innerText = "VG4、5还需：";
+                    done45.style.color = "green";
+                    done45.value = (((60 - subtime.value) - (60 / plan23.value) * done23.value) / (60 / plan45.value)).toFixed(2);
+
+                }
+
+            } else if (parseFloat(done45.value) >= 0) {
+
+                if (parseFloat(done45.value) > parseFloat(plan45.value)) {
+
+                    alert("输入数量太多！");
+
+                } else {
+                    tag23.innerText = "VG2、3还需：";
+                    done23.style.color = "green";
+                    done23.value = (((60 - subtime.value) - (60 / plan45.value) * done45.value) / (60 / plan23.value)).toFixed(2);
+
+                }
+
+            } else {
+
+                alert("未输入数据！");
+
+            }
+        }
+
+        function btClear() {
+            done45.style.color = "black";
+            done23.style.color = "black";
+            done23.value = "";
+            done45.value = "";
+            subtime.value = "0";
+            tag23.innerText = "已完成VG2、3";
+            tag45.innerText = "已完成VG4、5";
+        }
+
+        document.getElementById("btfunc").addEventListener("click", btFunc, false);
+        document.getElementById("btclear").addEventListener("click", btClear, false);
+
+    </script>
+</body>
+
+</html>

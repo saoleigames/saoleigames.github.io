@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html><head><title>Clock</title></head><body style = "background:YellowGreen;">
+<canvas id = "mycanvas" width = "600" height = "600" style = "display : block; margin:10px auto;"></canvas>
+<script>
+var canvas = document.getElementById("mycanvas");
+var c = canvas.getContext("2d");
+
+c.translate(300,300);
+
+function clock_UI(){
+
+	function center_point(){
+		c.beginPath();
+		c.lineWidth = 1;
+		c.strokeStyle = "gray";
+		c.fillStyle = "gray";
+		c.arc(0,0,10,0,Math.PI*2,false);
+		c.fill();
+		c.stroke();
+	}
+	
+	function text(){
+		c.fillStyle = "black";
+		var t = 1;
+		c.font = "30px 微软雅黑";
+			for (var i = 30; i <= 360; i += 30){
+				c.moveTo(0,0);
+				c.fillText(t, Math.sin(Math.PI / 180 * i) * 162, -(Math.cos(Math.PI /180 * i) * 162));
+				t += 1;
+			}
+			c.stroke();}
+			
+	function logo(){
+		c.fillStyle = "#666666";
+		c.font = "30px 'HelveticaNeueLT Pro 75 Bd'";
+		c.textAlign = "center";
+		c.textBaseline = "middle";
+		c.fillText("JavaScript",0,70); }
+	
+	function outline_border(){
+		c.beginPath();
+		c.lineWidth = 1;
+		c.fillStyle = "#2E2E2E";
+		c.strokeStyle = "#2E2E2E";
+		c.arc(0,0,220,0,Math.PI * 2,false);
+		c.fill();
+		c.stroke();
+		c.moveTo(204,0);
+		c.beginPath();
+		c.fillStyle = "#F5F5F5";
+		c.arc(0,0,204,0,Math.PI * 2,false);
+		c.fill();
+		c.stroke();}
+	
+	function second_scale(){
+		for(var i = 0; i < 60; i ++){
+			c.beginPath();
+			c.fillStyle = "gray";
+			c.lineWidth = 1;
+			c.strokeStyle = "gray";
+			c.rotate(Math.PI/180*6);
+			c.arc(0,-195,2.5,0,Math.PI * 2, false);
+			c.fill();
+			c.stroke();}}
+			
+	function hour_scale(){
+		for(var i = 0; i < 12; i ++){
+			c.beginPath();
+			c.lineWidth = 1;
+			c.fillStyle = "black";
+			c.strokeStyle = "black";
+			c.rotate(Math.PI/180*30);
+			c.arc(0,-195,5.0,0,Math.PI * 2, false);
+			c.fill();
+			c.stroke();}}
+			
+	c.shadowOffsetX = 2;
+	c.shadowOffsetY = 2;
+	c.shadowColor = 'rgba(100,100,100,0.5)';
+	c.shadowBlur = 5;		
+	outline_border();
+	second_scale();
+	hour_scale();
+	logo();
+	center_point();
+	text();
+}
+
+
+function second_hand(n){
+	c.rotate(Math.PI/180*(6*n));
+	c.beginPath();
+	c.strokeStyle = "black";
+	c.lineWidth = 2;
+	c.moveTo(0,40);
+	c.lineTo(0,-170);
+	c.stroke();
+	c.rotate(-Math.PI/180*(6*n));
+	}
+	
+function minute_hand(n){
+	c.rotate(Math.PI/180*(6*n));
+	c.beginPath();
+	c.fillStyle = "black";
+	c.strokeStyle = "black";
+	c.lineWidth = 1;
+	c.moveTo(-3,0);
+	c.lineTo(-3,27);
+	c.arc(0,27,3,Math.PI * 1, 0, true);
+	c.lineTo(3,-157);
+	c.arc(0,-157,3,0, Math.PI * 1, true);
+	c.lineTo(-3,0);
+	c.fill();
+	c.stroke();
+	c.rotate(-Math.PI/180*(6*n));
+	}
+	
+function hour_hand(h,m){
+	c.rotate(Math.PI/180*(30*h));
+	c.rotate(Math.PI/180*30/60*m);
+	c.beginPath();
+	c.fillStyle = "black";
+	c.strokeStyle = "black";
+	c.lineWidth = 1;
+	c.moveTo(-5,0);
+	c.lineTo(-5,15);
+	c.arc(0,16,5,Math.PI * 1, Math.PI * 0 , true);
+	c.lineTo(5,-116);
+	c.arc(0,-116,5,0,Math.PI * 1,true);
+	c.lineTo(-5,15);
+	c.fill();
+	c.stroke();
+	c.rotate(-Math.PI/180*(30*h));
+	c.rotate(-Math.PI/180*30/60*m);
+	}
+			
+function clock_main(){
+	c.clearRect(-300,-300,600,600);
+	clock_UI();
+	
+	var date = new Date();
+	var h = date.getHours();
+	var m = date.getMinutes();
+	var s = date.getSeconds();
+	
+	second_hand(s);
+	minute_hand(m);
+	hour_hand(h,m);
+	
+	setTimeout("clock_main()", 1000);
+	}
+	
+clock_UI();
+clock_main()
+
+</script>
+</body></html>
+
