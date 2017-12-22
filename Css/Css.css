@@ -18,7 +18,7 @@ body,div,h1,h2,h3{
 .toplink{
     height: 1.6rem;
     line-height: 1.6rem;
-    background-color: rgb(202, 175, 86);
+    background-color: rgb(207, 181, 93);
 }
 
 .toplink ul {
@@ -69,7 +69,7 @@ body,div,h1,h2,h3{
 
 
 .content{
-    margin-left: 0.6rem;
+    margin-left: 0.65rem;
     color : #555;
     max-width: 47rem;
 }
