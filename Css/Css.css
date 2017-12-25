@@ -1,7 +1,7 @@
 html {
     font-size: 1rem;
     font: 300 1rem/1.8 PingFang SC,Lantinghei SC,-apple-system,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,sans;
-    background-color: rgb(247, 235, 205);
+    background-color: rgb(214, 194, 143);
 }
 
 body,div,h1,h2,h3{
@@ -16,20 +16,20 @@ body{
 }
 
 #header{
-    background-color: rgb(255, 255, 255);
-    margin: 0 0 12px 0;
     height: 136px;
-    border-radius: 5px;
+    background-color: #FFF;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
     overflow: hidden;
-    box-shadow: 1px 1px 3px #999;
+    border-bottom: 1px dashed rgb(201, 172, 79);
 }
 
 #header ul{
     display: block;
     margin: 0;
-    padding: 0 1rem;
+    padding: 0;
     list-style: none;
-    background-color: rgb(207, 181, 93);
+    background-color: rgb(150, 150, 150);
 }
 
 #header ul li {
@@ -38,15 +38,15 @@ body{
 
 #header ul li a{
     text-align: center;
-    padding: 0 0.7rem;
+    padding: 0 1rem;
     display: inline-block;
     text-decoration : none;
-    color : #444;
+    color : #EEE;
 }
 
 #header ul li a:hover {
-    background-color: rgb(155, 112, 48);
-    color : #DDD;
+    background-color: rgb(206, 155, 79);
+    color : #FFF;
 }
 
 #header .title{
@@ -83,12 +83,8 @@ body{
 }
 
 #body .doc{
-    margin-bottom: 12px;
     padding: 1.5rem;
-    box-shadow: 0 0 1px #DDD;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px #999;
+    background-color: #FFF;
 }
 
 #body .doc-title{
@@ -100,9 +96,6 @@ body{
     margin : 0;
     padding: 0;
 }
-
-
-
 
 #body .doc-links {
     margin-top: 1rem;
@@ -133,22 +126,50 @@ body{
     display: block;
 }
 
+#body .do-list li{
+    position: relative;
+    display: table;
+}
+
+#body .do-list a {
+    text-decoration: none;
+}
+
 #body .do-list a:hover{
     color : rgb(53, 181, 231);
 }
 
-
 #footer{
+    margin : 0;
+    padding: 0;
     font-size: 80%;
     text-align: center;
     height: 2.8rem;
     line-height: 2.8rem;
     background-color: #FFF;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px #999;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 #footer a{
     text-decoration: none;
     color : rgb(87, 89, 214);
+}
+
+.popbox{
+    z-index: 10;
+    display: none;
+    position: absolute;
+    background-color: white;
+    padding: 0.5rem;
+    width : 15rem;
+    height: 4rem;
+    left : -1rem;
+    border : 1px solid #999;
+    box-shadow: 1px 1px #999;
+    border-radius: 3px;
+}
+
+#body .do-list li:hover>.popbox{
+    display: block;
 }
