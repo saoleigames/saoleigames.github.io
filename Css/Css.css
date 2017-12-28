@@ -4,39 +4,44 @@ html {
     background-color: rgb(214, 194, 143);
 }
 
-body,div,h1,h2,h3{
+body,div,h1,h2,h3,h5,h6{
     margin: 0;
     padding: 0;
-    color: #444;
+    color : #555;
 }
 
 body{
     margin: 1rem auto;
     max-width : 49rem;
+    box-shadow: 0 0 2px #555;
+    border-radius: 15px;
+    background-color: rgb(150,150,150);
 }
 
 #header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 136px;
-    background-color: #FFF;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     overflow: hidden;
-    border-bottom: 1px dashed rgb(201, 172, 79);
+    border-bottom: 1px dashed #FFF;
 }
 
-#header ul{
+#header .h-t ul{
     display: block;
-    margin: 0;
+    margin : 0;
     padding: 0;
     list-style: none;
     background-color: rgb(150, 150, 150);
 }
 
-#header ul li {
+#header .h-t ul li {
     display: table-cell;
 }
 
-#header ul li a{
+#header .h-t ul li a{
     text-align: center;
     padding: 0 1rem;
     display: inline-block;
@@ -44,30 +49,35 @@ body{
     color : #EEE;
 }
 
-#header ul li a:hover {
+#header .h-t ul li a:hover {
     background-color: rgb(206, 155, 79);
     color : #FFF;
 }
 
-#header .title{
+#header .h-c {
+    background-color: #FFF;
+    flex-grow: 1;
+}
+
+#header .h-c .title{
     margin-left: 0;
 }
 
-#header .title a{
+#header .h-c .title a{
     display: inline-block;
+    font-size: 120%;
     transform: rotate(-45deg);
     text-decoration: none;
-    color : rgb(196, 137, 28);
+    color : rgb(219, 64, 3);
     font-weight: bold;
-    text-shadow: 1px 1px #333, 3px 3px 12px #000;
-    transition: 0.5s font-size;
+    text-shadow: -1px -1px rgb(250, 191, 81), 1px 1px rgb(88, 88, 88), 3px 9px 12px #000;
 }
 
-#header .title a:hover{
-    font-size: 120%;
+#header .h-c .title a:hover{
+    text-shadow: -1px -1px #FFF, 1px 1px #333, 3px 9px 12px #000;
 }
 
-#header .addr{
+#header .h-c .addr{
     display: inline-block;
     margin : 0.5rem 1.5rem;
     color : #777;
@@ -83,13 +93,13 @@ body{
 }
 
 #body .doc{
-    padding: 1.5rem;
+    padding: 2.5rem;
     background-color: #FFF;
 }
 
 #body .doc-title{
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 2px solid #EEE;
 }
 
 #body .doc-content {
@@ -140,15 +150,13 @@ body{
 }
 
 #footer{
-    margin : 0;
-    padding: 0;
     font-size: 80%;
     text-align: center;
     height: 2.8rem;
     line-height: 2.8rem;
     background-color: #FFF;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 #footer a{
@@ -160,16 +168,21 @@ body{
     z-index: 10;
     display: none;
     position: absolute;
-    background-color: white;
-    padding: 0.5rem;
-    width : 15rem;
-    height: 4rem;
     left : -1rem;
-    border : 1px solid #999;
-    box-shadow: 1px 1px #999;
-    border-radius: 3px;
 }
 
-#body .do-list li:hover>.popbox{
+.popbox span{
+    font-size: 90%;
+    color : #666;
+    text-shadow: 0 0 1px #AAA;
+    min-width: 17rem;
+    padding: 0.5rem;
+    display: table;
+    border : 1px solid #888;
+    background-color: #FAFAFA;
+    box-shadow: 1px 1px #999, 2px 2px #999, 3px 3px #999, 4px 4px #999, 5px 5px #888, 6px 6px 6px #333;
+}
+
+#body .do-list li:hover> .popbox{
     display: block;
 }
