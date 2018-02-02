@@ -10,11 +10,13 @@
     "use strict";
     
     var log = console.log;
-
-    //屏蔽右键
-    document.querySelectorAll(".window")[0].oncontextmenu = function (e) {
-        e.preventDefault();
-    }
+    
+    //屏蔽窗口上的右键菜单
+    document.querySelectorAll(".window").forEach(function (box) {
+        box.oncontextmenu = function (e) {
+            e.preventDefault();
+        }
+    })
 
     //计时器构造函数
   
@@ -82,42 +84,6 @@ function moveElement(select, moveBody, marginX, marginY) {
     }, false);
 }
 
-
-/*
-
-    function moveElement(select, moveBody) {
-
-        select = document.querySelector(select);
-        moveBody = document.querySelector(moveBody);
-
-        if (!select || !moveBody) {
-            console.error("[moveElement]:error");
-            return;
-        }
-
-        //moveBody.style.position = "absolute";
-
-        var stX, stY, mouseDown = false;
-
-        select.addEventListener("mousedown", function (e) {
-            stX = e.offsetX;
-            stY = e.offsetY;
-            mouseDown = true;
-        })
-
-        document.addEventListener("mousemove", function (e) {
-            if (mouseDown) {
-                moveBody.style.left = e.clientX - stX + "px";
-                moveBody.style.top = e.clientY - stY + "px";
-            }
-        }, false)
-
-        document.addEventListener("mouseup", function () {
-            mouseDown = false;
-        }, false)
-    }
-
-    */
 
     //判断一个数组是否在另一个数组内
     function haveArr(arr, arrlist) {
