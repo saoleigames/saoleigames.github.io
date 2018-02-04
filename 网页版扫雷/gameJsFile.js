@@ -939,10 +939,10 @@ function moveElement(select, moveBody, marginX, marginY) {
     //top5排序控制函数
     function sortControl(a, b) {                                
         var ia, fa, ib, fb;
-        ia = parseInt(a.slice(0, a.indexOf(".")));
-        fa = parseInt(a.slice(a.indexOf(".") + 1));
-        ib = parseInt(b.slice(0, b.indexOf(".")));
-        fb = parseInt(b.slice(b.indexOf(".") + 1));
+        ia = parseInt(a.slice(0, a.indexOf(":")));
+        fa = parseInt(a.slice(a.indexOf(":") + 1));
+        ib = parseInt(b.slice(0, b.indexOf(":")));
+        fb = parseInt(b.slice(b.indexOf(":") + 1));
         if (ia !== ib) {
             return ia - ib;
         } else {
