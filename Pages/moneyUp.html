@@ -1,0 +1,208 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    
+    <title>盈利计算</title>
+    <style>
+
+        #window {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    margin: 2em auto;
+    width : 450px;
+    height: 270px;
+    border : 1px solid #AAA;
+    background-color: rgb(243, 239, 239);
+}
+
+#box{
+    border-radius: 8px;
+    border : 1px 1px #999;
+    padding: 2em 1em;
+    background-color: #FFF;
+}
+
+
+
+#input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5em auto;
+    text-align: center;
+}
+
+#input span {
+    color: #555;
+    font-size: 0.8em;
+}
+
+#ip1, #ip2, #ip3 {
+    text-align: center;
+    width : 6.0em;
+    height: 1.8em;
+    margin: 0.2em 1em;
+}
+
+#ip3 {
+    margin-right: 2px;
+}
+
+#output{
+    color: #555;
+    font-size: 0.8em;
+    text-shadow: 1px 1px 2px #888;
+    margin: 0 1em;
+    height: 2.2em;
+    line-height: 2.2em;
+    background-color: #FFF;
+    text-align: center;
+    overflow: visible;
+    box-shadow: inset 1px 1px 3px #DDD, inset 0 -1px 3px #DDD;
+}
+
+#button {
+    text-align: center;
+    margin: 1em auto;
+}
+
+#bt1, #bt2{
+    margin: 0 1em;
+    cursor: default;
+    padding: 0.2em 0.4em;
+    display: inline-block;
+    width : 7em;
+    height: 1.4em;
+    line-height: 1.4em;
+    background-color: skyblue;
+    border : 1px solid #999;
+    box-shadow: 1px 1px #CCC;
+}
+
+#bt1:hover, #bt2:hover{
+    opacity: 0.8;
+}
+
+#bt1:active, #bt2:active {
+    box-shadow: none;
+    background-color: rgb(110, 180, 240);
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div id="window">
+
+        <div id="box">
+
+            <div id="input">
+
+                <div>
+                        <span>资金</span></br>
+                        <input id="ip1" type="text" placeholder="0" />
+                </div>
+
+                <div>
+                        <span>年份（整数）</span></br>
+                        <input id="ip2" type="text" placeholder="0" />
+
+                </div>
+
+                <div>
+                        <span>年利率</span></br>
+                        <input id="ip3" type="text" placeholder="0" /><span>%</span>
+
+                </div>
+                
+                
+                
+            </div>
+
+            <div id="output"></div>
+
+            <div id="button">
+                <div id="bt1">计 算</div>
+                <div id="bt2">清 除</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function moneyUp(capital, time, rate) {
+
+            let sum = capital;
+
+            if (typeof rate === "string" && rate[rate.length - 1] === "%") {
+                rate = rate.split("");
+                rate.pop();
+                rate = parseFloat(rate.join("")) / 100;
+            }
+
+            if (typeof rate !== "number") {
+                console.warn("rate format error");
+                return;
+            }
+
+            while (time--) {
+                sum += (sum * rate);
+            }
+
+            return ({
+                total: parseFloat(sum.toFixed(2)),
+                profit: parseFloat((sum - capital).toFixed(2))
+            })
+        }
+
+
+
+        let c = document.querySelector("#ip1");
+        let t = document.querySelector("#ip2");
+        let r = document.querySelector("#ip3");
+        let output = document.querySelector("#output");
+        let cl = false;
+
+        document.querySelector("#bt1").onclick = function () {
+
+            let m = moneyUp(
+                parseFloat(c.value),
+                parseInt(t.value),
+                r.value / 100
+            )
+
+            if (m.profit && m.total) {
+                output.innerHTML = "<span>盈利：" + m.profit + "， 合计：" + m.total + "</span>"
+                cl = false;
+            } else {
+                output.innerHTML = "<span>未输入有效数据！</span>";
+                cl = false;
+            }
+
+        }
+
+        document.querySelector("#bt2").onclick = function () {
+
+            if (!cl) {
+                output.innerHTML = "";
+                cl = true;
+            } else {
+                r.value = "";
+                t.value = "";
+                c.value = "";
+                output.innerHTML = "";
+                cl = false;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
