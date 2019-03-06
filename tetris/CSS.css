@@ -1,0 +1,385 @@
+
+body {
+    font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    background-color: rgb(22,22,22);
+}
+
+#window{
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    margin: 0;
+    padding: 1em;
+    border : 1px solid #333;
+    border-radius: 3px;
+}
+
+#canvas { 
+    border : 2px solid #999;
+    padding: 2px;
+    margin-right: 10px;
+}
+
+#rightcolumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#scanvas {
+    margin-top: 2px;
+    padding: 10px;
+    border-radius: 3px;
+    border : 1px solid #999;
+}
+
+.panelLabel {
+    font-size: 0.9em;
+    font-weight: bold;
+    color : #BBB;
+    text-shadow: 0 0 3px #666;
+}
+
+.numberStyle{
+    margin-top: 3px;
+    padding: 3px;
+    border-radius: 3px;
+    height: 22px;
+    background-color: #EEE;
+}
+
+.n0{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+}
+
+.n1{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -16px 0px;
+}
+
+.n2{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -32px 0px;
+}
+
+
+.n3{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -48px 0px;
+}
+
+.n4{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -64px 0px;
+}
+
+
+.n5{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -80px 0px;
+}
+
+.n6{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -96px 0px;
+}
+
+.n7{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -112px 0px;
+}
+
+.n8{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -128px 0px;
+}
+
+.n9{
+    float: left;
+    width: 15px;
+    height: 40px;
+    background-image: url(pic/12345.PNG);
+    background-repeat: no-repeat;
+    background-position: -144px 0px;
+}
+
+.ns{
+    float : left;
+    width : 15px;
+    height: 40px;
+    background-color: transparent;
+}
+
+#control {
+    display: flex;
+    justify-content: space-between;
+}
+
+#reset {
+    background-color: pink;
+}
+
+#backGroundCover{
+    z-index: 5;
+    display: none;
+    position: absolute;
+    background-color: transparent;
+}
+
+.t-win{
+    z-index: 10;
+    position: absolute;
+    display: none;
+    border-radius: 3px;
+    background-color: #333;
+    border : 1px solid #555;
+}
+
+.t-head{
+    margin: 0.3em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.t-title{
+    font-weight: bold;
+    color : #999;
+}
+
+/*  右上角的X  */
+
+.t-closeX{
+    color : #999;
+    text-align: center;
+    border-radius: 3px;
+    width : 1.4em;
+    height: 1.4em;
+    line-height: 1.4em;
+    cursor: pointer;
+    border : 1px solid #555;
+}
+
+.t-closeX:hover{
+    border : 1px solid #999;
+}
+
+.t-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    color : #FFF;
+    margin: 0.3em;
+    min-height: 10em;
+    min-width: 18em;
+    border-radius: 5px;
+    border : 1px solid #333;
+    background-color: #666;
+}
+
+.t-okAndNo {
+    display: flex;
+    justify-content: space-between;
+    width : 10em;
+}
+
+.t-button{
+    color : #000;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    width : 2.8em;
+    padding: 0.15em;
+    border-radius: 3px;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    background-color: #FFF;
+}
+
+#cont-table{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0.3em;
+    min-height: 15em;
+    min-width: 18em;
+    background-color: #666;
+    border-radius: 3px;
+    color : #FFF;
+}
+
+.table-bottom {
+    display: table;
+    margin: 0.2em;
+}
+
+.table-bottom a {
+    font-size: 0.8em;
+    color: #CCC;
+}
+
+table {
+    margin: 1em;
+}
+
+th {
+    color : rgb(148, 198, 226);
+}
+
+th, td {
+    text-align: center;
+    width : 5em;
+}
+
+#u-enterName {
+    font-size: 120%;
+    margin-top: 1em;
+}
+
+#u-enterTop10info{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 1em;
+}
+
+.test01{
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.test01 a{
+    color: #999;
+}
+
+.cont-win {
+    font-size: 0.8em;
+}
+
+.cont-win ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cont-win li{
+    margin: 0;
+    padding: 0;
+}
+
+
+.cont-opt{
+    width : 450px;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.opt-item{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.8em;
+    border-radius: 3px;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #999;
+}
+
+.cont-opt input{
+    display: inline-block;
+    width : 5.5em;
+    text-align: center;
+    background-color: #888;
+    border : 1px solid #666;
+}
+
+.opt-leftbox{
+    padding: 5px 0;
+    height: 100px;
+    width : 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  
+}
+
+.opt-rightbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.opt-up {
+    display: flex;
+    flex-direction: column;
+}
+
+.opt-other {
+    display: flex;
+}
+
+.opt-other>div{
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+}
+
+.opt-control{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cont-top10{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
