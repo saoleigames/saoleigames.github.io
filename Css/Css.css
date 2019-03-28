@@ -28,6 +28,10 @@ div {
     margin-bottom: 2em;
 }
 
+#header .title{
+    padding-bottom: 0.5em;
+}
+
 #header a {
     font-weight: bold;
     color : #333;
@@ -41,7 +45,7 @@ div {
 }
 
 #body .doc-content {
-    padding: 0.5em;
+    padding: 0.3em;
 }
 
 #body ul{
