@@ -1,0 +1,76 @@
+<link href="../../css/markDownCss.css" rel="stylesheet"></link>
+<h1>解决计算器运算精度问题的方法</h1>
+<hr/>
+<p>由于电脑在表达小数时存在精度问题，导致经常有些小数运算不符合预期，所以我写了一个简单的对象来处理这个问题。</p>
+<pre><code>&gt;0.1 + 0.2
+0.30000000000000004
+&gt;1.1 * 1.3
+1.4300000000000002
+
+
+&gt;compute.main(0.1, 0.2, &quot;+&quot;)
+0.3
+&gt;compute.main(1.1, 1.3, &quot;*&quot;)
+1.43
+</code></pre>
+<p>方法非常简单，就是将所有的小数或者存在小数的运算项一起变成一个整数，等计算完成后再除以一个数，让结果变成它应该的运算结果。</p>
+<pre><code>const compute = {
+
+    simpleCompute: function (a, b, o) {
+        a = +a;
+        b = +b;
+        switch (o) {
+            case &quot;+&quot;: return a + b;
+            case &quot;-&quot;: return a - b;
+            case &quot;*&quot;: return a * b;
+            case &quot;/&quot;: return a / b;
+            default: console.error(&quot;Object Error : compute-simpleCompute&quot;)
+        }
+    },
+
+    computeTmp: function (n) {
+
+        if (typeof n !== &quot;number&quot;) {
+            console.error(&quot;Object Error : compute-computeTmp&quot;)
+            return;
+        }
+
+        let tmp = 1;
+
+        while (n--) {
+            tmp *= 10;
+        }
+        
+        return tmp;
+    },
+
+    main: function (a, b, opt) {
+
+        if (Math.floor(a) === a &amp;&amp; Math.floor(b) === b) {
+            return this.simpleCompute(a, b, opt);
+        }
+        //转换为字符串，去除多余的0；
+        a = (+a).toString();
+        b = (+b).toString();
+
+        let lenDecA, lenDecB, lenDecMax;
+        lenDecA = a.split(&quot;.&quot;)[1];
+        lenDecA = lenDecA ? lenDecA.length : 0;
+        lenDecB = b.split(&quot;.&quot;)[1];
+        lenDecB = lenDecB ? lenDecB.length : 0;
+        lenDecMax = lenDecA &gt; lenDecB ? lenDecA : lenDecB;
+
+        let intA = a * this.computeTmp(lenDecMax);
+        let intB = b * this.computeTmp(lenDecMax);
+        let result = this.simpleCompute(intA, intB, opt);
+
+        if (opt === &quot;+&quot; || opt === &quot;-&quot;) {
+            return result / this.computeTmp(lenDecMax);
+        } else if (opt === &quot;*&quot;) {
+            return result / this.computeTmp(lenDecMax * 2);
+        } else if (opt === &quot;/&quot;) {
+            return result;
+        }
+    }
+}
+</code></pre>
