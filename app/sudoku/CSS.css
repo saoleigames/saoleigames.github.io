@@ -39,12 +39,23 @@ body{
 }
 
 #bt-list{
+    font-size: 0.8em;
     padding : 0.5em 0;
     display: flex;
     justify-content: space-around;
 }
 
-#fileId{
+#fileId {
     width: 5em;
     text-align: center;
+}
+
+#getRange {
+    width : 3em;
+    text-align: center;
+}
+
+.helpinfo span{
+    color : #555;
+    font-weight: bold;
 }

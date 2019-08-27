@@ -2,6 +2,7 @@
 let log = console.log;
 let originElelist = document.querySelectorAll("#table span");
 let eleList = new Array(9);
+
 function pushNumList(index, ...rest) {
     eleList[index] = [];
     rest.forEach(function (i) {
@@ -56,7 +57,6 @@ function initCube () {
             }
 
             numList[i].push({
-                // 0 代表天选之子！
                 0 : 0,
                 // 候选列表
                 1 : 0,
@@ -78,23 +78,33 @@ let numList = new Array(9);
 //运行初始化
 initCube();
 //3X3交叉排除遍历坐标数组
+
+
 let num3RowLIst = [];
 let num3ColList = [];
 
-for (let i = 0; i < 9; i++) {
-    let tmpc3 = [];
-    let tmp3 = [];
-    for (let j = 0; j < 9; j++) {
-        tmpc3.push(numList[j][i]);
-        tmp3.push(numList[i][j]);
-        if (tmp3.length === 3) {
-            num3RowLIst.push(tmp3);
-            num3ColList.push(tmpc3);
-            tmp3 = [];
-            tmpc3 = [];
+testInit();
+
+function testInit() {
+
+    for (let i = 0; i < 9; i++) {
+        let tmpc3 = [];
+        let tmp3 = [];
+        for (let j = 0; j < 9; j++) {
+            tmpc3.push(numList[j][i]);
+            tmp3.push(numList[i][j]);
+            if (tmp3.length === 3) {
+                num3RowLIst.push(tmp3);
+                num3ColList.push(tmpc3);
+                tmp3 = [];
+                tmpc3 = [];
+            }
         }
     }
 }
+
+
+
 
 
 //载入时初始化数据
@@ -446,11 +456,19 @@ document.querySelector("#onload").onclick = function () {
 }
 
 function readTable () {
+    let ept = true;
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             numList[i][j][0] = +(eleList[i][j].innerText);
+            if (ept) {
+                if (numList[i][j][0] > 0) {
+                    ept = false;
+                }
+            }
         }
     }
+    //isOk的方块坐标是计算时产生的，而第一次执行readTable函数计算并未开始，所以在在合法计算上，是有问题滴！
+    return isOk() && !ept;
 }
 
 //-----------------------------------------------
@@ -496,7 +514,6 @@ function seekThree(val, alt, art, alb, arb) {
         }
     }
 
-   
     if (lt || rt || lb || rb) {
         //左上对右下
         if (lt === true && rb === false) {
@@ -578,19 +595,41 @@ let maxList = [];
 
 document.querySelector("#gogogo").onclick = testGuess2;
 
+let getRange;
+
 function testGuess2() {
 
-    readTable();
+    getRange = +(document.querySelector("#getRange").value);
 
-    while (!checkResult()) {
-        if (!compute().length) {
-            if (haveEmpty()) {
-                getMax();
-            }
-            setItem();
-        }
+    if (!readTable()) {
+        alert("输入错误！")
+        return;
     }
-    alert("===成功===");
+
+    try { 
+
+        while (!checkResult()) {
+            if (!compute().length) {
+                if (haveEmpty()) {
+                    getMax();
+                }
+                setItem();
+            }
+        }
+
+    } catch {
+
+        maxList = [];
+        initCube();
+        num3ColList = [];
+        num3RowLIst = [];
+        testInit();
+        alert("哈哈，算不出来，试试扩大范围再计算！");
+        return;
+    }
+
+    alert("我操！算出来了！");
+
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             eleList[i][j].innerText = numList[i][j][0];
@@ -679,7 +718,7 @@ function getMax() {
 
             t = getOneMax(numList[i][j]);
 
-            if (tmp.length < 4) {
+            if (tmp.length < getRange) {
 
                 if (t.length) {
                     tmp.push([i, j, t[0], t[1]]);
@@ -705,7 +744,48 @@ function getMax() {
     } 
 }
 
+function isOk() {
 
+    let row, col, rc, cr;
+
+    for (let i = 0; i < 9; i++) {
+        row = [], col = [];
+        for (let j = 0; j < 9; j ++) {
+            rc = numList[i][j][0];
+            cr = numList[j][i][0];
+            if (rc !== 0 && row.includes(rc)) {
+                return false;
+            } else {
+                row.push(rc);
+            }
+
+            if (cr !== 0 && col.includes(cr)) {
+                return false;
+            } else {
+                col.push(cr);
+            }
+        }
+    }
+
+    let t9, nine;
+
+    for (let L9 of list9) {
+        nine = [];
+        for (let i of L9) {
+            t9 = numList[i[0]][i[1]][0];
+            if (t9 !== 0 && nine.includes(t9)) {
+                return false;
+            } else {
+                nine.push(t9);
+            }
+        }  
+    }
+
+    return true;
+
+}
+
+/*
 function isOk() {
     let rowCount, colCount, nineCount;
     let rc, cr;
@@ -722,6 +802,7 @@ function isOk() {
             } else if ( rc !== 0 ) {
                 rowCount = rc;
             }
+
             if (cr !== 0 && cr === colCount) {
                 return false;
             } else if ( cr !== 0 ) {
@@ -743,8 +824,10 @@ function isOk() {
             }
         }  
     }
+
     return true;
 }
+*/
 
 function setZero() {
     for (let i = 0; i < 9; i++) {
@@ -755,8 +838,6 @@ function setZero() {
         }
     }
 }
-
-
 
 function clone(obj) {
 
@@ -792,3 +873,19 @@ function clone(obj) {
     }
     console.error("有不支持的格式")
 }
+
+document.querySelector("#clearTable").addEventListener("click", function () {
+
+    maxList = [];
+    initCube();
+    num3ColList = [];
+    num3RowLIst = [];
+    testInit();
+
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            eleList[i][j].innerText = "";
+        }
+    }
+
+}, false)

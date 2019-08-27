@@ -2,11 +2,16 @@
 <html>
 
 <head>
-    <title>数独游戏解析</title>
+    <title>沙雕数独解析</title>
     <link rel="stylesheet" type="text/css" href="CSS.css" />
 </head>
 
 <body>
+
+    <span class="helpinfo" style="font-size: 0.8em; color: #999">
+        非常<span>低效率</span>的数独游戏自动计算程序。<span>使用方法：</span>先输入已知的数字，然后点击计算就可以了。对于比较复杂的数独，可能花费的时间<span>非常长</span>（在范围4参数下，大概半分钟）。而且！可能<span>计算失败</span>。当失败以后，可以在左下角输入一个更大的值再进行计算（增加1或者2，不能太大，否则将<span>非常耗时</span>）。
+        可以先保存局面，防止输入错误。
+    </span>
 
     <div id="box">
         <div id="table">
@@ -22,32 +27,28 @@
         </div>
 
         <div id="bt-list">
-            <!--<button id="testShow">开始计算</button>-->
-            <button id="gogogo">开始计算</button>
+
             <span>
-                <span style="font-size: 0.9em">模版名:</span>
+                <span>范围</span>
+                <input id="getRange" value="4" type="text" />
+            </span>
+            
+            <button id="gogogo">开始计算</button>
+
+            <span>
+                <span>模版名</span>
                 <input value="0" type="text" id="fileId" />
             </span>
+
             <button id="onload">读取模版</button>
-            <button id="onloadAndSaveTemplate">保存页面为模版</button>
-            <!--<button id="clearInput">清除填入</button>-->
+            <button id="onloadAndSaveTemplate">保存模版</button>
+            <button id="clearTable">清空</button>
+    
         </div>
     </div>
     
-    
-
-
-
-
-
-
-
-
- 
-    
-   
     <script src="Js-test.js"></script>
-    <!--脚本代码测试函数-->
+
 </body>
 
 </html>
