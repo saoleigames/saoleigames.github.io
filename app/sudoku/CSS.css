@@ -55,6 +55,13 @@ body{
     text-align: center;
 }
 
+.helpinfo {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8em;
+    color : #999;
+}
+
 .helpinfo span{
     color : #555;
     font-weight: bold;

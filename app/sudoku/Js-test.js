@@ -624,11 +624,11 @@ function testGuess2() {
         num3ColList = [];
         num3RowLIst = [];
         testInit();
-        alert("哈哈，算不出来，试试扩大范围再计算！");
+        alert("哈哈，算不出来，将范围数值加 1 再试试！");
         return;
     }
 
-    alert("我操！算出来了！");
+    alert("吼吼！算出来了！");
 
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
