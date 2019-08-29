@@ -1,5 +1,8 @@
 
 body{
+    margin: 0;
+    padding: 0;
+    min-width: 555px;
     background-color: #FFF;
 }
 
