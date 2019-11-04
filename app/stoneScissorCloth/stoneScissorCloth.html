@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>石头、剪刀、布</title>
+    <link rel="stylesheet" type="text/css" href="CSS.css" />
+</head>
+
+<body>
+
+    <div class="gameArea">
+
+            <div class="topbar" >
+                <div>
+                    <button id="showOrNot">展开信息</button>
+                    <button id="clearH" title="清除历史记录">×</button>
+                </div>
+                <span></span>
+            </div>
+
+            <div class="statis">
+        
+                <ul>
+                    <li>对局总数：<span>0</span></li>
+                    <li>玩家胜率：<span>0%</span></li>
+                    <li>电脑胜率：<span>0%</span></li>
+                    <li>平局概率：<span>0%</span></li>
+                </ul>
+                
+            </div>
+        
+            <div class="desk">
+                <div id="box0" class="box" onclick="handTest(0)">石头</div>
+                <div id="box1" class="box" onclick="handTest(1)">剪刀</div>
+                <div id="box2" class="box" onclick="handTest(2)">布</div>
+            </div>
+
+    </div>
+
+    <script src="Js-test.js"></script>
+
+</body>
+
+</html>

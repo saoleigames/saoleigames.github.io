@@ -1,3 +1,4 @@
+
 "use strict";
 
 function select (s) {
@@ -79,10 +80,6 @@ select.fn.click = function (fn) {
     })
     return this;
 }
-
-
-
-
 
 "use strict";
 

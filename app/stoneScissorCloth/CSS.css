@@ -1,0 +1,74 @@
+.gameArea{
+    width : 400px;
+}
+
+.desk{
+    margin-top : 0.2em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 150px;
+    border-radius: 0.5em;
+    border : 1px solid #CCC;
+}
+
+.box{
+    color: #555;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    border : 1px solid orange;
+    width: 5em;
+    height: 3em;
+    line-height: 3em;
+    text-align: center;
+    background-color: #EEE;
+    box-shadow: 2px 2px 3px #CCC;
+    border-top-right-radius: 0.7em;
+}
+
+.box:hover{
+    background-color: #DDD;
+}
+
+.box:active{
+    background-color: #CCC;
+}
+
+.statis{
+    display: none;
+    margin-top: 0.2em;
+    border-radius: 0.5em;
+    font-size: 0.8em;
+    border : 1px solid #CCC;
+    background-color: rgb(238, 238, 238);
+}
+
+.statis ul{
+    margin : 0.8em 1em;
+    list-style: none;
+    padding-left: 0;
+}
+
+.statis ul li{
+    margin: 0.2em 0;
+}
+
+.statis ul li span{
+    color: rgb(74, 74, 201);
+}
+
+.topbar{
+    font-size: 0.8em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar span{
+    display: inline-block;
+    padding: 0 0.2em;
+    background-color: rgb(193, 235, 252);
+    border-radius: 0.2em;
+}
+
