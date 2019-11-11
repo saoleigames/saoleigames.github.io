@@ -170,7 +170,7 @@ function check_win(list) {
     if (check_win_(list)) {
         Stop_timer();
         clearInterval(stop_interval);
-        draw_Text(pix, "YOU WIN !", 305, 220, {
+        draw_Text(pix, "完成!", 305, 220, {
             font: "35px Arial",
             color: "green"
         })
@@ -185,7 +185,7 @@ function Game_timer() {
     timer_step += 1;
     pix.clearRect(300, 0, 600, 25);
     pix.globalAlpha = 1;
-    draw_Text(pix, timer_step + "秒", 590, 21, {
+    draw_Text(pix, timer_step + " 秒", 585, 21, {
         color: "blue",
         textAlign: "right"
     })
