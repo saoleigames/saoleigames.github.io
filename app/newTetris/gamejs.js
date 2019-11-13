@@ -5,9 +5,8 @@ Released under the MIT License.
 Email : zhangxiaolei@outlook.com
 */
 
-let log = console.log;
-
-log("---add_rotate---")
+//let log = console.log;
+//log("---add_rotate---")
 
 let canvas = document.querySelector("#canvas");
 let pix = canvas.getContext("2d");
@@ -44,7 +43,7 @@ function toLower(t) {
 
 function createColor(c) {
     switch (c) {
-        // 颜色代码无效，因为table内部的0是不绘制的
+        //颜色代码无效，因为table内部的0是不绘制的
         case 0: return "#FFF";
         //方块类型看下边的对象
         case 1: return "#EEE685";  //O
@@ -1393,7 +1392,9 @@ document.querySelector("#opt-bt-yes").addEventListener("click", function () {
     screenCover("close");
 })
 
-
+/*
+代码功能未能实现，手机屏幕上的事件触发和电脑端不一样，所以游戏不能在手机端玩。
+*/
 
 let keyColor = Object.create(null);
 
@@ -1430,8 +1431,7 @@ keyColor.rotateRight.onmousedown = function () {
     controlOnkeyDown(keyboard.rotate);
 }
 
-
-///////////////up
+/********按下↑****松开↓*********/
 
 keyColor.up.onmouseup = function () {
     controlOnkeyUp(keyboard.deep);
