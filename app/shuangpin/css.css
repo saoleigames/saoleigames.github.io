@@ -1,0 +1,36 @@
+
+.box{
+    font-size: 1em;
+    margin : 3em auto;
+    padding : 1.5em;
+    display: table;
+    background-color: #EEE;
+    border : 1px solid #DDD;
+    border-radius: 5px;
+}
+
+.box_title{
+    color : #666;
+    text-align: center;
+    padding-bottom: 0.3em;
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #BBB;
+}
+
+#inputbox{
+    margin-right: 0.2em;
+    margin-bottom: 0.5em;
+    padding-left: 0.1em;
+    font-size: 1em;
+    width : 13em;
+}
+
+#display{
+    margin-right: 0.3em;
+    color : green;
+    font-weight: bold;
+}
+
+#seek{
+    margin-right: 0.2em;
+}
