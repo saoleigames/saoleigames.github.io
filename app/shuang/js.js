@@ -404,14 +404,22 @@ document.querySelector('#clear').addEventListener('click', function () {
   inputbox.value = '';
 })
 
+function changeKeyboard() {
+  let py = d_py.innerText, wz = d_wz.innerText;
+  shuang = mmd.seekShuangpinKey(py);
+  reminder.title = wz +'(' + py + ')'  + ' : ' + shuang;
+}
+
 mmd.keyboardOption[0].addEventListener('click', function () {
   mmd.nowKey = mmd.keyboard.xiaohe;
+  changeKeyboard();
   document.querySelector('.op-xh').style.color = '#555';
   document.querySelector('.op-sg').style.color = '#ccc';
 }, false)
 
 mmd.keyboardOption[1].addEventListener('click', function () {
   mmd.nowKey = mmd.keyboard.sogou;
+  changeKeyboard();
   document.querySelector('.op-sg').style.color = '#555';
   document.querySelector('.op-xh').style.color = '#ccc';
 }, false)

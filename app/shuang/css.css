@@ -23,14 +23,18 @@ html{
     display: flex;
     justify-content: left;
     align-items: center;
+    flex-wrap: wrap;
+    background-color: transparent;
+    white-space: pre-wrap;
 }
 
 .top-box{
     display: table;
     border : 1px dotted #bbb;
-    margin-right: 5px;
+    margin : 0 5px 2px 0;
     padding : 2px 4px 2px 4px;
     border-radius: 3px;
+    white-space: nowrap;
 }
 
 #py-option, #kb-option{
