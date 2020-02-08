@@ -355,8 +355,6 @@ mmd.seekShuangpinKey = function (str) {
 }
 
 function getStr(str, begin, end) {
-  //begin = begin || 0;
-  //end = end - 1 || str.length; 灵活即BUG！
   end = end - 1;
   let tmp = '';
   for (let i = begin; i <= end; i++) {
@@ -370,14 +368,18 @@ let d_py = document.querySelector('#d-py')
 let inputbox = document.querySelector('#input');
 let shuang = 'ul';
 let reminder = document.querySelector('#reminder');
-reminder.title = '双 (shuang) : ul';
+let c_ccc = '#ccc';
+let c_555 = '#555';
+let reminder_switch = false;
 
 function ready() {
   let text = mmd.randChoice();
   d_wz.innerText = text[1];
   d_py.innerText = text[0];
   shuang = mmd.seekShuangpinKey(text[0]);
-  reminder.title = text[1] +'(' + text[0] + ')'  + ' : ' + shuang;
+  reminder.setAttribute('class', 'rmd-cl');
+  reminder.innerText = '提示键位 (单击这里)';
+  reminder_switch = false;
 }
 
 mmd.init();
@@ -391,9 +393,7 @@ inputbox.addEventListener('input', function () {
       ready();
     }, 45);
   } else if (this.value.length >= 2) {
-    this.setAttribute('readonly', 'readonly')
     setTimeout(() => {
-      this.removeAttribute('readonly');
       this.value = '';
     }, 180);
   }
@@ -404,36 +404,51 @@ document.querySelector('#clear').addEventListener('click', function () {
   inputbox.value = '';
 })
 
-function changeKeyboard() {
+function reminderShow() {
   let py = d_py.innerText, wz = d_wz.innerText;
   shuang = mmd.seekShuangpinKey(py);
-  reminder.title = wz +'(' + py + ')'  + ' : ' + shuang;
+  reminder.innerText = wz +'[' + py + ']'  + ' : ' + shuang;
 }
 
 mmd.keyboardOption[0].addEventListener('click', function () {
   mmd.nowKey = mmd.keyboard.xiaohe;
-  changeKeyboard();
-  document.querySelector('.op-xh').style.color = '#555';
-  document.querySelector('.op-sg').style.color = '#ccc';
+  if (reminder_switch) {
+    reminderShow();
+  }
+  inputbox.focus();
+  document.querySelector('.op-xh').style.color = c_555;
+  document.querySelector('.op-sg').style.color = c_ccc;
 }, false)
 
 mmd.keyboardOption[1].addEventListener('click', function () {
   mmd.nowKey = mmd.keyboard.sogou;
-  changeKeyboard();
-  document.querySelector('.op-sg').style.color = '#555';
-  document.querySelector('.op-xh').style.color = '#ccc';
+  if (reminder_switch) {
+    reminderShow();
+  }
+  inputbox.focus();
+  document.querySelector('.op-sg').style.color = c_555;
+  document.querySelector('.op-xh').style.color = c_ccc;
 }, false)
 
 mmd.optionPy = document.querySelector('#py-option')
 
 mmd.optionPy[0].addEventListener('click', function () {
-  document.querySelector('.op-py').style.color = '#555';
-  document.querySelector('.op-npy').style.color = '#ccc';
-  d_py.style.color = '#555'
+  d_py.style.color = c_555;
+  inputbox.focus();
+  document.querySelector('.op-py').style.color = c_555;
+  document.querySelector('.op-npy').style.color = c_ccc;
 }, false)
 
 mmd.optionPy[1].addEventListener('click', function () {
-  document.querySelector('.op-npy').style.color = '#555';
-  document.querySelector('.op-py').style.color = '#ccc';
-  d_py.style.color = 'transparent'
+  d_py.style.color = 'transparent';
+  inputbox.focus();
+  document.querySelector('.op-npy').style.color = c_555;
+  document.querySelector('.op-py').style.color = c_ccc;
+}, false)
+
+reminder.addEventListener('click', function () {
+  reminder.setAttribute('class', 'rmd-op');
+  reminderShow();
+  reminder_switch = true;
+  inputbox.focus();
 }, false)

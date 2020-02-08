@@ -4,36 +4,49 @@
 <head>
     <title>双拼练习</title>
     <link rel="stylesheet" type="text/css" href="css.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
 </head>
 
 <body>
 
-    <div class="top-bar">
+    <div class="make-top-bar-left">
 
-        <div class="top-box">
-            <form id="kb-option">
-                <input name="kb-select" type="radio" checked="checked"><span class="op-xh">小鹤键位</span>
-                <input name="kb-select" type="radio"><span class="op-sg">搜狗键位</span>
-            </form>
+        <div class="top-bar">
+
+            <div class="top-box-left">
+
+                <div class="top-box">
+                    <form id="kb-option">
+                        <input name="kb-select" type="radio" checked="checked"><span class="op-xh">小鹤键位</span>
+                        <input name="kb-select" type="radio"><span class="op-sg">搜狗键位</span>
+                    </form>
+                </div>
+
+                <div class="top-box">
+                    <form id="py-option">
+                        <input name="py-select" type="radio" checked="checked"><span class="op-py">有拼音</span>
+                        <input name="py-select" type="radio"><span class="op-npy">无拼音</span>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="top-box-right">
+
+                <div class="top-box">
+                    <span id='reminder' class="rmd-cl">提示键位 (单击这里)</span>
+                </div>
+
+                <div class="top-box">
+                    <span><a target="_blank" class="refer" href="https://api.ihint.me/shuang/">参考</a></span>
+                </div>
+
+            </div>
         </div>
 
-        <div class="top-box">
-            <form id="py-option">
-                <input name="py-select" type="radio" checked="checked"><span class="op-py">有拼音</span>
-                <input name="py-select" type="radio"><span class="op-npy">无拼音</span>
-            </form>
-        </div>
-
-        <div class="top-box">
-            <span id='reminder'>提示 (移动鼠标指针到这里)</span>
-        </div>
-
-        <div class="top-box">
-            <span><a target="_blank" class="refer" href="https://api.ihint.me/shuang/">参考</a></span>
-        </div>
-       
     </div>
+
 
     <div class="box">
         <div class="bd">
@@ -42,7 +55,7 @@
             </div>
             <div class="pyk">
                 <span id="d-py">shuang</span><br />
-                <input type="text" autofocus="autofocus" id="input" /><span id="clear">×</span>
+                <input type="text" autofocus="autofocus" id="input" maxlength="2" /><span id="clear">×</span>
             </div>
         </div>
     </div>
