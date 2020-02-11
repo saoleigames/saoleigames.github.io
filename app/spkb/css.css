@@ -1,0 +1,83 @@
+
+.keyboard{
+    margin : 0.5em;
+    border : 1px solid #999;
+    display: table;
+    background-color: #FFF;
+}
+
+.keyboard .k-box{
+    display: flex;
+    flex-direction: column;
+    margin : 0.5em;
+    padding : 0.5em;
+}
+
+.keyboard .k-topbar{
+    display: flex;
+    font-size: 0.8em;
+    justify-content: left;
+}
+
+.keyboard .k-border{
+    display: table;
+    padding : 0.8em;
+}
+
+.keyboard .k-border div{
+    display: flex;
+}
+
+.keyboard .k-border>div>div{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding : 2px;
+    margin : 0.5px;
+    width : 3.6em;
+    height: 3.6em;
+    border :  1px solid #999;
+    box-sizing: border-box;
+}
+
+.keyboard .k-border .l2>span{
+    display: inline-block;
+    width : 1.5em;
+}
+
+.keyboard .k-border .l3>span{
+    display: inline-block;
+    width : 3em;
+}
+
+.keyboard .k-border>div>div div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1em;
+    margin-bottom: 8px;
+}
+
+.keyboard .k-border>div>div div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8em;
+}
+
+.keyboard .k-border>div>div div:nth-child(2) i{
+    font-style: normal;
+    line-height: 1.05em;
+}
+
+.keyboard table{
+    align-self: center;
+}
+
+.keyboard table tr td{
+    width : 4.5em;
+    font-size: 0.9em;
+    border : 1px solid #999;
+    text-align: center;
+}
