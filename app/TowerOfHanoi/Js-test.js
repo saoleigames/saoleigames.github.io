@@ -528,7 +528,21 @@ let temp_floor = tt.A.length;
 
 document.querySelector("#refresh").onclick = function () {
 
+    let tmpFloor = floor;
+
     floor = parseInt(floor_ele.value);
+
+    if (floor <= 0) {
+        alert('层数不能为 [零] 或者 [负数]')
+        floor = tmpFloor;
+        floor_ele.value = tmpFloor;
+        return;
+    } else if (floor > 13) {
+        alert('层数范围为 [1 ~ 13] 之间，太大会导致页面卡顿')
+        floor = tmpFloor;
+        floor_ele.value = tmpFloor;
+        return;
+    }
 
     if (tt.gameRunning) {
         if (confirm("游戏正在进行，是否结束？")) {
