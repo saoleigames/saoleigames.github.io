@@ -131,52 +131,62 @@
 
     <script>
 
-        
-        var subtime = document.getElementById("subTime"),
-            done23 = document.getElementById("done23"),
-            done45 = document.getElementById("done45"),
-            tag23 = document.getElementById("tag23"),
-            tag45 = document.getElementById("tag45"),
-            plan23 = document.getElementById("plan23"),
-            plan45 = document.getElementById("plan45");
-            
+        function getId(id) {
+            return document.getElementById(id);
+        }
 
-        function btFunc() {
+        let subtime = getId("subTime"),
+            done23 = getId("done23"),
+            done45 = getId("done45"),
+            tag23 = getId("tag23"),
+            tag45 = getId("tag45"),
+            plan23 = getId("plan23"),
+            plan45 = getId("plan45");
 
-            //时间限制
-            if (parseFloat(subtime.value) < 0 || parseFloat(subtime.value) > 60) {
-                alert("输入时间在 0 - 60 之间")
+        done23.focus();
+        let inpFocus;
+
+        getId('btfunc').addEventListener('click', function () {
+              //时间限制
+            if (+subtime.value < 0 || +subtime.value > 60) {
+                alert("输入时间在 [0 ~ 60] 秒之间")
                 return;
             }
+
             //两边不能都有数据
-            if (parseFloat(done23.value) && parseFloat(done45.value)) {
-                alert("不能两边同时输入数量！");
+            if (done23.value && done45.value) {
+                alert("两边不能同时输入数量！");
                 done23.value = "";
                 done45.value = "";
                 return;
             }
             //不能输入的值比设定的值多
-            if  (parseFloat(done23.value) > parseFloat(plan23.value) || parseFloat(done45.value) > parseFloat(plan45.value)) {
+            if  (+done23.value > +plan23.value || +done45.value > +plan45.value) {
                 alert("输入的数量高于计划1小时的数量！");
                 return;
             }
-            //开始计算
-            if (parseFloat(done23.value)) {
+
+            if (done23.value) {
                 tag45.innerText = "VG4、5还需：";
                 done45.style.color = "green";
                 done45.value = (((60 - subtime.value) - (60 / plan23.value) * done23.value) / (60 / plan45.value)).toFixed(2);
+                done23.focus();
+                inpFocus = done23;
 
-            } else if (parseFloat(done45.value)) {
+            } else if (done45.value) {
                 tag23.innerText = "VG2、3还需：";
                 done23.style.color = "green";
                 done23.value = (((60 - subtime.value) - (60 / plan45.value) * done45.value) / (60 / plan23.value)).toFixed(2);
+                done45.focus();
+                inpFocus = done45;
             } else {
-                alert("未输入数据！")
+                alert("未输入有效数据！")
+                done23.focus();
             }
 
-        }
-
-        function btClear() {
+        }, false)
+            
+        getId("btclear").addEventListener("click", function () {
             done45.style.color = "black";
             done23.style.color = "black";
             done23.value = "";
@@ -184,10 +194,8 @@
             subtime.value = "0";
             tag23.innerText = "已完成VG2、3";
             tag45.innerText = "已完成VG4、5";
-        }
-
-        document.getElementById("btfunc").addEventListener("click", btFunc, false);
-        document.getElementById("btclear").addEventListener("click", btClear, false);
+            inpFocus.focus();
+        }, false);
 
     </script>
 </body>
