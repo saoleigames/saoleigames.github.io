@@ -21,7 +21,10 @@ div {
 }
 
 #header{
-    background-color: peru;
+    display: flex;
+    font-size: 1.5em;
+    align-items: center;
+    background-color: rgb(230, 188, 140);
 }
 
 #header .title{
@@ -34,9 +37,13 @@ div {
 }
 
 #body{
-    margin: 2em auto;
+    margin: 1em auto;
     padding: 0 0.2em;
     max-width : 45em;
+}
+
+#body .doc{
+    margin : 0.2em;
 }
 
 #body .doc-title{
@@ -65,8 +72,8 @@ div {
 #footer{
     font-size: 80%;
     text-align: center;
-    height: 2.8rem;
-    line-height: 2.8rem;
+    height: 2.8em;
+    line-height: 2.8em;
 }
 
 #footer a{
@@ -78,13 +85,13 @@ div {
     z-index: 10;
     display: none;
     position: absolute;
-    left : -1rem;
+    left : -1em;
+    max-width: 30em;
 }
 
 .popbox span{
     font-size: 0.8em;
-    max-width : 36em;
-    padding: 0.5rem;
+    padding: 0.5em;
     display: table;
     border : 1px solid #BBB;
     background-color: rgb(250, 250, 250);
