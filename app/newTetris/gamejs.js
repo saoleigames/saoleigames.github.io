@@ -897,7 +897,13 @@ let down1stStop;
 //确保每次按下旋转只能旋转一次，不会进入连续触发
 let rotateLock = false;
 
-document.onkeydown = controlOnkeyDown;
+//
+let isBrowser = typeof window !== 'undefined';
+
+if (isBrowser) {
+    document.addEventListener('keydown', controlOnkeyDown, false)
+    document.addEventListener('keyup', controlOnkeyUp, false)
+} 
 
 function controlOnkeyDown (k) {
 
@@ -909,7 +915,7 @@ function controlOnkeyDown (k) {
         key = toLower(k.key);
     }
 
-    keyColorDisplay(key);
+    keyColorSwitch(key, 1);
 
     if ( key === keyboard.left ) {
 
@@ -965,8 +971,6 @@ function controlOnkeyDown (k) {
 
 // 解除连续触发
 
-document.onkeyup = controlOnkeyUp;
-
 function controlOnkeyUp(k) {
 
     let key;
@@ -977,7 +981,7 @@ function controlOnkeyUp(k) {
         key = toLower(k.key);
     }
 
-    keyColorReset(key);
+    keyColorSwitch(key, false);
     
     if (key === keyboard.deep) {
         deepLock = false;
@@ -1149,8 +1153,8 @@ function getType (m4) {
 //-----------------------------按钮背景掩盖函数-------------------------------------//
 
 function screenCover (c) {
-    let w = window.innerWidth + "px";
-    let h = window.innerHeight + "px";
+    let w = window.innerWidth - 15 + "px";
+    let h = window.innerHeight - 15 + "px";
     if (c === "open") {
         $("#backGroundCover").css({
             display : "block",
@@ -1409,114 +1413,45 @@ document.querySelector("#opt-bt-yes").addEventListener("click", function () {
     }
 })
 
-/*
-代码功能未能实现，手机屏幕上的事件触发和电脑端不一样，所以游戏不能在手机端玩。
-*/
 
-let keyColor = Object.create(null);
+let keyColor = [];
 
-keyColor.up = document.querySelector("#c-up");
-keyColor.left = document.querySelector("#c-left");
-keyColor.right = document.querySelector("#c-right");
-keyColor.down = document.querySelector("#c-down");
-keyColor.rotateRight = document.querySelector("#r-right");
-keyColor.rotateLeft = document.querySelector("#r-left");
+keyColor.push(document.querySelector("#c-up"))
+keyColor.push(document.querySelector("#c-left"))
+keyColor.push(document.querySelector("#c-right"))
+keyColor.push(document.querySelector("#c-down"))
+keyColor.push(document.querySelector("#r-right"))
+keyColor.push(document.querySelector("#r-left"))
 
+let kkl = ['deep', 'left', 'right', 'down', 'rotate1', 'rotate'];
 
-keyColor.up.onmousedown = function () {
-    controlOnkeyDown(keyboard.deep);
+for (let i = 0; i < 6; i ++) {
+    keyColor[i].addEventListener('touchstart', function () {
+        controlOnkeyDown(keyboard[kkl[i]])
+        keyColorSwitch(keyboard[kkl[i]], true)
+    }, false)
+    keyColor[i].addEventListener('touchend', function () {
+        controlOnkeyUp(keyboard[kkl[i]])
+        keyColorSwitch(keyboard[kkl[i]], false)
+    }, false)
 }
 
-keyColor.left.onmousedown = function () {
-    controlOnkeyDown(keyboard.left);
-}
-
-keyColor.right.onmousedown = function () {
-    controlOnkeyDown(keyboard.right);
-}
-
-keyColor.down.onmousedown = function () {
-    controlOnkeyDown(keyboard.down);
-}
-
-
-keyColor.rotateLeft.onmousedown = function () {
-    controlOnkeyDown(keyboard.rotate1);
-}
-
-keyColor.rotateRight.onmousedown = function () {
-    controlOnkeyDown(keyboard.rotate);
-}
-
-/********按下↑****松开↓*********/
-
-keyColor.up.onmouseup = function () {
-    controlOnkeyUp(keyboard.deep);
-}
-
-keyColor.left.onmouseup = function () {
-    controlOnkeyUp(keyboard.left);
-}
-
-keyColor.right.onmouseup = function () {
-    controlOnkeyUp(keyboard.right);
-}
-
-keyColor.down.onmouseup = function () {
-    controlOnkeyUp(keyboard.down);
-}
-
-
-keyColor.rotateLeft.onmouseup = function () {
-    controlOnkeyUp(keyboard.rotate1);
-}
-
-keyColor.rotateRight.onmouseup = function () {
-    controlOnkeyUp(keyboard.rotate);
-}
-
+//*********** */
 function setAttr (ele, val) {
     ele.setAttribute("class", val);
 }
 
+function keyColorSwitch(s, b) {
 
-function keyColorDisplay(s) {
-
-    let styleClass = "game-bt-tap-style";
-
-    switch (s) {
-        case keyboard.left: setAttr(keyColor.left, styleClass);
-            break;
-        case keyboard.right: setAttr(keyColor.right, styleClass);
-            break;
-        case keyboard.deep: setAttr(keyColor.up, styleClass);
-            break;
-        case keyboard.down: setAttr(keyColor.down, styleClass);
-            break;
-        case keyboard.rotate: setAttr(keyColor.rotateRight, styleClass);
-            break;
-        case keyboard.rotate1: setAttr(keyColor.rotateLeft, styleClass);
-            break;
-    }
-}
-
-function keyColorReset(s) {
-
-    let styleClass = "game-bt-style";
+    let styleClass = b ? 'game-bt-tap-style' : 'game-bt-style'
 
     switch (s) {
-        case keyboard.left: setAttr(keyColor.left, styleClass);
-            break;
-        case keyboard.right: setAttr(keyColor.right, styleClass);
-            break;
-        case keyboard.deep: setAttr(keyColor.up, styleClass);
-            break;
-        case keyboard.down: setAttr(keyColor.down, styleClass);
-            break;
-        case keyboard.rotate: setAttr(keyColor.rotateRight, styleClass);
-            break;
-        case keyboard.rotate1: setAttr(keyColor.rotateLeft, styleClass);
-            break;
+        case keyboard.deep : setAttr(keyColor[0], styleClass); break
+        case keyboard.left : setAttr(keyColor[1], styleClass); break
+        case keyboard.right : setAttr(keyColor[2], styleClass); break
+        case keyboard.down : setAttr(keyColor[3], styleClass); break
+        case keyboard.rotate : setAttr(keyColor[4], styleClass); break
+        case keyboard.rotate1 : setAttr(keyColor[5], styleClass); break
     }
 }
 

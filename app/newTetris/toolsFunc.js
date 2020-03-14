@@ -116,11 +116,10 @@ function rand() {
     return randList.next().value;
 }
 
-//对象工厂模式的选择器函数，用来最简单的模拟jQuery
-
 function $(selector, context) {
 
     let core = Object.create(null);
+
     core.element = Object.create(null);
 
     if (typeof selector === "string") {

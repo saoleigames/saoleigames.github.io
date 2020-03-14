@@ -1,13 +1,13 @@
+html{
+    background-color: rgb(30, 30, 30);
+}
 
 body {
     display: flex;
     justify-content: center;
     font-family: "微软雅黑", Arial, Helvetica, sans-serif;
-    height: 100%;
-    width : 100%;
     margin : 0;
     padding: 0;
-    background-color: #000;
 }
 
 .game-border{
@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgb(60, 60, 60);
+    background-color: rgb(200, 130, 5);
 }
 
 .game-window{
@@ -28,7 +28,7 @@ body {
 }
 
 #canvas { 
-    border : 2px solid #999;
+    border : 2px solid #fff;
     padding: 2px;
     margin-right: 10px;
     background-color: rgb(14, 13, 13);
@@ -43,7 +43,7 @@ body {
 #scanvas {
     margin-top: 2px;
     padding: 10px;
-    border : 1px solid #999;
+    border : 1px solid #fff;
     background-color: rgb(14, 13, 13);
 }
 
@@ -59,6 +59,7 @@ body {
     border-radius: 3px;
     height: 22px;
     background-color: #EEE;
+    box-shadow: 1px 1px 2px rgb(36, 34, 34);
 }
 
 .n0{
@@ -180,8 +181,8 @@ body {
     position: absolute;
     display: none;
     border-radius: 10px;
-    border: 1px solid rgb(80, 80, 80);
-    background-color: rgb(60, 60, 60);
+    border: 1px solid rgb(126, 84, 6);
+    background-color: rgb(200, 130, 5);
     box-shadow: 0 0 5px rgb(26, 26, 26);
 }
 
@@ -193,24 +194,25 @@ body {
 
 .t-title{
     font-weight: bold;
-    color : #999;
+    color : #fff;
 }
 
 /*  右上角的X  */
 
 .t-closeX{
-    color : #999;
+    color : #ccc;
     text-align: center;
     border-top-right-radius: 0.7em;
     width : 1.4em;
     height: 1.4em;
     line-height: 1.4em;
     cursor: pointer;
-    border : 1px solid #555;
+    border : 1px solid #ccc;
 }
 
 .t-closeX:hover{
-    border : 1px solid #999;
+    color : #fff;
+    border : 1px solid #fff;
 }
 
 .t-body{
@@ -223,8 +225,7 @@ body {
     min-height: 10em;
     min-width: 18em;
     border-radius: 5px;
-    border : 1px solid #333;
-    background-color: #666;
+    background-color: #333;
 }
 
 .t-okAndNo {
@@ -247,6 +248,11 @@ body {
     user-select: none;
     -moz-user-select: none;
     background-color: #FFF;
+    box-shadow: 1px 1px 2px rgb(36, 34, 34);
+}
+
+.t-button:active{
+    box-shadow: none;
 }
 
 #cont-table{
@@ -256,7 +262,7 @@ body {
     margin: 0.6em;
     min-height: 15em;
     min-width: 18em;
-    background-color: #666;
+    background-color: #333;
     border-radius: 3px;
     color : #FFF;
 }
@@ -345,15 +351,16 @@ th, td {
     border-radius: 3px;
     margin: 5px 0;
     padding: 10px;
-    background-color: #999;
+    border : 1px solid #999;
 }
 
 .cont-opt input{
     display: inline-block;
     width : 5.5em;
     text-align: center;
-    background-color: #888;
-    border : 1px solid #666;
+    color : #fff;
+    background-color: #333;
+    border : 1px solid #fff;
 }
 
 .opt-leftbox{
@@ -481,6 +488,7 @@ th, td {
     height: 50px;
     line-height: 50px;
     border-radius: 25px;
+    /*box-shadow: 3px 3px 1px #4d3f22;*/
 }
 
 #r-left, #r-right{
@@ -489,6 +497,7 @@ th, td {
     width : 64px;
     height: 45px;
     line-height: 45px;
+    /*box-shadow: 3px 3px 1px #4d3f22;*/
 }
 
 #r-left{
@@ -507,10 +516,9 @@ th, td {
 }
 
 .game-bt-style{
-    color : #333;
-    
+    box-shadow: 3px 3px 1px #4d3f22;
 }
 
 .game-bt-tap-style{
-    color : #DDD;
+    box-shadow: 1px 1px 1px #4d3f22;
 }
