@@ -1,12 +1,8 @@
 ﻿
-/*
-Author : Zhang xiaolei (张晓雷)
-Released under the MIT License.
-Email : zhangxiaolei@outlook.com
-*/
 
-//let log = console.log;
-//log("---add_rotate---")
+// Author : Zhang xiaolei (张晓雷)
+// Released under the MIT License.
+// Email : zhangxiaolei@outlook.com
 
 let canvas = document.querySelector("#canvas");
 let pix = canvas.getContext("2d");
@@ -24,7 +20,7 @@ function toNegative (n) {
 }
 
 function create4Arr () {
-    return [[0,0], [0,0], [0,0], [0,0]];
+    return [[0,0], [0,0], [0,0], [0,0]]
 }
 
 function toLower(t) {
@@ -39,8 +35,6 @@ function toLower(t) {
     }
 }
 
-
-
 function createColor(c) {
     switch (c) {
         //颜色代码无效，因为table内部的0是不绘制的
@@ -53,13 +47,8 @@ function createColor(c) {
         case 5: return "#32CD32";  //S
         case 6: return "#CD9B1D";  //L
         case 7: return "#8470FF";  //J
-
-        case 8: return "#525252";    //阴影
-
-        case 9: return "#FFFF00";    //过渡色
-
-        default:
-            console.error("createColor Error");
+        case 8: return "#525252";  //阴影
+        case 9: return "#FFFF00";  //过渡色
     }
 }
 
@@ -75,7 +64,6 @@ let tetris = {
     7: [[3, 3], [3, 5], [4, 5], [3, 4]]   // J
 }
 
-
 function copyAtoB(a, b) {
     if (a.length === b.length) {
         let i = a.length;
@@ -83,8 +71,6 @@ function copyAtoB(a, b) {
             b[i][0] = a[i][0];
             b[i][1] = a[i][1];
         }
-    } else {
-        console.warn("copyAtoB Error : [" + a + "], [" + b + "]");
     }
 }
 
@@ -125,14 +111,15 @@ function smallDisplay(t, c) {
 }
 
 
-//存储所有信息数据的table
+// 存储所有信息数据的table
+
 const table = [];
-/*
-canvas 宽度等于 20 * 10 + (10 + 1) = 211px
-canvas 高度等于 20 * 20 + (20 + 1) = 421px
-为了解决在贴近顶部转动方块，因为向上便宜导致的索引出界问题，将table数组的范围由原来的 0 - 22 (23)调整为 0-24 (25格);
-用来绘图的表格区域必须变更，由原来的偏移 [60px] (23-20) * 20 增加到 [100px + 5 * 1 = 105px] (25 - 20) * 20。
-*/
+
+// canvas 宽度等于 20 * 10 + (10 + 1) = 211px
+// canvas 高度等于 20 * 20 + (20 + 1) = 421px
+// 为了解决在贴近顶部转动方块，因为向上便宜导致的索引出界问题，将table数组的范围由原来的 0 - 22 (23)调整为 0-24 (25格);
+// 用来绘图的表格区域必须变更，由原来的偏移 [60px] (23-20) * 20 增加到 [100px + 5 * 1 = 105px] (25 - 20) * 20。
+
 
 function drawSquare(x, y, c) {
     pix.fillStyle = c;
@@ -141,7 +128,6 @@ function drawSquare(x, y, c) {
 
 //绘制游戏方块区域函数
 function drawTable() {
-    //runSpeedTest.st();
     let tmp;
     pix.clearRect(0, 0, 211, 421);
     for (let j = 4; j <= 24; j++) {
@@ -161,7 +147,6 @@ function drawTable() {
         }
     }
     sMov = create4Arr();
-    //log(runSpeedTest.ed());
 }
 
 let moving = [];
@@ -376,7 +361,7 @@ function normalAnimateCreate (arr) {
         table.splice(i, 1, [9, 9, 9, 9, 9, 9, 9, 9, 9, 9]);
     })
 
-    drawTable();
+    //drawTable();
 
     moving = [];
 
@@ -422,10 +407,6 @@ function normalAnimateCreate (arr) {
 
         createNewCube();
 
-        shadow();
-
-        drawTable();
-
         restartLoop();
 
         digtalNumber(gameScore, scoreDisplay);
@@ -446,8 +427,6 @@ function normalCreate() {
     old = [];
     stopLoop();
     createNewCube();
-    shadow();
-    drawTable();
     restartLoop();
 }
 
@@ -484,13 +463,10 @@ function checkCanMove () {
 
 }
 
-
-/*
-次函数的作用是获取数组列表内单个数组元素的单个数值中的最小数值或最大数值
-arr 格式 [[1,2],[3,4],[5,6]...]
-h   单个数组的位数 0 或者 1,分别表示第一位和第二位
-s   表示参数的类型，2获取包含大小数组，0获取最小值，1获取最大值
-*/
+// 次函数的作用是获取数组列表内单个数组元素的单个数值中的最小数值或最大数值
+// arr 格式 [[1,2],[3,4],[5,6]...]
+//   h 单个数组的位数 0 或者 1,分别表示第一位和第二位
+//   s 表示参数的类型，2获取包含大小数组，0获取最小值，1获取最大值
 
 function getArrMixAndMax(arr, h, s) {
     let mi, mx;
@@ -557,11 +533,9 @@ function tetrisLock (arr) {
     })
 }
 
-/*
-checkAndCreate是方块操作流程的核心函数
-downLoop 和 moveToDeep 在结尾都调用这个函数来做具体的操作
-moveToDeep之前已经实现，后边增加了软降功能，moveToDeep不再做调整。
-*/
+// checkAndCreate是方块操作流程的核心函数
+// downLoop 和 moveToDeep 在结尾都调用这个函数来做具体的操作
+// moveToDeep之前已经实现，后边增加了软降功能，moveToDeep不再做调整。
 
 function checkAndCreate(deepOrDown) {
 
@@ -622,7 +596,7 @@ function checkAndCreate(deepOrDown) {
 
 
 function refreshData() {
-    shadow();
+    //shadow();
     let tmp = table[old[0][0]][old[0][1]];
     old.forEach(function (i) {
         table[i[0]][i[1]] = 0;
@@ -630,7 +604,7 @@ function refreshData() {
     moving.forEach(function (i) {
         table[i[0]][i[1]] = tmp;
     })
-    drawTable();
+    //drawTable();
 }
 
 function moveOneStep(m, to) {
@@ -840,8 +814,7 @@ function rotate(d) {
        
     }
      
-     
-     //收集下方重叠数据，moving此时的数据已经变动，所以收集数据要分开
+     //收集下方重叠数据，moving此时的数据已经变动，所以收集数据要分开。
      
     for (let i of moving) {
         if (i[1] < 0 || i[1] > 9 || table[i[0]][i[1]] < 0) {
@@ -873,7 +846,7 @@ function rotate(d) {
     copyAtoB(moving, old);
     
 };
-
+let stopAnimation;
 let gameStart = false;
 let gameOver = true;
 /*
@@ -1052,7 +1025,7 @@ function resetGame () {
     gameStart = false;
     gameOver = true;
     gameJustBegun = true;
-    drawTable();
+    //drawTable();
 }
 
 startAndPause.addEventListener("click", function () {
@@ -1060,6 +1033,7 @@ startAndPause.addEventListener("click", function () {
     if (!gameStart) {
         gameOver && resetGame();
         gameStart = true;
+        window.requestAnimationFrame(tableAnimation);
         gameOver = false;
         this.innerText = "暂停";
         this.setAttribute("style", "background-color : white");
@@ -1067,6 +1041,7 @@ startAndPause.addEventListener("click", function () {
         restartLoop();
     } else {
         //游戏暂停
+        window.cancelAnimationFrame(stopAnimation);
         clearInterval(stopGame);
         gameStart = false;
         this.innerText = "继续";
@@ -1169,7 +1144,6 @@ function screenCover (c) {
         })
     }
 }
-
 
 //----------------------------------窗口DOM对应的变量存储-------------------------------------
 
@@ -1381,7 +1355,6 @@ document.querySelectorAll(".opt-i").forEach(function (item) {
     }
 })
 
-
 document.querySelector("#opt-bt-yes").addEventListener("click", function () {
     if (keyboard.deep !== ui.deep.value ||
         keyboard.left !== ui.left.value ||
@@ -1423,7 +1396,7 @@ keyColor.push(document.querySelector("#c-down"))
 keyColor.push(document.querySelector("#r-right"))
 keyColor.push(document.querySelector("#r-left"))
 
-let kkl = ['deep', 'left', 'right', 'down', 'rotate1', 'rotate'];
+let kkl = ['deep', 'left', 'right', 'down', 'rotate', 'rotate1'];
 
 for (let i = 0; i < 6; i ++) {
     keyColor[i].addEventListener('touchstart', function () {
@@ -1436,7 +1409,6 @@ for (let i = 0; i < 6; i ++) {
     }, false)
 }
 
-//*********** */
 function setAttr (ele, val) {
     ele.setAttribute("class", val);
 }
@@ -1455,4 +1427,13 @@ function keyColorSwitch(s, b) {
     }
 }
 
+//动画函数
 
+function tableAnimation() {
+    if (!gameStart) {
+        window.cancelAnimationFrame(stopAnimation)
+    }
+    drawTable();
+    shadow();
+    stopAnimation = window.requestAnimationFrame(tableAnimation)
+}
