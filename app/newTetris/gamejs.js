@@ -337,7 +337,7 @@ function movoToDeep() {
                     })
     
                     !animateLook && checkAndCreate("deep");
-                    deepLock = true;
+                    //deepLock = true;
                     return;
                 }
             }
@@ -876,19 +876,16 @@ let isBrowser = typeof window !== 'undefined';
 if (isBrowser) {
     document.addEventListener('keydown', controlOnkeyDown, false)
     document.addEventListener('keyup', controlOnkeyUp, false)
-} 
+} else {
+    //在非电脑端，关闭键位设置
+    document.querySelector('#optiontest').style.display = 'none';
+}
 
 function controlOnkeyDown (k) {
 
-    let key;
+    let key = (typeof k === 'string' ? k : toLower(k.key))
 
-    if (typeof k === "string") {
-        key = k;
-    } else {
-        key = toLower(k.key);
-    }
-
-    keyColorSwitch(key, 1);
+    keyColorSwitch(key, true);
 
     if ( key === keyboard.left ) {
 
@@ -946,13 +943,7 @@ function controlOnkeyDown (k) {
 
 function controlOnkeyUp(k) {
 
-    let key;
-
-    if (typeof k === "string") {
-        key = k;
-    } else {
-        key = toLower(k.key);
-    }
+    let key = (typeof k === 'string' ? k : toLower(k.key))
 
     keyColorSwitch(key, false);
     
@@ -1386,7 +1377,6 @@ document.querySelector("#opt-bt-yes").addEventListener("click", function () {
     }
 })
 
-
 let keyColor = [];
 
 keyColor.push(document.querySelector("#c-up"))
@@ -1401,21 +1391,27 @@ let kkl = ['deep', 'left', 'right', 'down', 'rotate', 'rotate1'];
 for (let i = 0; i < 6; i ++) {
     keyColor[i].addEventListener('touchstart', function () {
         controlOnkeyDown(keyboard[kkl[i]])
-        keyColorSwitch(keyboard[kkl[i]], true)
     }, false)
     keyColor[i].addEventListener('touchend', function () {
         controlOnkeyUp(keyboard[kkl[i]])
-        keyColorSwitch(keyboard[kkl[i]], false)
     }, false)
 }
 
 function setAttr (ele, val) {
-    ele.setAttribute("class", val);
+    let cl = ele.firstElementChild ? ele.firstElementChild.classList : ele.classList;
+    ele = ele.firstElementChild ? ele.firstElementChild : ele;
+    //如果cl[1]为空，说明里面只有一个属性，就再添加一个，否则，就重新设置第一个属性，覆盖第二个属性。
+    if (!cl[1]){
+        ele.setAttribute("class", cl.value + ' ' +val);
+    } else {
+        t = cl.value.split(' ')[0];
+        ele.setAttribute('class', t);
+    }
 }
 
 function keyColorSwitch(s, b) {
 
-    let styleClass = b ? 'game-bt-tap-style' : 'game-bt-style'
+    let styleClass = b ? 'game-bt-style-tap' : 'game-bt-style'
 
     switch (s) {
         case keyboard.deep : setAttr(keyColor[0], styleClass); break
@@ -1433,7 +1429,7 @@ function tableAnimation() {
     if (!gameStart) {
         window.cancelAnimationFrame(stopAnimation)
     }
-    drawTable();
     shadow();
+    drawTable();
     stopAnimation = window.requestAnimationFrame(tableAnimation)
 }
