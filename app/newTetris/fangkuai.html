@@ -71,13 +71,43 @@
                     <div id="startPause" class="t-button">开始</div>
                     <div id="reset" class="t-button">重来</div>
                 </div>
-
             </div>
-
         </div>
 
         <!--弹出窗口背景遮挡-->
         <div id="backGroundCover"></div>
+
+        <div id="handlebar">
+
+            <div class="direcBT">
+
+                <div id="c-up">
+                    <div class="direct-bt-style"><b>H</b></div>
+                </div>
+        
+                <div id="c-right">
+                    <div class="direct-bt-style"><b>→</b></div>
+                </div>
+        
+                <div id="c-left">
+                    <div class="direct-bt-style"><b>←</b></div>
+                </div>
+        
+                <div id="c-down">
+                    <div class="direct-bt-style"><b>↓</b></div>
+                </div>
+
+            </div>
+
+            <div class="rotateBT">
+
+                <div id='r-right' class="r-right" >R</div>
+
+                <div id='r-left' class="r-left" >L</div>
+
+            </div>
+
+        </div>
 
         <!--确定是否重来-->
 
@@ -210,7 +240,7 @@
         <div class="t-win" id="u-enterTop10">
 
             <div class="t-head">
-                <span class="t-title">:)</span>
+                <span class="t-title">牛！</span>
                 <span class="t-close t-closeX">×</span>
             </div>
 
@@ -218,9 +248,9 @@
 
                 <div class="cont-top10">
 
-                    <div class="cont-top10-title">英雄榜</div>
+                    <div class="cont-top10-title">入围英雄榜</div>
 
-                    <div class="cont-top10-inputname">输入你的昵称，记录战绩</div>
+                    <div class="cont-top10-inputname">输入你的大名，记录战绩</div>
 
                     <input id="u-enterName" type="text" />
 
@@ -232,7 +262,7 @@
 
                     <div class="t-okAndNo">
                         <div class="t-button" id="u-enterNameBT">保存</div>
-                        <div class="t-close t-button">算了</div>
+                        <div class="t-close t-button">取消</div>
                     </div>
 
                 </div>
@@ -254,12 +284,10 @@
                         <li>Github</li>
                     </ul>
                     <ul class="cont-about-value">
-                        <li><a target="_blank" href="https://weibo.com/zhangxiaoleibox">张晓雷</a></li>
+                        <li><a target="_blank" href="https://zhangxiaoleiv.github.io">张晓雷</a></li>
                         <li><a href="mailto:zhangxiaolei@outlook.com">zhangxiaolei@outlook.com</a></li>
-                        <li>[<a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a>] Copyright (c)
-                            2019
-                            Zhang XiaoLei</li>
-                        <li><a target="_blank" href="https://github.com/zhangxiaoleipy/Tetris">项目地址</a></li>
+                        <li><a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a></li>
+                        <li><a target="_blank" href="https://zhangxiaoleiv.github.io">项目地址</a></li>
                     </ul>
                 </div>
             </div>
@@ -273,7 +301,7 @@
             <div class="t-body">
 
                 <div class="cont-opt">
-
+                    <!--手机端不可见-->
                     <div class="opt-item">
 
                         <div class="opt-leftbox">
@@ -301,47 +329,13 @@
                         </div>
                     </div>
 
-                    <div class="opt-item">
-                        <div>自动加速延时 <input id="opt-firstdelay" value="" type="text" /> 毫秒</div>
-                        <div>自动重复延时 <input id="opt-repedelay" value="" type="text" /> 毫秒</div>
+                    <div class="opt-item mb-use">
+                        <div style='margin-bottom: 0.8em'>DAS（初次响应间隔）<input id="opt-firstdelay" value="" type="text" /> 毫秒</div>
+                        <div>ARR（连续响应间隔）<input id="opt-repedelay" value="" type="text" /> 毫秒</div>
                     </div>
-
                 </div>
-
             </div>
         </div>
-
-        <div id="handlebar">
-
-            <div class="direcBT">
-
-                <div id="c-up">
-                    <div class="direct-bt-style"><b>H</b></div>
-                </div>
-        
-                <div id="c-right">
-                    <div class="direct-bt-style"><b>→</b></div>
-                </div>
-        
-                <div id="c-left">
-                    <div class="direct-bt-style"><b>←</b></div>
-                </div>
-        
-                <div id="c-down">
-                    <div class="direct-bt-style"><b>↓</b></div>
-                </div>
-
-            </div>
-
-            <div class="rotateBT">
-
-                <div id='r-right' class="r-right" >R</div>
-
-                <div id='r-left' class="r-left" >L</div>
-
-            </div>
-        </div>
-
     </div>
 
     <script src="gamejs.js"></script>

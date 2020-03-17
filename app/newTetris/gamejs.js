@@ -15,12 +15,27 @@ let startAndPause = document.querySelector("#startPause");
 let reset = document.querySelector("#reset");
 let timer = new CreateTimer();
 
+document.body.oncontextmenu = function (e) {
+    e.preventDefault();
+}
+
 function toNegative (n) {
     return n <= 0 ? n : -n;
 }
 
 function create4Arr () {
     return [[0,0], [0,0], [0,0], [0,0]]
+}
+
+function isPc() {
+    let userAgentInfo = navigator.userAgent;
+    let mobileDevice = 'Android,iPhone,SymbianOS,Windows Phone,iPad,iPod'.split(',');
+    for (let item of mobileDevice) {
+        if (userAgentInfo.indexOf(item) > -1) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function toLower(t) {
@@ -299,10 +314,11 @@ let distanceTop10 = document.querySelector("#u-distancetop10");
 
 function inTop10Check () {
     if (localData.data.length < 10 || gameScore > localData.data[9][1]) {
+        ui.enterTop10.style.display = "block";
+        document.querySelector('#u-enterName').focus();
         $("#u-score").text(gameScore);
         $("#u-level").text(gameLevel);
         $("#u-lines").text(finishLine);
-        ui.enterTop10.style.display = "block";
         screenCover("open");
     } else {
         ui.gameover.style.display = "block";
@@ -871,14 +887,13 @@ let down1stStop;
 let rotateLock = false;
 
 //
-let isBrowser = typeof window !== 'undefined';
 
-if (isBrowser) {
+if (isPc()) {
     document.addEventListener('keydown', controlOnkeyDown, false)
     document.addEventListener('keyup', controlOnkeyUp, false)
 } else {
-    //在非电脑端，关闭键位设置
-    document.querySelector('#optiontest').style.display = 'none';
+    //在非电脑端，关闭键位设置,默认选择第一个元素
+    document.querySelector('.opt-item').style.display = 'none';
 }
 
 function controlOnkeyDown (k) {
@@ -1168,7 +1183,7 @@ function areYouSure () {
 document.querySelector("#u-resetBT").addEventListener("click", function () {
     resetGame();
     startAndPause.innerText = "开始";
-    startAndPause.style.backGroundColor = "white";
+    startAndPause.style.backgroundColor = "white";
     ui.reset.style.display = "none";
     screenCover("close");
 })
@@ -1306,11 +1321,10 @@ document.querySelector("#clearData").addEventListener("click", function () {
 
 document.querySelector("#u-enterNameBT").addEventListener("click", function () {
     let name = document.querySelector("#u-enterName").value;
-    checkDataAndSave([name || "无名英雄", gameScore, gameLevel, finishLine]);
+    checkDataAndSave([name || "忍者！", gameScore, gameLevel, finishLine]);
     screenCover("close");
     ui.enterTop10.style.display = "none";
 },false);
-
 
 //-----------------------关于-------------------------------
 
