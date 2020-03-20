@@ -62,7 +62,7 @@ function createColor(c) {
         case 5: return "#32CD32";  //S
         case 6: return "#CD9B1D";  //L
         case 7: return "#8470FF";  //J
-        case 8: return "#525252";  //阴影
+        case 8: return "#363636";  //阴影
         case 9: return "#FFFF00";  //过渡色
     }
 }
@@ -332,7 +332,7 @@ let deepLock = false;
 function movoToDeep() {
 
     if (!gameStart) { return };
-    if (deepLock) { return };
+    //if (deepLock) { return };
 
     setTimeout(() => {
 
@@ -444,6 +444,7 @@ function normalCreate() {
     stopLoop();
     createNewCube();
     restartLoop();
+    animateLook = false;
 }
 
 // arr === moving
@@ -594,15 +595,17 @@ function checkAndCreate(deepOrDown) {
 
                     normalAnimateCreate(tmp);
 
-                    animateLook = false;
+                    //animateLook = false;
 
                 } else {
                     //没得分
                     tetrisLock(old);
 
+                    animateLook = true;
+
                     normalCreate();
 
-                    animateLook = false;
+                    //animateLook = false;
 
                 }
             }
@@ -610,9 +613,7 @@ function checkAndCreate(deepOrDown) {
     }
 }
 
-
 function refreshData() {
-    //shadow();
     let tmp = table[old[0][0]][old[0][1]];
     old.forEach(function (i) {
         table[i[0]][i[1]] = 0;
@@ -620,37 +621,34 @@ function refreshData() {
     moving.forEach(function (i) {
         table[i[0]][i[1]] = tmp;
     })
-    //drawTable();
 }
 
-function moveOneStep(m, to) {
+function moveOneStep(m, to, s) {
+
+    let len = 4;
+
+    s = s || 1;
 
     if (m.length === 4) {
 
-        let len = 4;
-
         if (to === "left") {
             while (len--) {
-                m[len][1] -= 1;
+                m[len][1] -= s;
             }
         } else if (to === "right") {
             while (len--) {
-                m[len][1] += 1;
+                m[len][1] += s;
             }
         } else if (to === "down") {
             while (len--) {
-                m[len][0] += 1;
+                m[len][0] += s;
             }
         } else if (to === "up") {
             while (len--) {
-                m[len][0] -= 1;
+                m[len][0] -= s;
             }
         }
-
-    } else {
-        //有一个bug，定位一下是那里调用的
-        console.error("Function Error [moveOneStep] : " + m.toString() + " : " + to)
-    }
+    } 
 }
 
 let straightStage = 1;
@@ -801,8 +799,8 @@ function rotate(d) {
                 //长条特殊处理
                 if (tetrisType === 2) {
                     if (tcross - trc <= 1) {
-                        moveOneStep(moving, "right");
-                        moveOneStep(moving, "right");
+                        moveOneStep(moving, "right", 2);
+                        //moveOneStep(moving, "right");
                     } else {
                         moveOneStep(moving, "right");
                     }
@@ -815,8 +813,8 @@ function rotate(d) {
                 //向左偏移
                 if (tetrisType === 2) {
                     if (trc - tcross <= 1) {
-                        moveOneStep(moving, "left");
-                        moveOneStep(moving, "left");
+                        moveOneStep(moving, "left", 2);
+                        //moveOneStep(moving, "left");
                     } else {
                         moveOneStep(moving, "left");
                     }
@@ -825,9 +823,7 @@ function rotate(d) {
                     moveOneStep(moving, "left");
                 }
             }
-
         }
-       
     }
      
      //收集下方重叠数据，moving此时的数据已经变动，所以收集数据要分开。
@@ -885,6 +881,7 @@ let down1stStop;
 
 //确保每次按下旋转只能旋转一次，不会进入连续触发
 let rotateLock = false;
+let rotateLock1 = false;
 
 //
 
@@ -900,8 +897,6 @@ function controlOnkeyDown (k) {
 
     let key = (typeof k === 'string' ? k : toLower(k.key))
 
-    keyColorSwitch(key, true);
-
     if ( key === keyboard.left ) {
 
         if (!leftLock) {
@@ -909,6 +904,7 @@ function controlOnkeyDown (k) {
             clearInterval(rightStop);
             moveToLeftOrRight("left");
             moveLeftPlus("left");
+            keyColorSwitch(key, true);
             leftLock = true;
         }
 
@@ -919,6 +915,7 @@ function controlOnkeyDown (k) {
             clearInterval(leftStop);
             moveToLeftOrRight("right");
             moveRightPlus("right");
+            keyColorSwitch(key, true);
             rightLock = true;
         }
 
@@ -928,29 +925,33 @@ function controlOnkeyDown (k) {
             stopLoop();  //防止downloop循环和向下按钮的动作相互重合
             downLoop();
             moveDownPlus();
+            keyColorSwitch(key, true);
             downLock = true;
         }
 
     } else if ( key === keyboard.deep ) {
 
-        movoToDeep();
-        deepLock = true;
-
+        if (!deepLock) {
+            movoToDeep();
+            keyColorSwitch(key, true);
+            deepLock = true;
+        }
+      
     } else if ( key === keyboard.rotate ) {
         //顺时针旋转
         if (!rotateLock) {
             rotate("left");
+            keyColorSwitch(key, true);
             rotateLock = true;
         }
 
     } else if ( key === keyboard.rotate1) {
-
         //逆时针旋转
-        if (!rotateLock) {
+        if (!rotateLock1) {
             rotate("right");
-            rotateLock = true;
+            keyColorSwitch(key, true);
+            rotateLock1 = true;
         }
-       
     }
 }
 
@@ -977,8 +978,10 @@ function controlOnkeyUp(k) {
         clearInterval(donwStop);
         restartLoop();
         downLock = false;
-    } else if (key === keyboard.rotate || key === keyboard.rotate1) {
+    } else if (key === keyboard.rotate) {
         rotateLock = false;
+    } else if (key === keyboard.rotate1) {
+        rotateLock1 = false;
     }
 }
 
