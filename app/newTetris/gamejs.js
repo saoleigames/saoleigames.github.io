@@ -4,6 +4,9 @@
 // Released under the MIT License.
 // Email : zhangxiaolei@outlook.com
 
+// debug Pro
+// log = console.log;
+
 let canvas = document.querySelector("#canvas");
 let pix = canvas.getContext("2d");
 let scanvas = document.querySelector("#scanvas");
@@ -14,6 +17,62 @@ let levalDisplay = document.querySelector("#leval").children;
 let startAndPause = document.querySelector("#startPause");
 let reset = document.querySelector("#reset");
 let timer = new CreateTimer();
+
+const wallKick = {
+
+    JLSTZ: {  
+        '0R': [[-1, 0], [-1, +1], [0, -2], [-1, -2]],
+        'R0': [[+1, 0], [+1, -1], [0, +2], [+1, +2]],
+        'R2': [[+1, 0], [+1, -1], [0, +2], [+1, +2]],
+        '2R': [[-1, 0], [-1, +1], [0, -2], [-1, -2]],
+        '2L': [[+1, 0], [+1, +1], [0, -2], [+1, -2]],
+        'L2': [[-1, 0], [-1, -1], [0, +2], [-1, +2]],
+        'L0': [[-1, 0], [-1, -1], [0, +2], [-1, +2]],
+        '0L': [[+1, 0], [+1, +1], [0, -2], [+1, -2]]
+    },
+
+    I: { 
+        '0R': [[-2, 0], [+1, 0], [-2, -1], [+1, +2]],
+        'R0': [[+2, 0], [-1, 0], [+2, +1], [-1, -2]],
+        'R2': [[-1, 0], [+2, 0], [-1, +2], [+2, -1]],
+        '2R': [[+1, 0], [-2, 0], [+1, -2], [-2, +1]],
+        '2L': [[+2, 0], [-1, 0], [+2, +1], [-1, -2]],
+        'L2': [[-2, 0], [+1, 0], [-2, -1], [+1, +2]],
+        'L0': [[+1, 0], [-2, 0], [+1, -2], [-2, +1]],
+        '0L': [[-1, 0], [+2, 0], [-1, +2], [+2, -1]]
+    },
+    //根据当前状态和旋转指令，把任意旋转转换成符合数据表的key
+    parse: function (origin, newdire) {
+
+        let v, t,
+            a = ['0', 'R', '2', 'L'],
+            o = { '0': 0, 'R': 1, '2': 2, 'L': 3 };
+
+        if (newdire === 'right') {
+            v = 1;
+        } else if (newdire === 'left') {
+            v = -1;
+        }
+
+        t = o[origin] + v;
+
+        if (t === 4) {
+            t = 0;
+        } else if (t === -1) {
+            t = 3;
+        }
+
+        return [origin, a[t]]
+    },
+
+    get: function (type, origin, newdire) {
+
+        let k = this.parse(origin, newdire).join('');
+
+        return type === 2 ? this.I[k] : this.JLSTZ[k]
+
+    }
+}
 
 document.body.oncontextmenu = function (e) {
     e.preventDefault();
@@ -39,15 +98,11 @@ function isPc() {
 }
 
 function toLower(t) {
-    if (t.length === 1) {
-        if (/^[A-Z]$/.test(t)) {
-            return t.toLowerCase();
-        } else {
-            return t;
-        }
-    } else {
-        return t;
-    }
+    return t.length === 1
+        ? /^[A-Z]$/.test(t)
+            ? t.toLowerCase()
+            : t
+        : t
 }
 
 function createColor(c) {
@@ -69,14 +124,14 @@ function createColor(c) {
 
 // 每队数组最后一位是旋转的中心点，不能改变次序
 // 第一队数组是四方块，没有中心
-let tetris = {
+const tetris = {
     1: [[3, 4], [3, 5], [4, 5], [4, 4]],  // O
     2: [[4, 3], [4, 4], [4, 5], [4, 6]],  // I
-    3: [[3, 3], [3, 5], [4, 4], [3, 4]],  // T
+    3: [[4, 3], [4, 5], [3, 4], [4, 4]],  // T
     4: [[3, 3], [3, 4], [4, 5], [4, 4]],  // Z
     5: [[3, 4], [3, 5], [4, 3], [4, 4]],  // S
-    6: [[3, 3], [3, 5], [4, 3], [3, 4]],  // L
-    7: [[3, 3], [3, 5], [4, 5], [3, 4]]   // J
+    6: [[4, 3], [4, 5], [3, 3], [4, 4]],  // L
+    7: [[4, 3], [4, 5], [3, 5], [4, 4]]   // J
 }
 
 function copyAtoB(a, b) {
@@ -168,6 +223,8 @@ let moving = [];
 let old = [];
 let line = [];
 let colorId = [];
+let tetrisType;
+let tetrisStage;
 
 function createNewCube () {
 
@@ -188,8 +245,12 @@ function createNewCube () {
         old.push([i[0],i[1]]);
     }
 
-    if (getType(moving) === 2) {
-        straightStage = 1;
+    tetrisType = getType(moving);
+
+    tetrisStage = '0';
+
+    if (tetrisType === 2) {
+        straightStage = 0;
     }
 
     colorId.shift();
@@ -377,8 +438,6 @@ function normalAnimateCreate (arr) {
         table.splice(i, 1, [9, 9, 9, 9, 9, 9, 9, 9, 9, 9]);
     })
 
-    //drawTable();
-
     moving = [];
 
     old = [];
@@ -445,21 +504,6 @@ function normalCreate() {
     createNewCube();
     restartLoop();
     animateLook = false;
-}
-
-// arr === moving
-
-function checkCanTouch () {
-
-    let t = 0;
-
-    moving.forEach(function (i) {
-        if (i[0] <= 24 && table[i[0]][i[1]] >= 0) {
-            t += 1;
-        }
-    })
-
-    return t < 4;
 }
 
 function checkCanMove () {
@@ -623,32 +667,34 @@ function refreshData() {
     })
 }
 
+function offset(m, a) {
+    let [x, y] = a;
+    if (x < 0) {
+        moveOneStep(m, 'left', -x)
+    } else if (x > 0) {
+        moveOneStep(m, 'right', x)
+    }
+    if (y < 0) {
+        moveOneStep(m, 'down', -y);
+    } else if (y > 0) {
+        moveOneStep(m, 'up', y);
+    }
+}
+
 function moveOneStep(m, to, s) {
-
     let len = 4;
-
     s = s || 1;
-
     if (m.length === 4) {
-
         if (to === "left") {
-            while (len--) {
-                m[len][1] -= s;
-            }
+            while (len--) { m[len][1] -= s }
         } else if (to === "right") {
-            while (len--) {
-                m[len][1] += s;
-            }
+            while (len--) { m[len][1] += s }
         } else if (to === "down") {
-            while (len--) {
-                m[len][0] += s;
-            }
+            while (len--) { m[len][0] += s }
         } else if (to === "up") {
-            while (len--) {
-                m[len][0] -= s;
-            }
+            while (len--) { m[len][0] -= s }
         }
-    } 
+    }
 }
 
 let straightStage = 1;
@@ -666,56 +712,55 @@ function smallMove(arr, y, x) {
         arr[1] += x
     }
 }
-//长条的旋转函数
+//长条的旋转函数顺时针
 function straightRotate(m) {
-    if (straightStage === 1) {
+    if (straightStage === 0) {
         smallMove(m[0], -1, +2);
         smallMove(m[1], 0, +1);
-        smallMove(m[2], +1, 0);
+        smallMove(m[2], 1, 0);
         smallMove(m[3], +2, -1);
+        straightStage = 1;
+    } else if (straightStage === 1) {
+        smallMove(m[0], +2, +1);
+        smallMove(m[1], +1, 0);
+        smallMove(m[2], 0, -1);
+        smallMove(m[3], -1, -2);
         straightStage = 2;
     } else if (straightStage === 2) {
-        smallMove(m[0], +2, -2);
-        smallMove(m[1], +1, -1);
-        smallMove(m[2], 0, 0);
-        smallMove(m[3], -1, +1);
+        smallMove(m[0], 1, -2);
+        smallMove(m[1], 0, -1);
+        smallMove(m[2], -1, 0);
+        smallMove(m[3], -2, 1);
         straightStage = 3;
     } else if (straightStage === 3) {
-        smallMove(m[0], -2, +1);
+        smallMove(m[0], -2, -1);
         smallMove(m[1], -1, 0);
-        smallMove(m[2], 0, -1);
-        smallMove(m[3], +1, -2);
-        straightStage = 4;
-    } else if (straightStage === 4) {
-        smallMove(m[0], +1, -1);
-        smallMove(m[1], 0, 0);
-        smallMove(m[2], -1, +1);
-        smallMove(m[3], -2, +2);
-        straightStage = 1;
+        smallMove(m[2], 0, 1);
+        smallMove(m[3], 1, 2);
+        straightStage = 0;
     }
+}
+
+function checkCanTouch() {
+    let t = 0;
+    moving.forEach(function (i) {
+        if (i[1] >= 0 && i[1] <= 9 && i[0] <= 24 && table[i[0]][i[1]] >= 0) {
+            t += 1;
+        }
+    })
+    return t < 4;
 }
 
 function rotate(d) {
 
-    if (!gameStart) { return }
+    if (!gameStart || !moving.length || tetrisType === 1) { return }
 
-    if (!moving.length) { return }
+    let tmpSave = straightStage;
 
-    let tetrisType = getType(moving);
-
-    if (tetrisType === 1) { return }
-
-    let Tstage = straightStage;
-
-    let step;
-
-    if ( d === "left" ) {
-        step = 1;
-    } else if ( d === "right" ) {
-        step = 3;
-    }
+    let step = (d === 'right' ? 1 : 3)
 
     if (tetrisType === 2) {
+
         while (step-- ) {
             straightRotate(moving);
         }
@@ -743,121 +788,37 @@ function rotate(d) {
         moving.push(c);
     } 
 
-    /*
-    触底旋转向上偏移，主动偏移
-    如果采用被动偏移，方块落地以后，偏转数据会超出table范围，收集数据时会导致索引超出范围问题
-    */
-    let dp = 24;
-    
-    for (let i of moving) {
-        if (i[0] > dp) {
-            dp = i[0];
-        }
-    }
+    let kicktmp = create4Arr();
 
-    dp = dp - 24;
-    while (dp --) {
-        moveOneStep(moving, "up");
-    }
+    copyAtoB(moving, kicktmp);
 
-    //旋转完成，开始后续偏转处理，以及判定旋转是否成功
-    let outsideRowList = [];
-    let outsideVertList = [];
+    if (checkCanTouch()) {
 
-    //收集横向重叠数据
-    for (let i of moving) {
-        if (i[1] < 0 || i[1] > 9 || table[i[0]][i[1]] < 0) {
-            outsideRowList.push(i);
-        }
-    }
+        let kickData = wallKick.get(tetrisType, tetrisStage, d)
 
-    let rowLen = outsideRowList.length;
-    //初步判断是否需要左右偏转
-    if (rowLen) {
-        //获取方块底部index
-        let deepIndex = getArrMixAndMax(moving, 0, 1);
-       
-        let deepWidth = 0;
-        //统计底部宽度
-        moving.forEach((i)=>{
-            if (i[0] === deepIndex) {
-                deepWidth += 1;
-            }
-        })
-        
-        //获取方块的左右边界值
-        let [tmin, tmax] = getArrMixAndMax(moving, 1, 2);
-        //方块的中心数值，比如长条 1,2,3,4, 计算(1 + 4) / 2 === 2.5
-        let tcross = (tmin + tmax) / 2;
-        //出界方块的中心, 比如出界 3,4 计算 ： (3 + 4) / 2
-        let trc = rowLen === 1 ? outsideRowList[0][1] : outsideRowList.reduce((a,b) => a[1] + b[1]) / rowLen;
-        //排除正下方的方块，最终确定是否需要偏移
-        if (!((tcross - trc === 0) || (rowLen === 1 && outsideRowList[0][0] === deepIndex && deepWidth === 1))) {
-            //判断偏移方向
-            //向右偏移
-            if (tcross - trc > 0) {
-                //长条特殊处理
-                if (tetrisType === 2) {
-                    if (tcross - trc <= 1) {
-                        moveOneStep(moving, "right", 2);
-                        //moveOneStep(moving, "right");
-                    } else {
-                        moveOneStep(moving, "right");
-                    }
-                //一般偏移
-                } else {
-                    moveOneStep(moving, "right");
-                }
-
+        for (let item of kickData) {
+            offset(moving, item)
+            if (!checkCanTouch()){
+                refreshData();
+                copyAtoB(moving, old);
+                tetrisStage = wallKick.parse(tetrisStage, d)[1]
+                return;
             } else {
-                //向左偏移
-                if (tetrisType === 2) {
-                    if (trc - tcross <= 1) {
-                        moveOneStep(moving, "left", 2);
-                        //moveOneStep(moving, "left");
-                    } else {
-                        moveOneStep(moving, "left");
-                    }
-                //一般偏移
-                } else {
-                    moveOneStep(moving, "left");
-                }
+                copyAtoB(kicktmp, moving);
             }
         }
+    } else {
+        tetrisStage = wallKick.parse(tetrisStage, d)[1]
+        refreshData();
+        copyAtoB(moving, old);
+        return
     }
-     
-     //收集下方重叠数据，moving此时的数据已经变动，所以收集数据要分开。
-     
-    for (let i of moving) {
-        if (i[1] < 0 || i[1] > 9 || table[i[0]][i[1]] < 0) {
-            outsideVertList.push(i);
-        }
-    }
-
-    
-    //判断是否需要向上偏移。判断是否收集到上移的数据，判断下方是否接触。
-    
-    if (outsideVertList.length && checkCanTouch()) {
-        let [vmin, vmax] = getArrMixAndMax(outsideVertList, 0, 2);
-        for (let i = vmin ; i < vmax + 1; i++) {
-            moveOneStep(moving, "up");
-        }
-    }
-    
-    //最终判定旋转是否成功，如果失败，取消旋转
-    for (let i of moving) {
-        if (i[1] < 0 || i[1] > 9 || table[i[0]][i[1]] < 0) {
-            straightStage = Tstage;
-            copyAtoB(old, moving);
-            return; // 程序退出，旋转失败
-        }
-    }
-
-    //旋转成功！更新数据
+    straightStage = tmpSave;
+    copyAtoB(old, moving);
     refreshData();
-    copyAtoB(moving, old);
-    
+    return;
 };
+
 let stopAnimation;
 let gameStart = false;
 let gameOver = true;
@@ -940,7 +901,7 @@ function controlOnkeyDown (k) {
     } else if ( key === keyboard.rotate ) {
         //顺时针旋转
         if (!rotateLock) {
-            rotate("left");
+            rotate("right");
             keyColorSwitch(key, true);
             rotateLock = true;
         }
@@ -948,7 +909,7 @@ function controlOnkeyDown (k) {
     } else if ( key === keyboard.rotate1) {
         //逆时针旋转
         if (!rotateLock1) {
-            rotate("right");
+            rotate("left");
             keyColorSwitch(key, true);
             rotateLock1 = true;
         }
