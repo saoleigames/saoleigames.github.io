@@ -10,11 +10,6 @@ body{
     font-size: 1em;
 }
 
-body a{
-    color : #333;
-    text-decoration: none;
-}
-
 div {
     margin: 0;
     padding: 0;
@@ -34,6 +29,11 @@ div {
 #header a {
     color : #FFF;
     text-decoration: none;
+    text-shadow: 1px 1px #666,2px 2px #666,3px 3px #666,4px 4px 3px #666;
+}
+
+#header a:hover{
+    color : #EEE;
 }
 
 #body{
@@ -46,6 +46,15 @@ div {
     margin : 0.2em;
 }
 
+#body .doc a{
+    color : #333;
+    text-decoration: none;
+}
+
+#body .doc a:hover{
+    color : skyblue;
+}
+
 #body .doc-title{
     font-weight: bold;
     padding-bottom: 0.1em;
@@ -56,17 +65,13 @@ div {
     padding: 0.3em;
 }
 
-#body ul{
+#body .doc-content>ul{
     list-style: none;
     padding-left: 0;
 }
 
-#body ul li{
+#body .doc-content>ul li{
     position: relative;
-}
-
-#body ul li a:hover{
-    color : skyblue;
 }
 
 #footer{
