@@ -27,21 +27,26 @@
     </div>
 
     <div id="window">
-        <canvas onmousedown ="canvas_mouse_down(event)" onmouseup ="canvas_mouse_up()" id="canvas" width="600" height="400" style="border : 1px solid #EEE"></canvas>
+        <div class="game_area">
+            <canvas onmousedown ="canvas_mouse_down(event)" onmouseup ="canvas_mouse_up()" id="canvas" width="600" height="400"></canvas>
+            <div class="desk">
+                <div>A</div>
+                <div>B</div>
+                <div>C</div>
+            </div>
+        </div>
         <div id="tools">
             <div id="tools_list">
                 <div id="floor_select">
                         <div class="floor" onmouseover="info()" title="" id="floor">层数(<span style="color : orange">?</span>) : </div>
                         <input class="floor" id="input_floor" type="number" min = "1", max = "13", step = "1" value="8" />
-                        <div class="floor" id="refresh">重设</div>
+                        <button class="floor" id="refresh">重设</button>
                 </div>
-                <div id="game_mode">
-                    <form id="mode_list">
-                        <input name="game_select" type="radio">单步
-                        <input name="game_select" type="radio">演示
-                        <input name="game_select" type="radio" checked = "checked">游戏
-                    </form>
-                </div>
+                <form id="game_mode">
+                    <input name="game_select" type="radio">单步
+                    <input name="game_select" type="radio">演示
+                    <input name="game_select" type="radio" checked = "checked">游戏
+                </form>
             </div>
             <div id="bt_run">开始</div>
         </div>

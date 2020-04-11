@@ -14,35 +14,54 @@ body {
     box-shadow: 0 0 3px #CCC;
 }
 
+.game_area{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1.2em 1.2em 0.5em 1.2em;
+}
+
 #canvas {
-    margin: 1em auto 0 auto;
-    background-color: #FFF;
-    box-shadow: inset 2px 2px 5px #EEE, inset -2px 0 5px #EEE;
+    background-color: transparent;
+    box-shadow: inset 1px 1px 3px #EEE, inset -1px 0 3px #EEE;
+}
+
+.desk{
+    display: flex;
+    color: #555;
+}
+
+.desk div{
+    flex : 0 0 33.3333%;
+    text-align: center;
+    background-color: rgb(240,240,240);
+}
+
+.desk div:nth-child(2) {
+    box-sizing: border-box;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
 }
 
 #tools{
     display: flex;
+    margin: 0 1.2em 0.5em 1.2em;
     justify-content: space-between;
     align-items: center;
     color : #666;
-    padding: 0.2em;
     font-size: 1em;
 }
 
 #tools_list {
     display: flex;
-    align-items: center;
-    margin: 0.3em;
-    height: 1.6em;
 }
 
 #floor_select {
     display: flex;
-    margin-left: 0.8em;
 }
 
 .floor{
-    margin: 0 0.2em;
+    margin-right: 0.4em;
 }
 
 #input_floor {
@@ -50,32 +69,21 @@ body {
     text-align: center;
 }
 
-#refresh {
-    background-color: #EEE;
-    border : 1px solid #DDD;
-    box-shadow: 0 0 2px #CCC;
-    width : 3em;
-    border-radius: 3px;
-}
-
 #bt_run {
-    background-color: #EEE;
-    border : 1px solid #DDD;
-    box-shadow: 0 0 2px #CCC;
-    margin-right: 1.2em;
+    background-color: rgb(74, 151, 202);
+    border : 1px solid rgb(147, 165, 231);
+    color: #FFF;
     width : 5em;
-    height: 1.6em;
-    line-height: 1.6em;
+    height: 1.5em;
+    line-height: 1.5em;
     border-radius: 3px;
 }
 
-#bt_run:hover, #refresh:hover{
+#bt_run:hover{
+    background-color: rgb(112, 186, 235);
     cursor: pointer;
 }
 
-#bt_run:active, #refresh:active {
-    box-shadow: none;
-    background-color: #DDD;
+#bt_run:active{
+    background-color: rgb(74, 151, 202);
 }
-
-

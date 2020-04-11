@@ -1,13 +1,7 @@
 ﻿
+//作者：张晓雷
 
-
-/******************************************
-作者：张晓雷
-邮箱：zhangxiaolei@outlook.com
-******************************************/
-
-
-function draw_Circle(canvas, x, y, r, para = Object.create(null)) {
+function draw_Circle(canvas, x, y, r, para = {}) {
     canvas.beginPath();
     canvas.lineWidth = para.lineWidth || 1;
     canvas.strokeStyle = para.strokeStyle || "black";
@@ -24,17 +18,15 @@ function draw_Circle(canvas, x, y, r, para = Object.create(null)) {
     }
 }
 
-function draw_Text(canvas, text, x, y, para = Object.create(null)) {
+function draw_Text(canvas, text, x, y, para = {}) {
     canvas.beginPath();
     canvas.moveTo(x, y);
-    canvas.fillStyle = para.color || "black";
+    canvas.fillStyle = para.color || "#000";
     canvas.font = para.font || "13px Arial";
     canvas.textAlign = para.textAlign || "center";
     canvas.fillText(text, x, y);
     canvas.stroke();
 }
-
-
 
 function fillZero(arr) {
     let len = arr.length;
@@ -64,20 +56,12 @@ function hanoi(n, list) {
     H(n, "a", "b", "c")
 }
 
-function Fline(canvas, path, width, color) {
-    canvas.beginPath();
-    canvas.lineWidth = width || "4";
-    canvas.strokeStyle = color || "#EEE";
-    canvas.lineTo(path[0][0], path[0][1])
-    path.shift();
-    for (var item of path) {
-        canvas.lineTo(item[0], item[1]);
-    }
-    canvas.stroke();
+function pillar(canvas, row, height) {
+    canvas.fillStyle='#DDD';
+    canvas.fillRect(row - 3, 400 - height, 6, height)
 }
 
-
-function Fcube(canvas, x, y, w, h, number) {
+function plate(canvas, x, y, w, h, number) {
     canvas.beginPath();
     canvas.fillStyle = "YellowGreen";
     canvas.lineWidth = 1;
@@ -90,25 +74,19 @@ function Fcube(canvas, x, y, w, h, number) {
     canvas.fill();
 
     draw_Circle(canvas, x, y - h / 2, 8, {
-        fillStyle: "white",
+        fillStyle: "#FFF",
         outLine: 0
     });
 
     draw_Text(canvas, number, x - 0.5, y - h / 2 + 5, {
-        color: "#555555"
+        color: "#555"
     });
 }
 
-
-
-
-var canvas = document.querySelector("#canvas");
-var pix = canvas.getContext("2d");
-
-
+const pix = document.querySelector("#canvas").getContext('2d');
 
 function cover(canvas, select, color) {
-    let x, y = 30, w = 200; h = 400;
+    let x, y = 50, w = 200; h = 350;
     if (select === "a") {
         x = 0;
     } else if (select === "b") {
@@ -122,8 +100,6 @@ function cover(canvas, select, color) {
     canvas.fillRect(x, y, w, h);
 }
 
-
-
 function drawTower(x, y, tower) {
     let h = 20;
     let smallWidth = h * 2;
@@ -136,22 +112,21 @@ function drawTower(x, y, tower) {
             } else {
                 w = smallWidth;
             }
-            Fcube(pix, x, y, w, h, tower[i]);
-            y = y - h - 1.2;
+            plate(pix, x, y, w, h, tower[i]);
+            y = y - h - 1;
         }
     }
 }
 
 let game_step = 0;
 
-
 function canvas_display() {
     draw_Text(pix, "第 " + game_step + " 步", 35, 20, {
-        color: "#666666",
+        color: "#666",
     });
 }
 
-function check_win_(list) {
+function checkEnd(list) {
     if (list[list.length - 1] !== 0) {
         let len = list.length;
         let temp = len;
@@ -167,7 +142,7 @@ function check_win_(list) {
 }
 
 function check_win(list) {
-    if (check_win_(list)) {
+    if (checkEnd(list)) {
         Stop_timer();
         clearInterval(stop_interval);
         draw_Text(pix, "完成!", 305, 220, {
@@ -199,7 +174,6 @@ function Stop_timer() {
     clearInterval(timer_stop);
     timer_step = 0;
 }
-
 
 let tt = Object.create(null);
 
@@ -258,14 +232,14 @@ function takeAndPut(towerA, towerB) {
 function screenFresh() {
     pix.fillStyle = "#FFF"
     pix.globalAlpha = 1;
-    pix.clearRect(0, 30, 600, 400);
-    Fline(pix, [[100, 400], [100, 100]])
-    Fline(pix, [[300, 400], [300, 100]])
-    Fline(pix, [[500, 400], [500, 100]])
+    pix.clearRect(0, 30, 600, 370);
+    pix.clearRect(0, 0, 300, 30);
+    pillar(pix, 100, 300);
+    pillar(pix, 300, 300);
+    pillar(pix, 500, 300);
     drawTower(100, 398, tt.A);
     drawTower(300, 398, tt.B);
     drawTower(500, 398, tt.C);
-    pix.clearRect(0, 0, 300, 30);
     canvas_display();
     check_win(tt.C);
 }
@@ -282,49 +256,21 @@ function game_mode(AB) {
 
 function move_plate(AB) {
 
-    if (typeof AB !== "string" && AB.length !== 2) {
-        console.warn("move_plate error");
+    if (AB.length !== 2) {
+        console.error("move_plate");
         return;
     }
 
     switch (AB) {
-
-        case "ac": {
-            takeAndPut(tt.A, tt.C);
-            break;
-        };
-
-        case "ab": {
-            takeAndPut(tt.A, tt.B);
-            break;
-        };
-
-        case "bc": {
-            takeAndPut(tt.B, tt.C);
-            break;
-        };
-
-        case "cb": {
-            takeAndPut(tt.C, tt.B);
-            break;
-        };
-
-        case "ba": {
-            takeAndPut(tt.B, tt.A);
-            break;
-        };
-
-        case "ca": {
-            takeAndPut(tt.C, tt.A);
-            break;
-        };
-
-        default: {
-            console.warn(AB + ": move_plate erroe")
-        };
+        case "ac": takeAndPut(tt.A, tt.C); break
+        case "ab": takeAndPut(tt.A, tt.B); break;
+        case "bc": takeAndPut(tt.B, tt.C); break;
+        case "cb": takeAndPut(tt.C, tt.B); break;
+        case "ba": takeAndPut(tt.B, tt.A); break;
+        case "ca": takeAndPut(tt.C, tt.A); break;
+        default: console.error(AB + "move_plate")
     }
 }
-
 
 let cor = new Object(null);
 
@@ -372,6 +318,7 @@ function canvas_mouse_down(event) {
             } else {
                 cover(pix, "a", "green");
             }
+
         } else if (len(move) === 1 && move !== "a") {
 
             move += "a";
@@ -464,7 +411,7 @@ function restartGame (btName) {
     refresh(parseInt(floor));
 }
 
-let mode_select = document.querySelector("#mode_list");
+let mode_select = document.querySelector("#game_mode");
 
 let floor_ele = document.querySelector("#input_floor");
 
