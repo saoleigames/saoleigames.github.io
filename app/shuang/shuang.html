@@ -6,63 +6,75 @@
     <link rel="icon" href="/img/indexico.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/img/indexico.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="css.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <script src='../../jsjs/vuejs.js'></script>
 </head>
 
 <body>
 
-    <div class="make-top-bar-left">
+    <div id='shuangApp'>
 
-        <div class="top-bar">
+        <div class="make-top-bar-left">
 
-            <div class="top-box-left">
+            <div class="top-bar">
 
-                <div class="top-box">
-                    <form id="kb-option">
-                        <input name="kb-select" type="radio" checked="checked"><span class="op-xh">小鹤键位</span>
-                        <input name="kb-select" type="radio"><span class="op-sg">搜狗键位</span>
-                    </form>
+                <div class="top-box-left">
+
+                    <div class='top-box'>
+                        <span>双拼方案: </span>
+                        <select v-model='selected' style="background-color: transparent">
+                            <option>小鹤双拼</option>
+                            <option>搜狗双拼</option>
+                        </select>
+                    </div>
+
+                    <div class='top-box'>
+                        <span>拼音: </span>
+                        <select v-model='selectPy' style="background-color: transparent">
+                            <option>有拼音</option>
+                            <option>无拼音</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="top-box">
-                    <form id="py-option">
-                        <input name="py-select" type="radio" checked="checked"><span class="op-py">有拼音</span>
-                        <input name="py-select" type="radio"><span class="op-npy">无拼音</span>
-                    </form>
+                <div class="top-box-right">
+                    <div class="top-box">
+                        <span class='reminder' @click='tipsFunc'>{{ tipsMsg }}</span>
+                    </div>
+                    <div class="top-box">
+                        <span><a target="_blank" href="../spkb/spkeyboard.html">键位图</a></span>
+                    </div>
                 </div>
-
             </div>
 
-            <div class="top-box-right">
+        </div>
 
-                <div class="top-box">
-                    <span id='reminder' class="rmd-cl">提示键位 (单击这里)</span>
+        <div class="box" :style='{fontSize: fSize + "em"}'>
+            <div class="font-size">
+                <span @click='fSize += 0.1'>＋</span>
+                <span @click='fSize -= 0.1'>－</span>
+            </div>
+            <div class="box-bd">
+                <div class="wzk">
+                    <span class="wz">{{ uiWenzi }}</span>
                 </div>
-
-                <div class="top-box">
-                    <span><a target="_blank" class="refer" href="../spkb/spkeyboard.html">键位图</a></span>
+                <div class="pyk">
+                    <span class='py' v-show='isShow'>{{ uiPinyin }}</span>
+                    <div>
+                        <input type="text" autofocus="autofocus" v-model='uiInput' maxlength="2"/><span @click='clearFunc' class="clear">×</span>
+                    </div>
                 </div>
-
             </div>
         </div>
 
-    </div>
+        <div class='keyboard-UI'>
 
-
-    <div class="box">
-        <div class="bd">
-            <div class="wzk">
-                <span id="d-wz">双</span>
-            </div>
-            <div class="pyk">
-                <span id="d-py">shuang</span><br />
-                <input type="text" autofocus="autofocus" id="input" maxlength="2" /><span id="clear">×</span>
-            </div>
         </div>
-    </div>
 
+    </div>
+    <script src='keyboard.js'></script>
     <script src="js.js"></script>
-
 </body>
 
 </html>

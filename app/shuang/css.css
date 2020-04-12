@@ -20,11 +20,15 @@ html{
     white-space: pre-wrap;
 }
 
+.top-bar a{
+    text-decoration: none;
+}
+
 .top-box{
     display: table;
     border : 1px dotted #bbb;
     margin : 0 5px 2px 0;
-    padding : 2px 4px 2px 4px;
+    padding : 2px 4px;
     border-radius: 3px;
     white-space: nowrap;
 }
@@ -34,53 +38,36 @@ html{
     flex-wrap: nowrap;
 }
 
-#py-option, #kb-option{
-    display: flex;
-    align-items: center;
-}
-
-.top-box input{
-   margin: 0 2px 0 4px;
-}
-
-.op-npy{
-    color : #ccc;
-}
-
-#reminder{
+.reminder{
     display: inline-block;
+    color: #555;
     cursor: default;
     min-width: 9em;
     text-align: center;
 }
 
-.rmd-op{
-    color: #555;
-}
-
-.rmd-cl{
-    color: #ccc;
-}
-
-.rmd-cl:hover{
-    color: #555;
-    text-decoration: underline;
-}
-
 .box{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
     font-size: 1em;
     margin: 3.2em auto;
     width : 22em;
-    height: 12.8em;
+    height: 13em;
     border : 1px solid #DDD;
     border-radius: 3px;
     box-shadow: 0 0 1px #BBB;
     background-color: rgb(248, 243, 172);
 }
 
-.bd{
+.font-size{
+    display: table;
+    margin: 2px 4px;
+}
+
+.box-bd{
+    margin: auto;
+    padding-bottom: 1.5em;
     user-select: none;
     -webkit-user-select: none;
     color : #555;
@@ -89,57 +76,62 @@ html{
     align-items: center;
 }
 
-.bd .wzk{
+.font-size span{
+    display: inline-block;
+    margin-right: 1px;
+    border : 1px solid #bbb;
+    color: #bbb;
+    text-align: center;
+    width : 1em;
+    height: 1em;
+    line-height: 1em;
+    cursor: default;
+    border-radius: 3px;
+}
+
+.font-size span:hover{
+    border : 1px solid #666;
+}
+
+.box-bd .wzk{
     display: table;
     margin-right: 0.8em;
 }
 
-#d-wz{
+.box-bd .wz{
     font-size: 4.3em;
 }
 
-.bd .pyk{
-    display: table;
-    text-align: left;
+.box-bd .pyk{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width : 6em;
+    height: 4.6em;
 }
 
-#d-py{
+.box-bd .py{
     display: inline-block;
     margin : 0 0 2px 1px;
     font-size: 1.6em;
-    width : 3em;
 }
 
-#input{
+.box-bd .pyk input{
     font-size: 1.6em;
     padding-left: 2px;
     width : 2em;
     background-color: #fff;
 }
 
-#clear{
+.clear{
     font-size: 1.6em;
     cursor: default;
 }
 
-#clear:hover{
+.clear:hover{
     color : #999;
 }
 
-#clear:active{
+.clear:active{
     color : #555;
-}
-
-.op-sg{
-    color : #ccc;
-}
-
-.refer{
-    color: #ccc;
-    text-decoration: none;
-}
-
-.refer:hover{
-    color: rgb(13, 145, 197);
-    text-decoration: underline;
 }

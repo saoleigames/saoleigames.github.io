@@ -108,13 +108,22 @@ div {
     display: block;
 }
 
-pre{
-    padding: 1em;
-    background-color: rgb(214, 206, 206);
+code{
+    white-space: nowrap;
+    font-weight: bold;
+    color: rgb(241, 108, 20);
 }
 
-code{
-    color : green;
+pre{
+    overflow: auto;
+    padding: 1em;
+    background-color: rgb(32, 32, 32);
+}
+
+pre code{
+    white-space: pre;
+    font-weight: normal;
+    color : #EEE;
 }
 
 code:before{
