@@ -86,17 +86,6 @@ function create4Arr() {
   return [[0, 0], [0, 0], [0, 0], [0, 0]]
 }
 
-function isPc() {
-  let userAgentInfo = navigator.userAgent;
-  let mobileDevice = 'Android,iPhone,SymbianOS,Windows Phone,iPad,iPod'.split(',');
-  for (let item of mobileDevice) {
-    if (userAgentInfo.indexOf(item) > -1) {
-      return false;
-    }
-  }
-  return true;
-}
-
 function copyAtoB(a, b) {
   if (a.length === b.length) {
     let i = a.length;
@@ -975,8 +964,8 @@ reset.addEventListener("click", function () {
 resetGame();
 
 function screenCover(c) {
-  let w = window.innerWidth - 15 + "px";
-  let h = window.innerHeight - 15 + "px";
+  let w = document.innerWidth - 80 + "px";
+  let h = document.innerHeight - 80 + "px";
   if (c === "open") {
     $("#backGroundCover").css({
       display: "block",

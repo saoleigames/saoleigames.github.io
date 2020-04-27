@@ -1,24 +1,18 @@
 html{
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(110, 115, 184);
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    font-family: "微软雅黑", Arial, Helvetica, sans-serif;
     margin : 0;
     padding: 0;
+    font-family: "微软雅黑", Arial, Helvetica, sans-serif;
 }
 
 .game-border{
-    margin: 0.2em;
-    padding: 1em;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(205, 133, 63);
+    margin: 0 auto;
+    padding: 1.5em 1.2em;
 }
 
 .game-window{
@@ -28,10 +22,11 @@ body {
 }
 
 #canvas { 
-    border : 2px solid #fff;
+    border : 2px solid #eee;
     padding: 2px;
     margin-right: 10px;
     background-color: rgb(14, 13, 13);
+    box-shadow: 5px 5px 1px rgb(27, 27, 25);
 }
 
 #rightcolumn {
@@ -43,7 +38,7 @@ body {
 #scanvas {
     margin-top: 2px;
     padding: 10px;
-    border : 1px solid #fff;
+    border : 1px solid #eee;
     background-color: rgb(14, 13, 13);
 }
 
@@ -177,9 +172,9 @@ body {
 }
 
 .t-win{
-    z-index: 10;
-    position: absolute;
     display: none;
+    position: absolute;
+    z-index: 10;
     border-radius: 10px;
     border: 1px solid rgb(200, 110, 30);
     background-color: rgb(205, 133, 63);

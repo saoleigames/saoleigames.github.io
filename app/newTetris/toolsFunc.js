@@ -1,5 +1,3 @@
-
-
 //产生随机数的对象，功能参考Python。
 var random = {
     //产生0-1之间的随机数
@@ -18,7 +16,7 @@ var random = {
         if (begin > end) {
             [begin, end] = [end, begin];
         }
-        return parseInt(Math.random() * (end - begin + 1) + begin);
+        return Math.floor(Math.random() * (end - begin + 1) + begin);
     },
     //从数组里随机选择一个数据
     choice: function (arr) {
@@ -56,7 +54,6 @@ var random = {
         }
     }
 };
-
 
 //一个简单的定时器构造函数
 
@@ -170,114 +167,13 @@ function $(selector, context) {
 
 }
 
-
-var runSpeedTest = {
-    timerList: {},
-    st: function (i) {
-        this.timerList[i || "now"] = new Date();
-    },
-    ed: function (i) {
-        if (this.timerList) {
-            if (!i) {
-                if (this.timerList["now"]) {
-                    return new Date() - this.timerList["now"];
-                } else {
-                    console.error("Timer tag not found (No parameter mode)")
-                }
-            } else {
-                if (this.timerList[i]) {
-                    return new Date() - this.timerList[i];
-                } else {
-                    console.error("Timer tag not found");
-                }
-            }
-        } else {
-            console.error("timerlist is empty");
-        }
+function isPc() {
+    let userAgentInfo = navigator.userAgent;
+    let mobileDevice = 'Android,iPhone,SymbianOS,Windows Phone,iPad,iPod'.split(',');
+    for (let item of mobileDevice) {
+      if (userAgentInfo.indexOf(item) > -1) {
+        return false;
+      }
     }
-};
-
-
-
-/*
-//方块随机算法
-
-function random (begin, end) {
-    return parseInt(Math.random () * (end - begin + 1) + begin);
+    return true;
 }
-
-let tetrisRandCache = [0, 0, 0, 0, 0, 0, 0];
-
-function rand() {
-
-    let t;
-
-    do {
-
-        t = random(0, 6);
-
-        if (tetrisRandCache[t] < 2) {
-
-            tetrisRandCache[t] += 1;
-
-        } else {
-
-            t = false;
-
-        }
-
-    } while ( t === false );
-
-    if (tetrisRandCache.every(function (n) {
-
-        return n >= 1;
-
-    })) {
-
-        tetrisRandCache = [0, 0, 0, 0, 0, 0, 0];
-
-    }
-
-    return t + 1;
-
-}
-
-*/
-
-
-/*
-
-let tetrisRandCache = [0,0,0,0,0,0,0];
-let tetrisTmp = random.shuffle(random.getAscendingList(0, 6, 1));
-
-function rand() {
-
-    let t, index;
-
-    t = random.choice(tetrisTmp);
-  
-    index = tetrisTmp.indexOf(t);
-   
-    
-    if (tetrisRandCache[index] < 2) {
-        tetrisRandCache[index] += 1;
-    }
-
-    for (let i = 0; i < tetrisRandCache.length; i++) {
-        if (tetrisRandCache[i] >= 2) {
-            tetrisRandCache.splice(i, 1);
-            tetrisTmp.splice(i, 1);
-            break;
-        }
-    }
-
-    if (!tetrisTmp.length) {
-        tetrisTmp = random.shuffle(random.getAscendingList(0, 6, 1));
-        tetrisRandCache = [0,0,0,0,0,0,0];
-    }
-
-    return t + 1
-
-}
-
-*/
