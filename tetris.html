@@ -4,72 +4,91 @@
 
 <head>
     <title>俄罗斯方块</title>
-    <link rel="stylesheet" type="text/css" href="gcs.css" />
+    <link rel="stylesheet" type="text/css" href="tetris/gcs.css" />
 </head>
 
 <body>
 
     <div class="game-border">
-
+    
         <div class="game-window">
-            <!--游戏主面板-->
-            <canvas id="m-canvas" width=211 height=421></canvas>
-
-            <!--右侧信息板-->
-            <div id="right-bar">
-
-                <div class="rightbox">
-                    <span class="label">下一个</span>
-                    <div>
-                        <canvas id="s-canvas" width=80 height=40></canvas>
+    
+            <!--left--->
+            <div class="left-bar">
+    
+                <div>
+                    <span>信息</span>
+                </div>
+    
+                <div class="left-bar-content">
+    
+                    <div class="leftbox">
+                        <span class="label">得分</span>
+                        <div>
+                            <span id='panel-score'>0</span>
+                        </div>
+                    </div>
+    
+                    <div class="rightbox">
+                        <span class="label">行数</span>
+                        <div>
+                            <span id='panel-line'>0</span>
+                        </div>
+                    </div>
+    
+                    <div class="rightbox">
+                        <span class="label">关卡</span>
+                        <div>
+                            <span id='panel-level'>0</span>
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <div class="bar-bottom">
+                    <div class="option-bar">
+                        <a href="#" id="infotest">英雄榜</a>
+                        <a href="#" id="optiontest">设置</a>
                     </div>
                 </div>
+            </div>
 
-                <div class="rightbox">
-                    <span class="label">得分</span>
-                    <div>
-                        <span id='panel-score'>0</span>
+            <!--center-->
+            <div id='canvas-box'>
+                <canvas id="bg-layer"></canvas>
+                <canvas id="cube-shadow-layer"></canvas>
+            </div>
+            
+            <!--right-->
+            <div class="right-bar">
+
+                <div class="right-bar-top">
+                    <div class="right-label-top">
+                        <span>下一个</span>
                     </div>
-                </div>
-                
-                <div class="rightbox">
-                    <span class="label">行数</span>
-                    <div>
-                        <span id='panel-line'>0</span>
-                    </div>
-                </div>
-                
-                <div class="rightbox">
-                    <span class="label">关卡</span>
-                    <div>
-                        <span id='panel-level'>0</span>
-                    </div>
+                    <canvas id="s-canvas"></canvas>
                 </div>
 
-                <div class="option-bar">
-                    <a href="#" id="infotest">英雄榜</a>
-                    <a href="#" id="optiontest">设置</a>
-                    <a href="#" id="aboutme">关于</a>
-                </div>
-
-                <div id="control">
-                    <span id="startPause" class="w-button">开始</span>
-                    <span id="reset" class="w-button">重来</span>
+                <div class="bar-bottom">
+                    <div id="control">
+                        <span id="startPause" class="w-button">开始</span>
+                        <span id="reset" class="w-button">重来</span>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        </div>
-   
+    <canvas style="display: none;" id='saveCubeBox'></canvas>
 
         <div class="w-border" id="u-gameOver">
             <div class="w-head">
                 <span class="w-title">提示</span>
                 <span class="t-close w-close-x">×</span>
             </div>
-            <div class="w-body" style="justify-content: space-evenly">
-                <div>游戏结束！</div>
-                <div>距离英雄榜还差：<span id="u-distancetop10"></span> 分</div>
+            <div class="w-body game-over-content">
+                <div>游戏结束!</div>
+                <div>距离英雄榜还差&nbsp;<span id="u-distancetop10"></span>&nbsp;分</div>
             </div>
         </div>
 
@@ -163,16 +182,13 @@
                         <td></td>
                     </tr>
                 </table>
-                <div class="table-bottom">
-                    <a href="#" id="clearData">重置</a>
-                </div>
             </div>
         </div>
 
         <div class="w-border" id="u-enterTop10">
 
             <div class="w-head">
-                <span class="w-title">牛！</span>
+                <span class="w-title">恭喜</span>
                 <span class="t-close w-close-x">×</span>
             </div>
 
@@ -209,8 +225,8 @@
             </div>
             <div class="w-body">
                 <div class="cont-about">
-                    <p>作者：张晓雷</p>
-                    <p>邮箱：zhangxiaolei@outlook.com</p>
+                    <span>作者：张晓雷</span>
+                    <span>邮箱：zhangxiaolei@outlook.com</span>
                 </div>
             </div>
         </div>
@@ -218,48 +234,62 @@
         <div class="w-border" id="option">
             <div class="w-head">
                 <span class="w-title">设置</span>
-                <span id="opt-bt-yes" class="w-close-x">×</span>
+                <span title="点击关闭，保存设置" id="opt-bt-yes" class="w-close-x">×</span>
             </div>
             <div class="w-body">
 
                 <div class="cont-opt">
-                    <!--手机端不可见-->
+
+                    <div>键位</div>
+
                     <div class="opt-item">
-
                         <div class="opt-leftbox">
-
-                            <div class="opt-up"><span>硬降（到底）</span><input id="opt-deep" class="opt-i" type="text"
-                                    value="w" /> </div>
-
+                            <div class="opt-up"><span>硬降</span><input id="opt-deep" class="opt-i" type="text" value="w" /> 
+                            </div>
                             <div class="opt-other">
-
                                 <div><span>向左</span><input id="opt-left" class="opt-i" type="text" value="a" />
                                 </div>
-                                <div><span>下降</span><input id="opt-down" class="opt-i" type="text" value="s" />
+                                <div><span>向下</span><input id="opt-down" class="opt-i" type="text" value="s" />
                                 </div>
                                 <div><span>向右</span><input id="opt-right" class="opt-i" type="text" value="d" />
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="opt-rightbox">
                             <div>顺时旋转 <input id="opt-rotate" class="opt-i" type="text" value="k" /></div>
                             <div>逆时旋转 <input id="opt-rotate1" class="opt-i" type="text" value="j" /></div>
-                            <!--<div>180度旋转 <input id="opt-rotate2" class="opt-i" type="text" value="l"/></div>-->
+                            <div>180°旋转 <input id="opt-rotate2" class="opt-i" type="text" value="l"/></div>
                         </div>
                     </div>
 
+                    <div>DAS&nbsp&&nbspARR</div>
+
                     <div class="opt-item mb-use">
-                        <div style='margin-bottom: 0.8em'>DAS（初次响应间隔）<input id="opt-firstdelay" value="" type="text" /> 毫秒</div>
-                        <div>ARR（连续响应间隔）<input id="opt-repedelay" value="" type="text" /> 毫秒</div>
+                        <div><span>DAS (初次响应间隔)</span><span style="color: skyblue">1 ~ 10</span><span class="makerange first-range"></span></div>
+                        <div><span>ARR (连续响应间隔)</span><span style="color: skyblue">1 ~ 10</span><span class="makerange repe-range"></span></div>
+                    </div>
+
+                    <div>背景</div>
+
+                    <div class="opt-item bg-select">
+                        <span>绿</span>
+                        <span>蓝</span>
+                        <span>黑</span>
+                        <span>紫</span>
+                    </div>
+
+                    <div>重置</div>
+                    <div class="opt-item mb-rst">
+                        <span id='rst-key'>重置按键</span>
+                        <span id="clearData">清除所有数据</span>
                     </div>
                 </div>
             </div>
         </div>
 
-    <script src="gjs.js"></script>
+    <script src='tetris/gjs01.js'></script>
+    <script src="tetris/gjs.js"></script>
 
 </body>
 

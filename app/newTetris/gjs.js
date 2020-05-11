@@ -1,22 +1,59 @@
-﻿
-
-// Author : Zhang xiaolei (张晓雷)
+﻿// Author : Zhang xiaolei (张晓雷)
 // Released under the MIT License.
 // Email : zhangxiaolei@outlook.com
 
 // debug Pro
-// log = console.log;
+// const log = console.log;
 
-let canvas = document.querySelector("#canvas");
-let pix = canvas.getContext("2d");
-let scanvas = document.querySelector("#scanvas");
-let pix2 = scanvas.getContext("2d");
-let scoreDisplay = document.querySelector("#digtalNumber").children;
-let fineshLineDisplay = document.querySelector("#line").children;
-let levalDisplay = document.querySelector("#leval").children;
-let startAndPause = document.querySelector("#startPause");
-let reset = document.querySelector("#reset");
-let timer = new CreateTimer();
+function random(begin, end) {
+  return Math.floor(Math.random() * (end - begin + 1) + begin);
+}
+
+function kShuffle(arr) {
+  let ridx, end;
+  for (let i = arr.length - 1; i >= 0; i--) {
+      end = arr[i];
+      ridx = random(0, i);
+      arr[i] = arr[ridx];
+      arr[ridx] = end;
+  }
+}
+
+function* randGenerator () {
+
+  let bag = [];
+
+  while (true) {
+
+      if (bag.length === 0) {
+
+          bag = [1,2,3,4,5,6,7];
+
+          kShuffle(bag);
+      }
+
+      yield bag.pop();
+  }
+}
+
+const randList = randGenerator();
+const rand = ()=> randList.next().value;
+
+const QS = name => document.querySelector(name);
+const QSA = name => document.querySelectorAll(name);
+
+const canvas = QS("#m-canvas");
+const pix = canvas.getContext("2d");
+
+const scanvas = QS("#s-canvas");
+const pix2 = scanvas.getContext("2d");
+
+const scoreDisplay = QS("#panel-score");
+const fineshLineDisplay = QS("#panel-line");
+const levalDisplay = QS("#panel-level");
+
+const startAndPause = QS("#startPause");
+const reset = QS("#reset");
 
 const wallKick = {
 
@@ -44,9 +81,7 @@ const wallKick = {
   //根据当前状态和旋转指令，把任意旋转转换成符合数据表的key
   parse: function (origin, newdire) {
 
-    let v, t,
-      a = ['0', 'R', '2', 'L'],
-      o = { '0': 0, 'R': 1, '2': 2, 'L': 3 };
+    let v, t, a = ['0', 'R', '2', 'L'], o = { '0': 0, 'R': 1, '2': 2, 'L': 3 };
 
     if (newdire === 'right') {
       v = 1;
@@ -56,7 +91,7 @@ const wallKick = {
 
     t = o[origin] + v;
 
-    if (t === 4) {
+    if(t === 4) {
       t = 0;
     } else if (t === -1) {
       t = 3;
@@ -66,11 +101,8 @@ const wallKick = {
   },
 
   get: function (type, origin, newdire) {
-
     let k = this.parse(origin, newdire).join('');
-
     return type === 2 ? this.I[k] : this.JLSTZ[k]
-
   }
 }
 
@@ -135,24 +167,8 @@ const tetris = {
 
 
 function digtalNumber(n, el) {
-
-  n = n.toString().split("");
-
-  let len = n.length;
-
-  let arr = [];
-
-  for (let i = 0; i < 6 - len; i++) {
-    arr[i] = "s";
-  }
-
-  arr = arr.concat(n);
-
-  arr.forEach(function (n, i) {
-    el[i].setAttribute("class", "n" + n);
-  })
+  el.innerText = n;
 }
-
 
 function smallDisplay(t, c) {
   let tmp = create4Arr();
@@ -171,7 +187,6 @@ function smallDisplay(t, c) {
 }
 
 // 存储所有信息数据的table
-
 const table = [];
 
 function initTable() {
@@ -708,15 +723,9 @@ let down1stStop;
 let rotateLock = false;
 let rotateLock1 = false;
 
-//
+document.addEventListener('keydown', controlOnkeyDown, false)
 
-if (isPc()) {
-  document.addEventListener('keydown', controlOnkeyDown, false)
-  document.addEventListener('keyup', controlOnkeyUp, false)
-} else {
-  //在非电脑端，关闭键位设置,默认选择第一个元素
-  document.querySelector('.opt-item').style.display = 'none';
-}
+document.addEventListener('keyup', controlOnkeyUp, false)
 
 function controlOnkeyDown(k) {
 
@@ -729,7 +738,6 @@ function controlOnkeyDown(k) {
       clearInterval(rightStop);
       moveToLeftOrRight("left");
       moveLeftPlus("left");
-      keyColorSwitch(key, true);
       leftLock = true;
     }
 
@@ -740,7 +748,6 @@ function controlOnkeyDown(k) {
       clearInterval(leftStop);
       moveToLeftOrRight("right");
       moveRightPlus("right");
-      keyColorSwitch(key, true);
       rightLock = true;
     }
 
@@ -750,7 +757,6 @@ function controlOnkeyDown(k) {
       stopLoop();  //防止downloop循环和向下按钮的动作相互重合
       downLoop();
       moveDownPlus();
-      keyColorSwitch(key, true);
       downLock = true;
     }
 
@@ -758,7 +764,6 @@ function controlOnkeyDown(k) {
 
     if (!deepLock) {
       movoToDeep();
-      keyColorSwitch(key, true);
       deepLock = true;
     }
 
@@ -766,7 +771,6 @@ function controlOnkeyDown(k) {
     //顺时针旋转
     if (!rotateLock) {
       rotate("right");
-      keyColorSwitch(key, true);
       rotateLock = true;
     }
 
@@ -774,7 +778,6 @@ function controlOnkeyDown(k) {
     //逆时针旋转
     if (!rotateLock1) {
       rotate("left");
-      keyColorSwitch(key, true);
       rotateLock1 = true;
     }
   }
@@ -785,8 +788,6 @@ function controlOnkeyDown(k) {
 function controlOnkeyUp(k) {
 
   let key = (typeof k === 'string' ? k : toLower(k.key))
-
-  keyColorSwitch(key, false);
 
   if (key === keyboard.deep) {
     deepLock = false;
@@ -858,6 +859,8 @@ function resetGame() {
   gameStart = false;
   gameOver = true;
   gameJustBegun = true;
+  startAndPause.style.backgroundColor = '#FFF';
+  startAndPause.innerText = "开始";
 }
 
 let finishLine = 0;
@@ -908,20 +911,18 @@ function changeLevalAndDisplay(line) {
   digtalNumber(gameLevel, levalDisplay);
 }
 
-let distanceTop10 = document.querySelector("#u-distancetop10");
+let distanceTop10 = QS("#u-distancetop10");
 
 function inTop10Check() {
   if (localData.data.length < 10 || gameScore > localData.data[9][1]) {
     ui.enterTop10.style.display = "block";
-    document.querySelector('#u-enterName').focus();
-    $("#u-score").text(gameScore);
-    $("#u-level").text(gameLevel);
-    $("#u-lines").text(finishLine);
-    screenCover("open");
+    QS('#u-enterName').focus();
+    QS("#u-score").innerText = gameScore;
+    QS("#u-level").innerText = gameLevel;
+    QS("#u-lines").innerText = finishLine;
   } else {
     ui.gameover.style.display = "block";
     distanceTop10.innerText = localData.data[9][1] - gameScore;
-    screenCover("open");
   }
 }
 
@@ -933,7 +934,7 @@ startAndPause.addEventListener("click", function () {
     window.requestAnimationFrame(tableAnimation);
     gameOver = false;
     this.innerText = "暂停";
-    this.setAttribute("style", "background-color : white");
+    this.style.backgroundColor = '#FFF';
     changeLevalAndDisplay(finishLine);
     restartLoop();
   } else {
@@ -942,77 +943,39 @@ startAndPause.addEventListener("click", function () {
     clearInterval(stopGame);
     gameStart = false;
     this.innerText = "继续";
-    this.setAttribute("style", "background-color : gold");
+    this.style.backgroundColor = 'gold'
   }
 }, false);
 
 reset.addEventListener("click", function () {
-
   if (!gameOver) {
-    ui.reset.style.display = "block";
-    screenCover("open");
-
+    if (confirm('游戏已经开始，确定重新开始？')) {
+      resetGame();
+    }
   } else {
     resetGame();
-    startAndPause.innerText = "开始";
   }
-
 }, false);
-
 
 //初始游戏网格界面
 resetGame();
 
-function screenCover(c) {
-  let w = document.innerWidth - 80 + "px";
-  let h = document.innerHeight - 80 + "px";
-  if (c === "open") {
-    $("#backGroundCover").css({
-      display: "block",
-      width: w,
-      height: h
-    })
-  } else if (c === "close") {
-    $("#backGroundCover").css({
-      display: "none",
-      width: "0px",
-      height: "0px"
-    })
-  }
-}
-
 //----------------------------------窗口DOM对应的变量存储-------------------------------------
+const ui = Object.create(null);
 
-let ui = Object.create(null);
-ui.reset = document.querySelector("#u-reset");
-ui.gameover = document.querySelector("#u-gameOver");
-ui.enterTop10 = document.querySelector("#u-enterTop10");
-ui.info = document.querySelector("#u-info");
+ui.reset = QS("#u-reset");
+ui.gameover = QS("#u-gameOver");
+ui.enterTop10 = QS("#u-enterTop10");
+ui.info = QS("#u-info");
 
-
-//------------------------------点击t-close标签，关闭窗口-------------------------------------
-
-document.querySelectorAll((".t-win")).forEach(function (item) {
+//.t-close
+QSA((".w-border")).forEach(function (item) {
   item.querySelectorAll(".t-close").forEach(function (i) {
     i.addEventListener("click", function () {
       item.style.display = "none";
-      screenCover("close");
     }, false);
   })
 })
-
-
-//"确认" 按钮事件
-document.querySelector("#u-resetBT").addEventListener("click", function () {
-  resetGame();
-  startAndPause.innerText = "开始";
-  startAndPause.style.backgroundColor = "white";
-  ui.reset.style.display = "none";
-  screenCover("close");
-})
-
-
-//-----------------------------------------信息板区域----------------------------------------------
 
 
 //初始数据
@@ -1045,7 +1008,7 @@ function saveData() {
   if (window.localStorage) {
     localStorage.setItem("TetrisGameData", JSON.stringify(localData))
   } else {
-    console.error("存储数据失败 程序未找到 window.localStorage")
+    console.error("未能完成存储！")
   }
 }
 
@@ -1072,12 +1035,12 @@ function checkDataAndSave(data) {
       }
     }
   }
-
   saveData();
 }
 
-ui.trList = document.querySelectorAll("#table-list tr");
-//清除比赛记录板Element里的数据
+ui.trList = QSA("#table-list tr");
+
+//展示前清空
 function clearInfo() {
   let len = ui.trList.length;
   for (let j = 1; j < len; j++) {
@@ -1086,7 +1049,8 @@ function clearInfo() {
     }
   }
 }
-//将localData的数据展示到记录板
+
+//展示Top10
 function displayinfoFunc(data) {
   let len = data.length + 1;
   for (let j = 1; j < len; j++) {
@@ -1100,25 +1064,22 @@ function displayinfoFunc(data) {
   }
 }
 
-
-$("#infotest").click(function () {
+QS("#infotest").addEventListener('click', function () {
   displayinfoFunc(localData.data);
   ui.info.style.display = "block";
-  screenCover("open");
 })
 
-ui.deep = document.querySelector("#opt-deep");
-ui.left = document.querySelector("#opt-left");
-ui.down = document.querySelector("#opt-down");
-ui.right = document.querySelector("#opt-right");
-ui.rotate = document.querySelector("#opt-rotate");
-ui.rotate1 = document.querySelector("#opt-rotate1");
-ui.firstDelay = document.querySelector("#opt-firstdelay");
-ui.repeDelay = document.querySelector("#opt-repedelay");
+ui.deep = QS("#opt-deep");
+ui.left = QS("#opt-left");
+ui.down = QS("#opt-down");
+ui.right = QS("#opt-right");
+ui.rotate = QS("#opt-rotate");
+ui.rotate1 = QS("#opt-rotate1");
+ui.firstDelay = QS("#opt-firstdelay");
+ui.repeDelay = QS("#opt-repedelay");
 
-
-document.querySelector("#optiontest").addEventListener("click", function () {
-  document.querySelector("#option").style.display = "block";
+QS("#optiontest").addEventListener("click", function () {
+  QS("#option").style.display = "block";
   ui.deep.value = keyboard.deep;
   ui.left.value = keyboard.left;
   ui.down.value = keyboard.down;
@@ -1127,10 +1088,9 @@ document.querySelector("#optiontest").addEventListener("click", function () {
   ui.rotate1.value = keyboard.rotate1;
   ui.firstDelay.value = keyboard.firstDelay;
   ui.repeDelay.value = keyboard.repeDelay;
-  screenCover("open");
 })
 
-document.querySelector("#clearData").addEventListener("click", function () {
+QS("#clearData").addEventListener("click", function () {
   if (confirm("清除所有数据 ?")) {
     localData.data = [];
     localStorage.clear();
@@ -1138,30 +1098,24 @@ document.querySelector("#clearData").addEventListener("click", function () {
   }
 }, false)
 
-
 //------------------------top10 录入区域------------------------
 
-
-document.querySelector("#u-enterNameBT").addEventListener("click", function () {
-  let name = document.querySelector("#u-enterName").value;
+QS("#u-enterNameBT").addEventListener("click", function () {
+  let name = QS("#u-enterName").value;
   checkDataAndSave([name || "忍者！", gameScore, gameLevel, finishLine]);
-  screenCover("close");
   ui.enterTop10.style.display = "none";
-}, false);
+});
 
-//-----------------------关于-------------------------------
-
-ui.about = document.querySelector("#about-win");
-document.querySelector("#aboutme").addEventListener("click", function () {
+//关于
+ui.about = QS("#about-win");
+QS("#aboutme").addEventListener("click", function () {
   ui.about.style.display = "block";
-  screenCover("open");
-}, false)
-
+})
 
 let inputTmp = "";
 
 //按键录入，主要目的是能够支持方向键录入
-document.querySelectorAll(".opt-i").forEach(function (item) {
+QSA(".opt-i").forEach(function (item) {
   item.addEventListener("click", function () {
     inputTmp = this.value;
     this.value = "";
@@ -1175,7 +1129,7 @@ document.querySelectorAll(".opt-i").forEach(function (item) {
   })
 })
 
-document.querySelectorAll(".opt-i").forEach(function (item) {
+QSA(".opt-i").forEach(function (item) {
   item.onblur = function () {
     if (this.value === "") {
       this.value = inputTmp;
@@ -1183,7 +1137,7 @@ document.querySelectorAll(".opt-i").forEach(function (item) {
   }
 })
 
-document.querySelector("#opt-bt-yes").addEventListener("click", function () {
+QS("#opt-bt-yes").addEventListener("click", function () {
   if (keyboard.deep !== ui.deep.value ||
     keyboard.left !== ui.left.value ||
     keyboard.down !== ui.down.value ||
@@ -1201,67 +1155,17 @@ document.querySelector("#opt-bt-yes").addEventListener("click", function () {
       keyboard.rotate1 = toLower(ui.rotate1.value);
       keyboard.firstDelay = parseInt(ui.firstDelay.value);
       keyboard.repeDelay = parseInt(ui.repeDelay.value);
-      document.querySelector("#option").style.display = "none";
+      QS("#option").style.display = "none";
       saveData();
-      screenCover("close");
     } else {
-      document.querySelector("#option").style.display = "none";
-      screenCover("close");
+      QS("#option").style.display = "none";
     }
   } else {
-    document.querySelector("#option").style.display = "none";
-    screenCover("close");
+    QS("#option").style.display = "none";
   }
 })
 
-let keyColor = [];
-
-keyColor.push(document.querySelector("#c-up"))
-keyColor.push(document.querySelector("#c-left"))
-keyColor.push(document.querySelector("#c-right"))
-keyColor.push(document.querySelector("#c-down"))
-keyColor.push(document.querySelector("#r-right"))
-keyColor.push(document.querySelector("#r-left"))
-
-let kkl = ['deep', 'left', 'right', 'down', 'rotate', 'rotate1'];
-
-for (let i = 0; i < 6; i++) {
-  keyColor[i].addEventListener('touchstart', function () {
-    controlOnkeyDown(keyboard[kkl[i]])
-  }, false)
-  keyColor[i].addEventListener('touchend', function () {
-    controlOnkeyUp(keyboard[kkl[i]])
-  }, false)
-}
-
-function setAttr(ele, val) {
-  let cl = ele.firstElementChild ? ele.firstElementChild.classList : ele.classList;
-  ele = ele.firstElementChild ? ele.firstElementChild : ele;
-  //如果cl[1]为空，说明里面只有一个属性，就再添加一个，否则，就重新设置第一个属性，覆盖第二个属性。
-  if (!cl[1]) {
-    ele.setAttribute("class", cl.value + ' ' + val);
-  } else {
-    t = cl.value.split(' ')[0];
-    ele.setAttribute('class', t);
-  }
-}
-
-function keyColorSwitch(s, b) {
-
-  let styleClass = b ? 'game-bt-style-tap' : 'game-bt-style'
-
-  switch (s) {
-    case keyboard.deep: setAttr(keyColor[0], styleClass); break
-    case keyboard.left: setAttr(keyColor[1], styleClass); break
-    case keyboard.right: setAttr(keyColor[2], styleClass); break
-    case keyboard.down: setAttr(keyColor[3], styleClass); break
-    case keyboard.rotate: setAttr(keyColor[4], styleClass); break
-    case keyboard.rotate1: setAttr(keyColor[5], styleClass); break
-  }
-}
-
 //动画函数
-
 function tableAnimation() {
   if (!gameStart) {
     window.cancelAnimationFrame(stopAnimation)

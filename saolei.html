@@ -1,0 +1,179 @@
+﻿<!doctype html>
+<html>
+
+<head>
+<title>扫雷</title>
+    <!--标题栏-->
+    <link rel="icon" href="saolei/swptop01.ico" type="image/x-icon">
+    <!--收藏夹-->
+    <link rel="shortcut icon" href="swptop01.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="saolei/globalstyle.css" />
+    <link rel="stylesheet" type="text/css" href="saolei/gamestyle.css" />
+</head>
+
+<body>
+
+    <!--主窗口-->
+    <div id="minesweeper" class="window">
+            <!--顶栏-->
+            <div class="window-title">
+    
+                <div id="move-mine" class="window-title-left-span">扫雷</div>
+    
+                <div class="window-title-right-icon">
+    
+                    <span class="m-point3"></span>
+    
+                </div>
+    
+            </div>
+            <!--工作区域-->
+            <div class="window-container">
+                <!--设置选项-->
+                <div id="opt">
+                    <!--设置菜单列表-->
+                    <div id="opt-list">
+                        
+                        <ul>
+                            <li id="opt-restart">重新开始</li>
+    
+                            <li>难度<i class="spot"></i>
+                                <ul class="opt-level">
+                                    <li>初级</li>
+                                    <li>中级</li>
+                                    <li>高级</li>
+                                </ul>
+                            </li>
+                           
+                            <li>颜色<i class="spot"></i>
+                                <ul class="opt-bg">
+                                    <li>绿色</li>
+                                    <li>棕色</li>
+                                    <li>蓝色</li>
+                                </ul>
+                            </li>
+                           
+                            <li id="opt-info">统计信息</li>
+    
+                            <li id="opt-about">关于</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <!--顶部信息-->
+                <div id="topTools">
+                    <div class="toolBox"><span class="label">时间</span><br><span id="timer">0</span></div>
+                    <div class="toolBox"><span class="label">地雷</span><br><span id="mineNum">&nbsp</span></div>
+                </div>
+    
+                <!--格子工作区域-->
+                <div id="desk"></div>
+            </div>
+        </div>
+        <!--END-->
+    
+        <!--获胜窗口-->
+        <div id="games-win-window" class="window">
+            <div class="window-title">
+                <div  id="move-win" class="window-title-left-span">恭喜!</div>
+                <div class="window-title-right-icon">
+                    <span class="point3"></span>
+                </div>
+            </div>
+    
+            <div class="window-container">
+                <div id="games-win-content">
+                    <span>完成!</span>
+                    <span id="spendTime"></span>
+                </div>
+            </div>
+        </div>
+    
+        <!--游戏信息统计-->
+        <div id="games-info-window" class="window">
+    
+            <div class="window-title">
+                <div  id="move-info" class="window-title-left-span">统计信息</div>
+                <div class="window-title-right-icon">
+                    <span class="point3"></span>
+                </div>
+            </div>
+    
+            <div class="window-container">
+    
+                <div id="contentBox">
+                    <table>
+                        <tr>
+                            <td id="normal-info">初级</td>
+                            <td id="middle-info">中级</td>
+                            <td id="hard-info">高级</td>
+                        </tr>
+                    </table>
+                    <div id="threeInfo">
+                        <div id="win5">
+                            <span>最佳成绩</span>
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div id="win5info">
+                            <ul>
+                                <li>游戏总局：<span></span></li>
+                                <li>已胜：<span></span></li>
+                                <li>胜率：<span></span></li>
+                                <li>最多连胜：<span></span></li>
+                                <li>最多连败：<span></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="reset-game-data">
+                    <button class="point3">关闭</button>
+                    <button id='rst-data'>重置</button>
+                </div>
+            </div>
+        </div>
+    
+        <!--关于游戏-->
+        <div id="about-games-window" class="window">
+    
+            <div class="window-title">
+                <div  id="move-about" class="window-title-left-span">关于</div>
+                <div class="window-title-right-icon">
+                    <span class="point3"></span>
+                </div>
+            </div>
+    
+            <div class="window-container">
+                <div id="about-games-content">
+                    <div class="author-img"><img src="img/梵高.jpg"/></div>
+                    <div class="author">
+                        <hr/>
+                        <p>作者：张晓雷</p>
+                        <p>邮箱：zhangxiaolei@outlook.com</p>
+                        <p><strong>介绍</strong></p>
+                        <p>游戏的操作和 windows7 自带的扫雷一样。</p>
+                        <p>
+                            第一步不会遇到雷，因为布雷是从第一次点击开始。点击以后，程序获取玩家点击格子的坐标，通过这个坐标获取周围的 8 个格子的坐标，在布雷的时候，将这 9 个格子的坐标都排除。这样就保证了玩家第一次点击时，尽可能获取较大的开局。根据我的观察，windows7 上的扫雷也是这样做的。
+                        </p>
+                        <p>
+                            雷的布局算法采用了 Knuth-Durstenfeld Shuffle 算法，但随机函数用的是系统自带的随机函数。基本上就是生成一个雷与空白格子的列表，然后用洗牌算发打乱，最后顺序填充到二维的格子区域。
+                        </p>
+                        <p>
+                            游戏尽可能的模拟了 windows7 上的各种特性，比如左键松开才会触发扫雷操作，如果此时再按下右键，将解除扫雷动作。双键按下，在格子区域划过，周围的格子也会出现视觉效果。双键在数字上同时按下，如果达不到双键排除的操作，将会出现一个闪两次的红色 X 号。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <script src="saolei/gamejs00.js"></script>
+    <script src="saolei/gamejs01.js"></script>
+    
+</body>
+
+</html>
